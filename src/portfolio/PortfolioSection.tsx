@@ -1,12 +1,13 @@
 import React from 'react';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Lock } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router';
 import SectionIntro from '../shared/SectionIntro';
 import { homepageItemVariants, VIEWPORT_ONCE } from '../shared/motion';
-import adclusiveCover from './assets/adclusive/dashboard.webp';
-import dogAndRideCover from './assets/dog-and-ride/home.webp';
-import ofkCover from './assets/ofk/output-home.webp';
+import adclusiveCover from './assets/adclusive/cover.webp';
+import dogAndRideCover from './assets/dog-and-ride/cover.webp';
+import mckinseyCover from './assets/mckinsey/cover.webp';
+import ofkCover from './assets/ofk/cover.webp';
 import { PROJECTS, type Project } from './content/projects';
 
 interface WorkCardData {
@@ -17,6 +18,7 @@ interface WorkCardData {
         src: string;
         alt: string;
         treatment?: 'contain';
+        confidential?: boolean;
     };
 }
 
@@ -47,12 +49,13 @@ const GROUPS: { title: string; projects: WorkCardData[] }[] = [
                 project: project('adclusive'),
                 relationship: 'Long-term engagement · Product designer',
                 outcome: 'A multi-role platform bringing campaigns, tracking, performance, and finance into one system.',
-                image: { src: adclusiveCover, alt: 'Adclusive publisher dashboard', treatment: 'contain' },
+                image: { src: adclusiveCover, alt: 'Adclusive platform cover' },
             },
             {
                 project: project('mckinsey'),
                 relationship: 'Employment · Visual communication specialist',
                 outcome: 'High-stakes visual communication shaped from complex models, under strict NDA.',
+                image: { src: mckinseyCover, alt: 'McKinsey & Company confidential work cover', confidential: true },
             },
         ],
     },
@@ -72,40 +75,17 @@ const WorkVisual: React.FC<{ card: WorkCardData }> = ({ card }) => {
                             : 'object-cover object-center'
                     }`}
                 />
+                {card.image.confidential && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-canvas/80 opacity-0 transition-opacity duration-200 ease-entrance group-hover:opacity-100 group-focus-visible:opacity-100">
+                        <Lock size={20} strokeWidth={1.5} className="text-ink-low" />
+                        <span className="font-mono text-caption text-ink-body">Confidential · ask on a call</span>
+                    </div>
+                )}
             </div>
         );
     }
 
-    return (
-        <div
-            className="work-card-media flex flex-col justify-between overflow-hidden rounded-md border border-line p-6 transition-colors duration-200 ease-entrance group-focus-visible:border-ink-low md:p-10"
-            aria-label="McKinsey confidential work summary"
-            role="img"
-        >
-            <div className="flex items-center justify-between text-caption text-ink-low">
-                <span>Confidential work</span>
-                <span className="font-mono">2021–2024</span>
-            </div>
-
-            <div>
-                <span className="block font-mono text-display-lg text-ink-max">10K+</span>
-                <span className="mt-2 block text-body-sm text-ink-body">Assets shaped from complex financial models</span>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4">
-                {[
-                    ['50+', 'Pitch decks'],
-                    ['137', 'Kudos'],
-                    ['5', 'Pitch wins'],
-                ].map(([value, label]) => (
-                    <div key={label}>
-                        <span className="block font-mono text-body-sm text-ink-high">{value}</span>
-                        <span className="mt-1 block text-caption text-ink-low">{label}</span>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
+    return null;
 };
 
 const WorkCard: React.FC<{ card: WorkCardData }> = ({ card }) => (

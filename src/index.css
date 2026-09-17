@@ -217,6 +217,7 @@
 
 @layer components {
   .work-card-media {
+    position: relative;
     aspect-ratio: 8 / 5;
   }
 
