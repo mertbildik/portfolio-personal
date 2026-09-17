@@ -1,5 +1,4 @@
 import React from 'react';
-import { ArrowUpRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import approachImage1 from '../../assets/ofk/approach-image-1.webp';
 import approachImage2 from '../../assets/ofk/approach-image-2.webp';
@@ -15,6 +14,7 @@ import solutionLanguages from '../../assets/ofk/solution-languages.webp';
 import solutionProjects from '../../assets/ofk/solution-projects.webp';
 import solutionReferences from '../../assets/ofk/solution-references.webp';
 import type { CustomProject } from '../../content/projects';
+import Button from '../../../shared/Button';
 import { sectionVariants, VIEWPORT_ONCE } from '../../../shared/motion';
 import { CaseStudyHeader, CaseStudyImage, CaseStudySectionHeading } from '../CaseStudyElements';
 import CaseStudySectionNavigator from '../CaseStudySectionNavigator';
@@ -292,15 +292,9 @@ const OfkCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) => (
                         </p>
                     </div>
 
-                    <a
-                        href="https://ofkconstruction.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group inline-flex min-h-11 items-center gap-3 rounded-full border border-line px-5 text-button text-ink-body transition-[color,background-color,border-color] duration-200 ease-entrance hover:border-ink-low hover:bg-fill hover:text-ink-max focus-visible:border-ink-low focus-visible:bg-fill focus-visible:text-ink-max focus-visible:outline-none"
-                    >
+                    <Button href="https://ofkconstruction.com" external>
                         Visit OFK Construction
-                        <ArrowUpRight size={16} aria-hidden="true" />
-                    </a>
+                    </Button>
                 </div>
             </motion.section>
         </div>

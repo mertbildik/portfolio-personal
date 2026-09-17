@@ -1,5 +1,4 @@
 import React from 'react';
-import { ArrowUpRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import contactAndFaq from '../../assets/dog-and-ride/contact-and-faq.webp';
 import home from '../../assets/dog-and-ride/home.webp';
@@ -7,6 +6,7 @@ import presentation from '../../assets/dog-and-ride/presentation-1.webp';
 import productFeatures from '../../assets/dog-and-ride/product-features.webp';
 import testimonials from '../../assets/dog-and-ride/testimonials.webp';
 import type { CustomProject } from '../../content/projects';
+import Button from '../../../shared/Button';
 import { sectionVariants, VIEWPORT_ONCE } from '../../../shared/motion';
 import { CaseStudyHeader, CaseStudyImage, CaseStudySectionHeading } from '../CaseStudyElements';
 import CaseStudySectionNavigator from '../CaseStudySectionNavigator';
@@ -222,15 +222,9 @@ const DogAndRideCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) 
                         </dl>
                     </div>
 
-                    <a
-                        href="https://www.dogandride.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group inline-flex min-h-11 items-center gap-3 rounded-full border border-line px-5 text-button text-ink-body transition-[color,background-color,border-color] duration-200 ease-entrance hover:border-ink-low hover:bg-fill hover:text-ink-max focus-visible:border-ink-low focus-visible:bg-fill focus-visible:text-ink-max focus-visible:outline-none"
-                    >
+                    <Button href="https://www.dogandride.com/" external>
                         Visit Dog & Ride
-                        <ArrowUpRight size={16} aria-hidden="true" />
-                    </a>
+                    </Button>
                 </div>
             </motion.section>
         </div>
