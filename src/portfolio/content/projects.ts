@@ -39,7 +39,6 @@ interface ProjectBase {
     title: string;
     role: string;
     yearOrStatus: string;
-    listed: boolean;
 }
 
 export interface TemplateProject extends ProjectBase {
@@ -67,7 +66,6 @@ export const PROJECTS: Project[] = [
         title: 'OFK Construction',
         role: 'Product designer',
         yearOrStatus: '2026',
-        listed: true,
         renderer: 'custom',
         page: 'ofk',
     },
@@ -77,7 +75,6 @@ export const PROJECTS: Project[] = [
         title: 'Dog & Ride',
         role: 'Multidisciplinary designer',
         yearOrStatus: '2025',
-        listed: true,
         renderer: 'custom',
         page: 'dog-and-ride',
     },
@@ -87,7 +84,6 @@ export const PROJECTS: Project[] = [
         title: 'Bunect',
         role: 'Design lead',
         yearOrStatus: '2025',
-        listed: false,
         renderer: 'template',
         caseStudy: {
             timeline: 'Jan 2025 to Present (ongoing)',
@@ -156,7 +152,6 @@ export const PROJECTS: Project[] = [
         title: 'Adclusive',
         role: 'Product designer',
         yearOrStatus: '2021 – 2024',
-        listed: true,
         renderer: 'template',
         caseStudy: {
             timeline: 'Sep 2021 to Jan 2024',
@@ -232,7 +227,6 @@ export const PROJECTS: Project[] = [
         title: 'McKinsey & Co.',
         role: 'Visual communication',
         yearOrStatus: '2021 – 2024',
-        listed: true,
         renderer: 'employment',
         employment: EMPLOYMENT_CONTENT.mckinsey,
     },
@@ -242,7 +236,6 @@ export const PROJECTS: Project[] = [
         title: 'Curvix',
         role: 'Founder',
         yearOrStatus: 'Current',
-        listed: false,
         renderer: 'custom',
         page: 'curvix',
     },
@@ -252,7 +245,6 @@ export const PROJECTS: Project[] = [
         title: 'GalaNetwork',
         role: 'Co-founder',
         yearOrStatus: 'Current',
-        listed: false,
         renderer: 'custom',
         page: 'gala-network',
     },

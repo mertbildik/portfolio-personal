@@ -73,17 +73,9 @@ Do not keep:
 
 Git history owns change history.
 
-## Unresolved decisions
-
-- Keep unresolved decisions in the root `decisions.md`.
-- Anything not fully decided belongs there instead of regular documentation.
-- Once resolved, apply the final result to the appropriate canonical file and remove the entry from `decisions.md`.
-- Do not keep the same decision in both places.
-- Before resolving a decision through agent judgment rather than explicit user instruction, show the proposed resolution in chat and wait for approval.
-
 ## Adding content
 
-A project = one entry in `src/portfolio/content/projects.ts` + images under `src/portfolio/assets/<id>/` (filenames matching `id`, lowercase-hyphenated, `.webp` only, prefix with `1-`, `2-` for order). Each entry explicitly selects `template`, `employment`, or `custom` rendering and whether it is listed. `ProjectCaseStudy` parses plain strings — `\n` for paragraphs, `•`/`-` lines for bullets, em dash splits `keyDecisions` into title/body. Full rules in `docs/content/writing.md`.
+A project = one entry in `src/portfolio/content/projects.ts` + images under `src/portfolio/assets/<id>/` (lowercase-hyphenated, `.webp` only). Each entry explicitly selects `template`, `employment`, or `custom` rendering. `ProjectCaseStudy` parses plain strings — `\n` for paragraphs, `•`/`-` lines for bullets, em dash splits `keyDecisions` into title/body. Full rules in `docs/content/writing.md`.
 
 ## Design rules (load-bearing)
 
