@@ -22,5 +22,5 @@ The app uses real URLs (`/portfolio/ofk`), so the host must serve `index.html` f
 |---|---|
 | [`docs/design/direction.md`](docs/design/direction.md) | The design system. Start here; it points at the other eight files. |
 | [`docs/content/writing.md`](docs/content/writing.md) | Adding a case study or a project |
-| [`AGENTS.md`](AGENTS.md) | The working rules, for agents and for anyone new |
+| [`CLAUDE.md`](CLAUDE.md) | The working rules, for agents and for anyone new |
 | `src/index.css` | Every design value, in one `@theme` block |

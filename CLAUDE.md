@@ -1,4 +1,4 @@
-# AGENTS.md
+# CLAUDE.md
 
 Personal portfolio. Vite + React 19 + TypeScript + Tailwind 4, static SPA. Deployed as static site; `vercel.json` and `public/_redirects` cover the SPA fallback.
 
