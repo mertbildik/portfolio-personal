@@ -222,7 +222,7 @@
   }
 
   body {
-    /* Transparent so the fixed canvas layer in App.tsx shows through every route.
+    /* Transparent so the fixed canvas layer in app/layout.tsx shows through every route.
        Selection is set once here and never overridden. */
     @apply bg-transparent text-ink antialiased selection:bg-ink selection:text-canvas font-sans;
     /* Only upright faces are loaded; never let the browser fake a bold or italic. */

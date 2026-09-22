@@ -1,12 +1,13 @@
 # CLAUDE.md
 
-Personal portfolio. Vite + React 19 + TypeScript + Tailwind 4, static SPA. Deployed as static site; `vercel.json` and `public/_redirects` cover the SPA fallback.
+Personal portfolio. Next.js 16 (App Router) + React 19 + TypeScript + Tailwind 4, deployed on
+Vercel. Every page is pre-rendered to HTML at build time.
 
 ## Commands
 
 ```bash
 npm install
-cp .env.example .env    # VITE_FORMSPREE_ID — see .env.example
+cp .env.example .env    # NEXT_PUBLIC_FORMSPREE_ID — see .env.example
 npm run dev             # prints the local URL; the design system is /design on it
 npm run format          # prettier --write .
 npm run format:check && npm run typecheck && npm run build && npm run test   # exactly what CI runs
@@ -19,19 +20,34 @@ they were written with.
 
 ## Stack quirks (real ones)
 
-- **Tailwind 4** as a Vite plugin. No `tailwind.config.js`, no `postcss.config.js`. The whole theme lives in the `@theme` block of `src/index.css`. Token names map to utilities by prefix (`--color-*` → `bg-/text-/border-…`, `--text-*` → `text-*`, `--font-*` → `font-*`, `--ease-*` → `ease-*`, `--container-*` → `max-w-*`).
-- **React Router v8** is the package `react-router` (not `react-router-dom`). Imports look like `from 'react-router'`.
+- **Next.js docs** matching the installed version ship in `node_modules/next/dist/docs/`.
+  This Next.js has APIs and conventions newer than most training data: read the relevant
+  guide there before writing Next.js code. `agentRules: false` in `next.config.ts` stops
+  `next dev` from writing an `AGENTS.md` and editing this file to point at it; this file is
+  the one place for agent instructions.
+- **Tailwind 4** through `@tailwindcss/postcss`, which is what `postcss.config.mjs` is for.
+  No `tailwind.config.js`. The whole theme lives in the `@theme` block of `src/index.css`.
+  Token names map to utilities by prefix (`--color-*` → `bg-/text-/border-…`, `--text-*` →
+  `text-*`, `--font-*` → `font-*`, `--ease-*` → `ease-*`, `--container-*` → `max-w-*`).
+- **Server components by default.** Only the contact form, the case-study section navigator
+  and the design system run in the browser, marked `'use client'`. Keep it that way unless
+  a component needs state, effects or event handlers.
+- **Links** are `next/link`; **images** are `next/image` with a static import, which is
+  what gives each image its size in the HTML. The fonts are self-hosted through
+  `next/font/local` in `src/app/layout.tsx`, and `@theme` reads them as `--font-inter` and
+  `--font-geist-mono`.
 - **motion** (the framer-motion successor) — import from `motion/react`, not `framer-motion`.
-- `vite.config.ts` is included in `tsconfig.json` so it gets typechecked. Keep it valid TS.
-- The Vite dev server uses a polling watcher (`usePolling: true`, 1s) — required for WSL. Don't "fix" it.
-- Playwright's `webServer.reuseExistingServer: false` always rebuilds and starts fresh on `:4173`. Don't run a preview server there while testing.
-- `vite.config.ts` holds an `seo` plugin that writes one HTML file per route plus `sitemap.xml`. It imports `src/app/meta.ts`, so that file and `content/projects.ts` must both stay free of asset imports — the config loads them in plain Node.
+- `npm run typecheck` runs `next typegen` before `tsc`, because the image and route types
+  are generated; `next-env.d.ts` is generated too and not committed.
+- Playwright's `webServer.reuseExistingServer: false` always rebuilds and starts fresh on `:4173`. Don't run a server there while testing.
+- `src/app/meta.ts` and `content/projects.ts` must stay free of asset imports: the test
+  suite imports both in plain Node.
 
 ## Layout
 
 ```
 src/
-  app/                  # application shell, routes, and providers
+  app/                  # routes (Next.js App Router), root layout, metadata, fonts
   homepage/             # homepage composition, hero, page frame, and portrait
   contact/              # contact form and contact details
   portfolio/            # portfolio index, assets, and case studies
@@ -46,8 +62,7 @@ src/
     live.ts             # reads painted values and contrast from the browser
     census.ts           # counts real class usage across src/**/*.tsx
     pages/              # Overview, Type, Colour, Space, Surfaces, Motion, Components
-  main.tsx, index.css   # root + the ONLY place design values are defined
-public/                # static assets; _redirects handles SPA fallback on Netlify/CF
+  index.css             # the ONLY place design values are defined
 docs/
   content/             # writing.md (voice) and case-study-system.md (the frame)
 ```
@@ -55,6 +70,9 @@ docs/
 ## Tests
 
 - `tests/smoke.spec.ts` is the only suite. Every page is loaded on production CSS, with viewport overflow and image-load checks. It also iterates `PROJECTS` from `src/portfolio/content/projects.ts`, so **every project you add is tested automatically**. That import runs in plain Node, so `projects.ts` must never import an asset — keep image bindings in `assets/covers.ts`.
+- The suite protects behaviour, structure and invariants, not copy. A fact it checks is
+  imported from the module that owns it (`PROJECTS`, `PAGES` and `SITE_URL`, the contact
+  details, the `@theme` breakpoints), never retyped, and it does not assert sentences.
 - Tests run against the **production build** (`:4173`), not the dev server. Missing Tailwind classes and clipped layouts only show up here — `npm run build` is part of the loop, not optional.
 - `.github/workflows/ci.yml` runs `format:check`, `typecheck`, `build` and `test` on every
   pull request and on every push to `main`.
@@ -142,30 +160,35 @@ system reads that block, the browser and `src/**/*.tsx` directly — every numbe
 usage count on those pages is derived, so nothing there needs updating when a token changes,
 and a page that looks wrong means the code is wrong.
 
-`/design` is local only. `App.tsx` gates it behind `import.meta.env.DEV` and `vite.config.ts`
-excludes the folder from Tailwind's sources in builds, so neither its JavaScript nor its CSS
-ships. Keep both gates if you touch either file.
+`/design` is local only, behind two gates. Its one route file is
+`src/app/design/[[...page]]/page.dev.tsx`, and `next.config.ts` counts `.dev.tsx` as a page
+only under `next dev`, so a build has no `/design` route and bundles nothing from
+`src/design/`. And `src/index.css` leaves `src/design/` out of the site's stylesheet;
+`src/design/design.css`, loaded only by that route, generates the classes it needs. Keep both
+gates if you touch either file. The route reads `src/index.css` and the site's components from
+disk on the server and hands them to the catalogue, which renders in the browser only
+because it measures the live document.
 
-## Routers / hosts
+## Routes and hosting
 
-The app uses real paths (`/portfolio/ofk`). The host must serve `index.html` for any unknown path — `public/_redirects` (Netlify, Cloudflare Pages) and `vercel.json` (Vercel) cover it. Any other host needs the same rewrite.
+Routes are files under `src/app/`: the homepage, `portfolio/[id]` (one pre-built page per
+project in the index), `not-found.tsx`, `sitemap.ts` and `robots.ts`. Old URLs are real
+HTTP redirects in `next.config.ts`: `/case-study/:id` permanently to `/portfolio/:id`, and
+`/portfolio` and `/contact` temporarily to their homepage sections.
 
-An unknown path renders a 404 page. An unknown _project_ id still redirects to `/#portfolio`,
-deliberately: retired projects keep their URLs on old CVs and profiles.
+An unknown path renders the 404 page with a 404 status. An unknown _project_ id redirects to
+`/#portfolio`, deliberately: retired projects keep their URLs on old CVs and profiles.
+
+Vercel detects Next.js on its own, so there is no `vercel.json`. On another host, use that
+host's Next.js adapter; the site is not a folder of static files.
 
 ## Page metadata
 
-Titles, descriptions, canonicals and Open Graph tags are baked into a real HTML file per
-route at build time by the `seo` plugin in `vite.config.ts`. They cannot come from React:
-the site is a client-rendered SPA, and the crawlers that matter for a shared link — Slack,
-LinkedIn, WhatsApp — read the HTML and never run the JavaScript.
-
-The copy for each page lives in `src/app/meta.ts`. `PageMeta` sets the document title only,
-so client-side navigation updates the browser tab; it must not render `meta` or `link`
-tags, because React appends them to the baked-in ones rather than replacing them.
-
-Each case study is written to both `portfolio/<id>.html` and `portfolio/<id>/index.html`:
-hosts disagree about which one answers the extensionless URL.
+Titles, descriptions, canonicals and Open Graph tags are in the HTML each page is served
+with — the only thing the crawlers that matter for a shared link (Slack, LinkedIn, WhatsApp)
+read. The copy for each page lives in `src/app/meta.ts`; `toMetadata` turns it into the
+Next.js metadata the routes export, and the root layout's `metadataBase` makes URLs absolute.
+The sitemap is built from the same `PAGES` list. Confidential work gets no preview image.
 
 ## The rules here are Mert's to set
 
@@ -187,7 +210,7 @@ decisions. That is deliberate, and worth knowing about since it is otherwise inv
 ## Don't
 
 - Don't add ESLint. Prettier is here; a linter is not, and that is a choice.
-- Don't introduce `react-router-dom`. Use `react-router`.
+- Don't add a router or a second way to navigate. Routes are files in `src/app/`; links are `next/link`.
 - Don't put portfolio images in `public/`. They go in `src/portfolio/assets/`.
 - Don't add a Tailwind config file. Edit `@theme` in `src/index.css`.
 - Don't create a second copy of a fact. Metadata belongs in `content/projects.ts`, a case study's words belong in its own component.

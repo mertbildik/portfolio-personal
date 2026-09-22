@@ -1,22 +1,24 @@
 # Mert Bildik — Portfolio
 
-Personal portfolio site. Vite + React + TypeScript + Tailwind, deployed as a static site.
+Personal portfolio site. Next.js (App Router) + React + TypeScript + Tailwind, deployed on Vercel.
 
 ## Run it
 
 ```bash
 npm install
-cp .env.example .env    # then fill in VITE_FORMSPREE_ID, or the contact form cannot send
+cp .env.example .env    # then fill in NEXT_PUBLIC_FORMSPREE_ID, or the contact form cannot send
 npm run dev             # prints the local URL
 ```
 
 Scripts are in `package.json`. `npm run format:check`, `npm run typecheck`, `npm run build`
-and `npm run test` are the full check, and CI runs all four on every push. Prettier
-formats; there is no ESLint.
+and `npm run test` are the full check, and CI runs all four on every pull request and
+every push to `main`. Prettier formats; there is no ESLint.
 
 ## Deploying
 
-The app uses real URLs (`/portfolio/ofk`), so the host must serve `index.html` for any path it does not recognise. `public/_redirects` covers Netlify and Cloudflare Pages, `vercel.json` covers Vercel. On any other host, add the equivalent rule.
+Vercel detects Next.js and needs no configuration. Set `NEXT_PUBLIC_FORMSPREE_ID` in the
+project's environment variables. Every page is pre-rendered at build time; old URLs are
+redirected in `next.config.ts`. On another host, use its Next.js adapter.
 
 ## Docs
 
@@ -30,4 +32,4 @@ The app uses real URLs (`/portfolio/ofk`), so the host must serve `index.html` f
 
 The design system is a set of pages under `src/design/`, not a document. It reads the
 `@theme` block, the browser and the site's own source, so it cannot fall out of date. It
-is gated behind `import.meta.env.DEV` and never reaches a build.
+exists only under `npm run dev` and never reaches a build.

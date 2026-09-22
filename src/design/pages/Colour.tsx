@@ -131,7 +131,7 @@ const Colour: React.FC = () => (
                 <p className="mt-4 max-w-measure text-small text-ink">
                     Two very quiet white-alpha washes sit over it — <Mono>--surface-canvas</Mono>,
                     applied through the <Mono>canvas-atmosphere</Mono> utility on one fixed layer in{' '}
-                    <Mono>App.tsx</Mono>. This frame is carrying them.
+                    <Mono>app/layout.tsx</Mono>. This frame is carrying them.
                 </p>
             </Frame>
         </Chapter>
