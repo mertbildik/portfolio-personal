@@ -91,12 +91,18 @@ const AdclusiveCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =
                     </p>
                 </div>
 
-                <CaseStudyImage
-                    src={wireframeDashboard}
-                    alt="Low-fidelity Adclusive publisher dashboard"
-                    caption="The wireframe settled the dashboard hierarchy before visual design."
-                    className="mx-auto max-w-5xl"
-                />
+                <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 md:grid-cols-2 md:items-start">
+                    <CaseStudyImage
+                        src={wireframeDashboard}
+                        alt="Low-fidelity Adclusive publisher dashboard"
+                        caption="The wireframe settled the block order before any visual design."
+                    />
+                    <CaseStudyImage
+                        src={publisherDashboard}
+                        alt="Shipped Adclusive publisher dashboard following the wireframe hierarchy"
+                        caption="The shipped screen kept that order: overview, performance, graph, then supporting lists."
+                    />
+                </div>
 
                 <div className="mx-auto max-w-page space-y-6">
                     <p className="max-w-2xl text-body text-ink-body">

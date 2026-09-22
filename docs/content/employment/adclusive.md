@@ -31,9 +31,9 @@ I started with a sitemap to separate the advertiser and publisher journeys. I th
 
 The wireframes were working sketches, not polished prototypes. They helped us agree on the structure while changes were still easy to make.
 
-**Visual:** `wireframe-dashboard.webp`
+**Visuals:** `wireframe-dashboard.webp`, `publisher-dashboard.webp`
 
-*The wireframe settled the dashboard hierarchy before visual design.*
+*The wireframe settled the block order before any visual design, and the shipped screen kept that order: overview, performance, graph, then supporting lists.*
 
 I was the only product designer on an eight-person team. I worked with two software engineers, a project manager, a senior project manager, and three people on the marketing team.
 
