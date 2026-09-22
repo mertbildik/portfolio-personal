@@ -109,11 +109,6 @@ Change a value in `src/index.css` `@theme` block, never in a component.
 
 The app uses real paths (`/portfolio/ofk`). The host must serve `index.html` for any unknown path — `public/_redirects` (Netlify, Cloudflare Pages) and `vercel.json` (Vercel) cover it. Any other host needs the same rewrite.
 
-## Git
-
-Solo repository, no review step. Commit straight to `main` — do not open a branch for a
-change unless asked. Push only when asked.
-
 ## Don't
 
 - Don't add lint/format tooling — it's deliberately absent.
