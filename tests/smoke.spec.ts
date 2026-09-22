@@ -6,6 +6,7 @@ import { PROJECTS } from '../src/portfolio/content/projects';
 const CASE_STUDIES = PROJECTS.map((p) => `/portfolio/${p.id}`);
 const ALL = ['/', ...CASE_STUDIES];
 
+const SITE_URL = 'https://mertbildik.com';
 const MOBILE = { width: 390, height: 844 };
 const SHORT_LAPTOP = { width: 1366, height: 625 };
 const ASSET_ROOT = fileURLToPath(new URL('../src/portfolio/assets/', import.meta.url));
@@ -366,9 +367,86 @@ test('case-study section navigation changes at the layout breakpoint without ove
     }
 });
 
-test('an unknown path falls back to home', async ({ page }) => {
+// An unknown path used to redirect to the homepage, which erased the URL the
+// visitor actually asked for and left them to guess what happened.
+test('an unknown path says the page does not exist', async ({ page }) => {
     await page.goto('/does-not-exist');
-    await expect(page).toHaveURL('/');
+
+    await expect(page).toHaveURL('/does-not-exist');
+    await expect(page.getByRole('heading', { name: 'This page does not exist.' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Go to the homepage' })).toBeVisible();
+});
+
+/**
+ * Every case study used to unfurl as the homepage, because the tags React
+ * injects never reach a link unfurler: Slack, LinkedIn and WhatsApp read the
+ * HTML and do not run the JavaScript.
+ *
+ * These assertions therefore read the raw HTML rather than the rendered page,
+ * because that is the only thing those crawlers see.
+ */
+// "McKinsey & Co." and "Dog & Ride" reach the document as "&amp;".
+const escapeHtml = (value: string) =>
+    value
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+
+for (const project of PROJECTS) {
+    test(`${project.id} unfurls as itself, not as the homepage`, async ({ request }) => {
+        const html = await (await request.get(`/portfolio/${project.id}`)).text();
+        const meta = (property: string) =>
+            html.match(new RegExp(`<meta property="${property}" content="([^"]*)"`))?.[1];
+
+        expect(html).toContain(`<title>${escapeHtml(project.title)} | Mert Bildik</title>`);
+        expect(html).toContain(
+            `<link rel="canonical" href="${SITE_URL}/portfolio/${project.id}" />`,
+        );
+        expect(meta('og:title')).toBe(`${escapeHtml(project.title)} | Mert Bildik`);
+        expect(meta('og:description')).toBe(escapeHtml(project.summary));
+        expect(meta('og:url')).toBe(`${SITE_URL}/portfolio/${project.id}`);
+
+        // Exactly one of each: the marker is replaced, not appended to.
+        expect(html.match(/<meta name="description"/g)).toHaveLength(1);
+        expect(html.match(/<title>/g)).toHaveLength(1);
+
+        if (project.confidential) {
+            // Confidential work blurs its cover on the homepage, so it does not
+            // get one in a link preview either.
+            expect(meta('og:image')).toBeUndefined();
+        } else {
+            expect(meta('og:image')).toMatch(new RegExp(`^${SITE_URL}/.+\\.webp$`));
+        }
+    });
+}
+
+test('the homepage still unfurls as the homepage', async ({ request }) => {
+    const html = await (await request.get('/')).text();
+
+    expect(html).toContain('<title>Mert Bildik | Product designer</title>');
+    expect(html).toContain(`<link rel="canonical" href="${SITE_URL}/" />`);
+    expect(html).not.toContain('<!--seo-->');
+});
+
+// The title is the one tag React still owns, so that client-side navigation
+// updates the browser tab.
+test('navigating to a case study updates the browser tab', async ({ page }) => {
+    await page.goto('/');
+    await page.getByRole('link', { name: 'OFK Construction' }).click();
+
+    await expect(page).toHaveTitle('OFK Construction | Mert Bildik');
+});
+
+test('the sitemap lists the homepage and every project', async ({ request }) => {
+    const body = await (await request.get('/sitemap.xml')).text();
+
+    expect(body).toContain(`<loc>${SITE_URL}/</loc>`);
+    for (const project of PROJECTS) {
+        expect(body, `sitemap is missing ${project.id}`).toContain(
+            `<loc>${SITE_URL}/portfolio/${project.id}</loc>`,
+        );
+    }
 });
 
 // Retired projects keep their URLs public on old CVs and profiles, so a case study

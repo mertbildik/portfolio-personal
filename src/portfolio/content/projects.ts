@@ -34,7 +34,7 @@ interface ProjectEntry {
  * while the build and the typecheck stay green. Image bindings live in
  * assets/covers.ts for that reason.
  */
-export const PROJECTS = [
+const PROJECT_INDEX = [
     {
         id: 'ofk',
         title: 'OFK Construction',
@@ -94,9 +94,19 @@ export const PROJECTS = [
  * image and a case-study page — instead of shipping a card with a blank image,
  * or a link that bounces the visitor straight back to the work list.
  */
-export type ProjectId = (typeof PROJECTS)[number]['id'];
+export type ProjectId = (typeof PROJECT_INDEX)[number]['id'];
 
 /** An index entry as the rest of the app sees it. */
 export interface Project extends Omit<ProjectEntry, 'id'> {
     id: ProjectId;
 }
+
+/**
+ * The index consumers read.
+ *
+ * Typed as Project rather than left as the literal tuple: the literal form is a
+ * union of five differently shaped objects, and only one of them carries
+ * `confidential`, so reading that field off the union is an error. Ids stay
+ * narrow because Project.id is ProjectId.
+ */
+export const PROJECTS: readonly Project[] = PROJECT_INDEX;

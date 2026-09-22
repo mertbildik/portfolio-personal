@@ -3,21 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mert Bildik | Product designer</title>
-    <meta
-      name="description"
-      content="Mert Bildik designs and builds digital products, websites, and visual experiences."
-    />
+    <!--
+      Title, description, canonical and Open Graph tags are written in here per
+      route at build time by the seo plugin in vite.config.ts, so a shared link
+      to a case study unfurls as that case study. In dev the marker stays as it
+      is and React sets the title on its own.
+    -->
+    <!--seo-->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href="/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin />
-
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Mert Bildik | Product designer" />
-    <meta
-      property="og:description"
-      content="Digital products, websites, and visual experiences designed and built by Mert Bildik."
-    />
-    <meta name="twitter:card" content="summary" />
   </head>
 
   <body>

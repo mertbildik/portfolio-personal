@@ -2,6 +2,8 @@ import React, { Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router';
 import { MotionConfig } from 'motion/react';
 
+import NotFoundPage from './NotFoundPage';
+
 const HomePage = React.lazy(() => import('../homepage/HomePage'));
 const CaseStudyPage = React.lazy(() => import('../portfolio/case-studies/CaseStudyPage'));
 
@@ -19,7 +21,7 @@ const AppRoutes: React.FC = () => {
                 <Route path="/contact" element={<Navigate to="/#contact" replace />} />
                 <Route path="/portfolio/:id" element={<CaseStudyPage />} />
                 <Route path="/case-study/:id" element={<LegacyCaseStudyRedirect />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
+                <Route path="*" element={<NotFoundPage />} />
             </Routes>
         </Suspense>
     );

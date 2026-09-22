@@ -1,5 +1,7 @@
 import React from 'react';
 import { Navigate, useParams } from 'react-router';
+import PageMeta from '../../app/PageMeta';
+import { projectMeta } from '../../app/meta';
 import { PROJECTS, type Project, type ProjectId } from '../content/projects';
 import CaseStudyLayout from './CaseStudyLayout';
 
@@ -43,6 +45,7 @@ const CaseStudyPage: React.FC = () => {
     const Study = study.component;
     return (
         <CaseStudyLayout width={study.width}>
+            <PageMeta title={projectMeta(project).title} />
             <Study project={project} />
         </CaseStudyLayout>
     );

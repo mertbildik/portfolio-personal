@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import PageMeta from '../app/PageMeta';
+import { HOME_META } from '../app/meta';
 import ContactSection from '../contact/ContactSection';
 import PortfolioSection from '../portfolio/PortfolioSection';
 import HeroSection from './HeroSection';
@@ -13,6 +15,7 @@ const HomePage: React.FC = () => {
 
     return (
         <>
+            <PageMeta title={HOME_META.title} />
             <HomePageSection id="home" hero>
                 <HeroSection />
             </HomePageSection>
