@@ -6,11 +6,13 @@ Personal portfolio site. Vite + React + TypeScript + Tailwind, deployed as a sta
 
 ```bash
 npm install
-cp .env.example .env    # then fill in VITE_FORMSPREE_ID, or the contact form will not send
+cp .env.example .env    # then fill in VITE_FORMSPREE_ID, or the contact form cannot send
 npm run dev             # http://localhost:3000
 ```
 
-Scripts are in `package.json`. `npm run typecheck`, `npm run build` and `npm run test` are the full check; there is no linter.
+Scripts are in `package.json`. `npm run format:check`, `npm run typecheck`, `npm run build`
+and `npm run test` are the full check, and CI runs all four on every push. Prettier
+formats; there is no ESLint.
 
 ## Deploying
 
