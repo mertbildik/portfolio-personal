@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import Link from 'next/link';
 import { Chapter, PageFoot, PageHeader, Rules, Table } from '../chrome';
 import { NAV } from '../nav';
 import { TYPE_STEPS, tokensUnder } from '../theme';
@@ -56,7 +56,7 @@ const Overview: React.FC = () => (
                     .map((entry) => (
                         <li key={entry.path}>
                             <Link
-                                to={entry.path}
+                                href={entry.path}
                                 className="group grid grid-cols-1 gap-1 border-b border-edge py-5 transition-colors duration-120 ease-out md:grid-cols-[10rem_minmax(0,1fr)] md:gap-6"
                             >
                                 <span className="text-heading text-ink">{entry.label}</span>
@@ -129,17 +129,16 @@ const Overview: React.FC = () => (
             lede="These pages are notes for whoever works on the site, not part of it."
         >
             <p className="max-w-2xl text-small text-ink">
-                The whole{' '}
-                <span className="font-mono text-data text-ink-secondary">src/design/</span> tree
-                sits behind{' '}
-                <span className="font-mono text-data text-ink-secondary">import.meta.env.DEV</span>{' '}
-                in <span className="font-mono text-data text-ink-secondary">src/app/App.tsx</span>,
-                so Vite removes it from the production bundle: no chunk, no route, no entry in{' '}
+                The route to this tree is a{' '}
+                <span className="font-mono text-data text-ink-secondary">page.dev.tsx</span> file,
+                and only <span className="font-mono text-data text-ink-secondary">next dev</span>{' '}
+                counts that extension as a page, so a build leaves{' '}
+                <span className="font-mono text-data text-ink-secondary">src/design/</span> out
+                entirely: no chunk, no route, no entry in{' '}
                 <span className="font-mono text-data text-ink-secondary">sitemap.xml</span>. In a
                 build, <span className="font-mono text-data text-ink-secondary">/design</span> is a
-                404 like any other unknown path. It also means these pages can read the source with{' '}
-                <span className="font-mono text-data text-ink-secondary">?raw</span> imports, which
-                would be dead weight in anything shipped.
+                404 like any other unknown path. It also means these pages can read the source from
+                disk, which would be dead weight in anything shipped.
             </p>
         </Chapter>
 

@@ -2,9 +2,9 @@
 docs
 
 node_modules
-dist
+.next
+next-env.d.ts
 playwright-report
 test-results
 package-lock.json
 public/fonts
-public/_redirects

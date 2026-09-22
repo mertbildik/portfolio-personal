@@ -1,16 +1,9 @@
-import React, { useLayoutEffect } from 'react';
-import { useLocation } from 'react-router';
+import React from 'react';
 
 const CaseStudyLayout: React.FC<{ children: React.ReactNode; width?: 'page' | 'shell' }> = ({
     children,
     width = 'shell',
 }) => {
-    const { pathname } = useLocation();
-
-    useLayoutEffect(() => {
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-    }, [pathname]);
-
     return (
         <div
             className={`case-study w-full mx-auto px-6 pb-24 flex-1 flex flex-col ${

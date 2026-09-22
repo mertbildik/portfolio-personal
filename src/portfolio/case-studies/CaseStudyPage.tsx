@@ -1,11 +1,13 @@
 import React from 'react';
-import { Navigate, useParams } from 'react-router';
-import PageMeta from '../../app/PageMeta';
-import { projectMeta } from '../../app/meta';
-import { PROJECTS, type Project, type ProjectId } from '../content/projects';
+import type { Project, ProjectId } from '../content/projects';
 import CaseStudyLayout from './CaseStudyLayout';
+import AdclusiveCaseStudy from './studies/AdclusiveCaseStudy';
+import DogAndRideCaseStudy from './studies/DogAndRideCaseStudy';
+import McKinseyCaseStudy from './studies/McKinseyCaseStudy';
+import OfkCaseStudy from './studies/OfkCaseStudy';
+import SinerjikCaseStudy from './studies/SinerjikCaseStudy';
 
-type StudyComponent = React.LazyExoticComponent<React.ComponentType<{ project: Project }>>;
+type StudyComponent = React.ComponentType<{ project: Project }>;
 
 /**
  * Every case study is a hand-written page, registered here by project id.
@@ -16,36 +18,18 @@ type StudyComponent = React.LazyExoticComponent<React.ComponentType<{ project: P
  * compile error rather than a card that silently bounces back to the work list.
  */
 const STUDIES: Record<ProjectId, { component: StudyComponent; width: 'page' | 'shell' }> = {
-    ofk: { component: React.lazy(() => import('./studies/OfkCaseStudy')), width: 'shell' },
-    sinerjik: {
-        component: React.lazy(() => import('./studies/SinerjikCaseStudy')),
-        width: 'shell',
-    },
-    'dog-and-ride': {
-        component: React.lazy(() => import('./studies/DogAndRideCaseStudy')),
-        width: 'shell',
-    },
-    adclusive: {
-        component: React.lazy(() => import('./studies/AdclusiveCaseStudy')),
-        width: 'shell',
-    },
-    mckinsey: { component: React.lazy(() => import('./studies/McKinseyCaseStudy')), width: 'page' },
+    ofk: { component: OfkCaseStudy, width: 'shell' },
+    sinerjik: { component: SinerjikCaseStudy, width: 'shell' },
+    'dog-and-ride': { component: DogAndRideCaseStudy, width: 'shell' },
+    adclusive: { component: AdclusiveCaseStudy, width: 'shell' },
+    mckinsey: { component: McKinseyCaseStudy, width: 'page' },
 };
 
-const CaseStudyPage: React.FC = () => {
-    const { id = '' } = useParams();
-    const project = PROJECTS.find((entry) => entry.id === id);
-
-    // Retired projects keep their URLs public on old CVs and profiles, so an
-    // unknown id lands on the work list rather than a blank page. A known id
-    // always has a study: STUDIES is keyed to ProjectId.
-    if (!project) return <Navigate to="/#portfolio" replace />;
-
+const CaseStudyPage: React.FC<{ project: Project }> = ({ project }) => {
     const study = STUDIES[project.id];
     const Study = study.component;
     return (
         <CaseStudyLayout width={study.width}>
-            <PageMeta title={projectMeta(project).title} />
             <Study project={project} />
         </CaseStudyLayout>
     );

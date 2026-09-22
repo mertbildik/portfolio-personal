@@ -9,8 +9,20 @@
  * Development only — see src/design/DesignRoute.tsx.
  */
 import React from 'react';
-import { Link, NavLink } from 'react-router';
-import { NAV, neighbours } from './nav';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { NAV, neighbours, type Entry } from './nav';
+
+/** A sidebar entry, marked as the current page when it is the one open. */
+const NavLink: React.FC<{ entry: Entry }> = ({ entry }) => (
+    <Link
+        href={entry.path}
+        aria-current={usePathname() === entry.path ? 'page' : undefined}
+        className="block text-small text-ink transition-colors duration-120 ease-out focus-visible:outline-none"
+    >
+        {entry.label}
+    </Link>
+);
 
 export const Shell: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <div className="mx-auto flex w-full max-w-shell flex-col lg:flex-row">
@@ -19,7 +31,7 @@ export const Shell: React.FC<{ children: React.ReactNode }> = ({ children }) => 
         <aside className="border-b border-edge lg:w-64 lg:shrink-0 lg:border-r lg:border-b-0">
             <div className="px-6 py-10 lg:sticky lg:top-0 lg:max-h-screen lg:overflow-y-auto lg:px-8">
                 <Link
-                    to="/design"
+                    href="/design"
                     className="block text-heading text-ink transition-colors duration-120 ease-out"
                 >
                     Design system
@@ -37,17 +49,7 @@ export const Shell: React.FC<{ children: React.ReactNode }> = ({ children }) => 
                             <ul className="flex flex-col gap-2">
                                 {group.entries.map((entry) => (
                                     <li key={entry.path}>
-                                        <NavLink
-                                            to={entry.path}
-                                            end={entry.path === '/design'}
-                                            className={({ isActive }) =>
-                                                `block text-small transition-colors duration-120 ease-out focus-visible:outline-none ${
-                                                    isActive ? 'text-ink' : 'text-ink'
-                                                }`
-                                            }
-                                        >
-                                            {entry.label}
-                                        </NavLink>
+                                        <NavLink entry={entry} />
                                     </li>
                                 ))}
                             </ul>
@@ -56,7 +58,7 @@ export const Shell: React.FC<{ children: React.ReactNode }> = ({ children }) => 
                 </nav>
 
                 <Link
-                    to="/"
+                    href="/"
                     className="mt-12 inline-block text-small text-ink-secondary transition-colors duration-120 ease-out hover:text-ink focus-visible:text-ink"
                 >
                     ← Back to the site
@@ -176,7 +178,7 @@ export const PageFoot: React.FC<{ path: string }> = ({ path }) => {
             className="mt-20 flex justify-between gap-8 rule-t pt-8"
         >
             {previous ? (
-                <Link to={previous.path} className={link}>
+                <Link href={previous.path} className={link}>
                     <span className="text-label text-ink-secondary">Previous</span>
                     <span className="text-label">{previous.label}</span>
                 </Link>
@@ -184,7 +186,7 @@ export const PageFoot: React.FC<{ path: string }> = ({ path }) => {
                 <span />
             )}
             {next && (
-                <Link to={next.path} className={`${link} items-end text-right`}>
+                <Link href={next.path} className={`${link} items-end text-right`}>
                     <span className="text-label text-ink-secondary">Next</span>
                     <span className="text-label">{next.label}</span>
                 </Link>

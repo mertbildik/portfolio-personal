@@ -9,25 +9,9 @@
  *
  * Development only — see src/design/DesignRoute.tsx.
  */
-const sources = import.meta.glob('../**/*.tsx', {
-    query: '?raw',
-    import: 'default',
-    eager: true,
-}) as Record<string, string>;
+import { readSource } from './source';
 
-/**
- * Vite normalises a glob key against the importing module, so the catalogue's
- * own files come back as './chrome.tsx' while the rest of the site comes back as
- * '../app/App.tsx'. Both spellings have to be excluded: counting this folder
- * would mean a page like Type.tsx reporting the class names printed in its own
- * prose as uses of them.
- */
-const isCatalogue = (path: string) => path.startsWith('./') || path.startsWith('../design/');
-
-const CORPUS = Object.entries(sources)
-    .filter(([path]) => !isCatalogue(path))
-    .map(([, text]) => text)
-    .join('\n');
+const CORPUS = readSource().components;
 
 /** A class name is bounded by anything that is not a word character or hyphen, so `md:max-w-lg` counts. */
 const boundary = (className: string) =>

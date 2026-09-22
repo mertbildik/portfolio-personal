@@ -1,6 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router';
-import PageMeta from './PageMeta';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+
+export const metadata: Metadata = { title: 'Page not found | Mert Bildik' };
 
 /**
  * An unknown path used to redirect to the homepage, which erased the URL from
@@ -9,8 +11,6 @@ import PageMeta from './PageMeta';
  */
 const NotFoundPage: React.FC = () => (
     <div className="mx-auto flex w-full max-w-page flex-1 flex-col justify-center px-6 py-24">
-        <PageMeta title="Page not found | Mert Bildik" />
-
         <span className="block font-mono text-data text-ink-secondary">404</span>
         <h1 className="mt-2 text-display text-ink-large">This page does not exist.</h1>
         <p className="mt-4 max-w-measure text-body text-ink">
@@ -19,13 +19,13 @@ const NotFoundPage: React.FC = () => (
 
         <div className="mt-8 flex flex-wrap gap-6 rule-t pt-6">
             <Link
-                to="/"
+                href="/"
                 className="text-label text-ink decoration-ink-secondary underline-offset-4 hover:underline"
             >
                 Go to the homepage
             </Link>
             <Link
-                to="/#portfolio"
+                href="/#portfolio"
                 className="text-label text-ink decoration-ink-secondary underline-offset-4 hover:underline"
             >
                 See selected work

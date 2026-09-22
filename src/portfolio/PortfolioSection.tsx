@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowUpRight, Lock } from 'lucide-react';
-import { Link } from 'react-router';
+import Link from 'next/link';
 import SectionIntro from '../shared/SectionIntro';
 import { COVERS } from './assets/covers';
 import { GROUPS, PROJECTS, type Group, type Project } from './content/projects';
@@ -10,12 +10,12 @@ const groupId = (group: Group) => `work-${group.toLowerCase().replace(' ', '-')}
 export const WorkCard: React.FC<{ project: Project }> = ({ project }) => (
     <article>
         <Link
-            to={`/portfolio/${project.id}`}
+            href={`/portfolio/${project.id}`}
             className="work-card group block cursor-pointer rounded-md"
         >
             <div className="work-card-media overflow-hidden rounded-md border border-edge bg-transparent transition-colors duration-120 ease-out group-focus-visible:border-edge-strong">
                 <img
-                    src={COVERS[project.id]}
+                    src={COVERS[project.id].src}
                     alt={project.coverAlt}
                     loading="lazy"
                     className="work-card-image h-full w-full object-cover object-center"

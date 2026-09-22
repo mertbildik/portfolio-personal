@@ -187,7 +187,7 @@ test('a successful inquiry replaces the form and confirms back to the sender', a
 
     await expect(contactForm(page)).toHaveCount(0);
     await expect(page.locator('#contact').getByText(SENDER)).toBeVisible();
-    await expect(page.getByRole('alert')).toHaveCount(0);
+    await expect(page.locator('#contact').getByRole('alert')).toHaveCount(0);
 });
 
 test('a failed inquiry offers the email address rather than only a retry', async ({ page }) => {
@@ -196,7 +196,7 @@ test('a failed inquiry offers the email address rather than only a retry', async
     await fillInquiry(page);
     await submit(page);
 
-    const alert = page.getByRole('alert');
+    const alert = page.locator('#contact').getByRole('alert');
     await expect(alert).toBeVisible();
     await expect(alert.locator('a')).toHaveAttribute('href', `mailto:${CONTACT_EMAIL}`);
     // The brief is still there to retry with.
@@ -211,11 +211,11 @@ test('editing the form clears a previous failure', async ({ page }) => {
 
     await fillInquiry(page);
     await submit(page);
-    await expect(page.getByRole('alert')).toBeVisible();
+    await expect(page.locator('#contact').getByRole('alert')).toBeVisible();
 
     await contactForm(page).locator('[name="message"]').fill('A revised brief.');
 
-    await expect(page.getByRole('alert')).toHaveCount(0);
+    await expect(page.locator('#contact').getByRole('alert')).toHaveCount(0);
 });
 
 // ---- case studies -----------------------------------------------------------------
@@ -263,6 +263,27 @@ for (const project of PROJECTS) {
         }
     });
 }
+
+// A figure states its image's own pixel size, so the number cannot be typed wrong.
+test('every case-study figure states the size of its image', async ({ page }) => {
+    for (const path of CASE_STUDIES) {
+        await page.goto(path);
+        await settle(page);
+
+        const figures = await page.locator('main figure').evaluateAll((all) =>
+            all.map((figure) => {
+                const image = figure.querySelector('img')!;
+                return {
+                    size: `${image.naturalWidth}×${image.naturalHeight}`,
+                    caption: figure.querySelector('figcaption')?.textContent ?? '',
+                };
+            }),
+        );
+        for (const { size, caption } of figures) {
+            expect(caption, `${path}: "${caption}"`).toContain(size);
+        }
+    }
+});
 
 /**
  * A study picks one of two frames: the wide shell, or the narrow page column.
@@ -410,7 +431,9 @@ for (const meta of PAGES) {
 
         const head = page.locator('head');
         const content = (selector: string) => head.locator(selector).getAttribute('content');
-        const url = `${SITE_URL}${meta.path}`;
+        // Compared as URLs: https://mertbildik.com and https://mertbildik.com/ are one address.
+        const url = new URL(meta.path, SITE_URL).href;
+        const absolute = (value: string | null) => value && new URL(value).href;
 
         // Exactly one of each: a second description would leave Google to pick one.
         for (const selector of [
@@ -426,13 +449,15 @@ for (const meta of PAGES) {
 
         await expect(page).toHaveTitle(meta.title);
         expect(await content('meta[name="description"]')).toBe(meta.description);
-        expect(await head.locator('link[rel="canonical"]').getAttribute('href')).toBe(url);
+        expect(absolute(await head.locator('link[rel="canonical"]').getAttribute('href'))).toBe(
+            url,
+        );
         expect(await content('meta[property="og:title"]')).toBe(meta.title);
         expect(await content('meta[property="og:description"]')).toBe(meta.description);
-        expect(await content('meta[property="og:url"]')).toBe(url);
+        expect(absolute(await content('meta[property="og:url"]'))).toBe(url);
 
         const image = head.locator('meta[property="og:image"]');
-        if (meta.coverSource) {
+        if (meta.cover) {
             const src = await image.getAttribute('content');
             expect(src).toMatch(new RegExp(`^${SITE_URL}/`));
             // The preview image has to exist on this deployment, not only be named.

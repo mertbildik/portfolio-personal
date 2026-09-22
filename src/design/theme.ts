@@ -10,7 +10,9 @@
  *
  * Development only — see src/design/DesignRoute.tsx.
  */
-import source from '../index.css?raw';
+import { readSource } from './source';
+
+const source = readSource().css;
 
 const withoutComments = (css: string) => css.replace(/\/\*[\s\S]*?\*\//g, '');
 

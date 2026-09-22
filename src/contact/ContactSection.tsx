@@ -1,5 +1,7 @@
+'use client';
+
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, MotionConfig } from 'motion/react';
 import { CheckCircle2, ArrowRight, ArrowUpRight, Check, Copy } from 'lucide-react';
 import ActionCircle from '../shared/ActionCircle';
 import { EASE } from '../shared/motion';
@@ -67,11 +69,11 @@ const ContactSection: React.FC = () => {
         if (!formIsReady(e.currentTarget as HTMLFormElement)) return;
         setFormState('submitting');
 
-        const formSpreeId = import.meta.env.VITE_FORMSPREE_ID;
+        const formSpreeId = process.env.NEXT_PUBLIC_FORMSPREE_ID;
         const endpoint = formSpreeId ? `https://formspree.io/f/${formSpreeId}` : null;
 
         if (!endpoint) {
-            console.error('VITE_FORMSPREE_ID is not set, so the contact form cannot send.');
+            console.error('NEXT_PUBLIC_FORMSPREE_ID is not set, so the contact form cannot send.');
             setFormState('unavailable');
             return;
         }
@@ -120,7 +122,9 @@ const ContactSection: React.FC = () => {
     };
 
     return (
-        <>
+        // The one place motion animates: its transforms resolve without movement
+        // when the visitor asks for less motion.
+        <MotionConfig reducedMotion="user">
             <SectionIntro
                 title="Let's talk."
                 description="Available for new projects. I reply within 24 hours."
@@ -367,7 +371,7 @@ const ContactSection: React.FC = () => {
                     </div>
                 </div>
             </div>
-        </>
+        </MotionConfig>
     );
 };
 

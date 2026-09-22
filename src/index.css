@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+/* The design system at /design is local only and styles itself with
+   src/design/design.css, so its classes stay out of the site's stylesheet. */
+@source not './design';
+
 /* Inter variable, self-hosted from public/fonts so the site makes no third-party
    requests. One file covers weights 100-900 and carries Inter 4's optical-size
    axis, which the browser applies by font size on its own. */

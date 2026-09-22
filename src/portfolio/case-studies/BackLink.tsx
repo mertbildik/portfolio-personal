@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import Link from 'next/link';
 
 interface BackLinkProps {
     to: string;
@@ -9,7 +9,7 @@ interface BackLinkProps {
 
 const BackLink: React.FC<BackLinkProps> = ({ to, children, ariaLabel }) => (
     <Link
-        to={to}
+        href={to}
         className="group inline-flex items-center gap-3 w-fit text-ink transition-colors duration-120 cursor-pointer"
         aria-label={ariaLabel}
     >
