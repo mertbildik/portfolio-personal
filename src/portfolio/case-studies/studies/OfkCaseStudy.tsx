@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import approachImage1 from '../../assets/ofk/approach-image-1.webp';
 import approachImage2 from '../../assets/ofk/approach-image-2.webp';
 import approachImage3 from '../../assets/ofk/approach-image-3.webp';
@@ -13,10 +12,9 @@ import problemImage1 from '../../assets/ofk/problem-image-1.webp';
 import solutionLanguages from '../../assets/ofk/solution-languages.webp';
 import solutionProjects from '../../assets/ofk/solution-projects.webp';
 import solutionReferences from '../../assets/ofk/solution-references.webp';
-import type { CustomProject } from '../../content/projects';
+import type { Project } from '../../content/projects';
 import Button from '../../../shared/Button';
-import { sectionVariants, VIEWPORT_ONCE } from '../../../shared/motion';
-import { CaseStudyHeader, CaseStudyImage, CaseStudySectionHeading } from '../CaseStudyElements';
+import { CaseStudyDecision, CaseStudyHeader, CaseStudyImage, CaseStudyProse, CaseStudySection } from '../CaseStudyElements';
 import CaseStudySectionNavigator from '../CaseStudySectionNavigator';
 
 const SECTIONS = [
@@ -27,7 +25,7 @@ const SECTIONS = [
     { id: 'impact', label: 'Impact', description: 'The verified change' },
 ] as const;
 
-const OfkCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) => (
+const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
     <div className="w-full">
         <CaseStudyHeader
             title={project.title}
@@ -41,16 +39,8 @@ const OfkCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) => (
         <CaseStudySectionNavigator sections={SECTIONS} pageKey={project.id} />
 
         <div className="space-y-24 md:space-y-32">
-            <motion.section
-                id="problem"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32 space-y-10 md:space-y-14"
-            >
-                <CaseStudySectionHeading number="01">Problem</CaseStudySectionHeading>
-                <div className="mx-auto max-w-page space-y-6">
+            <CaseStudySection id="problem" number="01" title="Problem">
+                <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
                         OFK’s reputation lived in completed projects, client relationships, photographs, and signed references. Online, the company had little more than a logo.
                     </p>
@@ -60,7 +50,7 @@ const OfkCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) => (
                     <p className="max-w-2xl text-body text-ink-body">
                         The website also needed to support pitches, meetings, and early project discussions.
                     </p>
-                </div>
+                </CaseStudyProse>
 
                 <CaseStudyImage
                     src={problemImage1}
@@ -68,18 +58,10 @@ const OfkCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) => (
                     caption="The proof existed, but it was scattered across documents and folders."
                     className="mx-auto max-w-2xl"
                 />
-            </motion.section>
+            </CaseStudySection>
 
-            <motion.section
-                id="approach"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32 space-y-10 md:space-y-14"
-            >
-                <CaseStudySectionHeading number="02">Approach</CaseStudySectionHeading>
-                <div className="mx-auto max-w-page space-y-6">
+            <CaseStudySection id="approach" number="02" title="Approach">
+                <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
                         I reviewed company documents, project records, photographs, service information, and three signed references.
                     </p>
@@ -107,7 +89,7 @@ const OfkCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) => (
                     <p className="max-w-2xl text-body text-ink-body">
                         The client wanted to avoid platform fees and dependence on a website builder. I chose React so OFK could own and extend the website.
                     </p>
-                </div>
+                </CaseStudyProse>
 
                 <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 md:grid-cols-12 md:items-start">
                     <CaseStudyImage
@@ -135,36 +117,24 @@ const OfkCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) => (
                         className="md:col-span-8"
                     />
                 </div>
-            </motion.section>
+            </CaseStudySection>
 
-            <motion.section
-                id="solution"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32 space-y-16 md:space-y-20"
-            >
-                <div className="space-y-10">
-                    <CaseStudySectionHeading number="03">Solution</CaseStudySectionHeading>
-                    <div className="mx-auto max-w-page space-y-6">
+            <CaseStudySection id="solution" number="03" title="Solution" rhythm="wide">
+                <CaseStudyProse>
                         <p className="max-w-2xl text-body text-ink-body">
                             I extended OFK’s logo into a digital identity. One blue accent, blue-gray neutrals, clear type, and firm spacing gave the website a technical voice.
                         </p>
                         <p className="max-w-2xl text-body text-ink-body">
-                            The website follows one rule: state the point, show the proof, then offer more detail.
-                        </p>
-                    </div>
-                </div>
+                        The website follows one rule: state the point, show the proof, then offer more detail.
+                    </p>
+                </CaseStudyProse>
 
                 <div className="space-y-10 md:space-y-14">
-                    <div className="mx-auto max-w-page">
-                        <span className="font-mono text-caption text-ink-low">01</span>
-                        <h3 className="mt-4 text-card-title text-ink-high">Projects became the proof</h3>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                    <CaseStudyDecision number="01" title="Projects became the proof">
+                        <p className="max-w-2xl text-body text-ink-body">
                             A service list says what OFK offers. A named project shows that the company has delivered it. Each project connects its location, photography, technical scope, and execution details in one place.
                         </p>
-                    </div>
+                    </CaseStudyDecision>
                     <CaseStudyImage
                         src={solutionProjects}
                         alt="OFK completed projects overview with locations, dates, and scope"
@@ -174,13 +144,11 @@ const OfkCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) => (
                 </div>
 
                 <div className="space-y-10 md:space-y-14">
-                    <div className="mx-auto max-w-page">
-                        <span className="font-mono text-caption text-ink-low">02</span>
-                        <h3 className="mt-4 text-card-title text-ink-high">References stayed verifiable</h3>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                    <CaseStudyDecision number="02" title="References stayed verifiable">
+                        <p className="max-w-2xl text-body text-ink-body">
                             A company name suggests credibility. A signed document lets a buyer inspect the claim. Each reference connects to its company, project, scope, and original file.
                         </p>
-                    </div>
+                    </CaseStudyDecision>
                     <CaseStudyImage
                         src={solutionReferences}
                         alt="OFK references page with three companies and PDF downloads"
@@ -190,13 +158,11 @@ const OfkCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) => (
                 </div>
 
                 <div className="space-y-10 md:space-y-14">
-                    <div className="mx-auto max-w-page">
-                        <span className="font-mono text-caption text-ink-low">03</span>
-                        <h3 className="mt-4 text-card-title text-ink-high">Two languages shared one system</h3>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                    <CaseStudyDecision number="03" title="Two languages shared one system">
+                        <p className="max-w-2xl text-body text-ink-body">
                             Separate sites would double the work and invite mismatched content. English and Polish share one structure, persistent language choice, and stable navigation.
                         </p>
-                    </div>
+                    </CaseStudyDecision>
                     <CaseStudyImage
                         src={solutionLanguages}
                         alt="OFK navigation with English and Polish language controls"
@@ -204,18 +170,10 @@ const OfkCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) => (
                         className="ml-auto max-w-4xl"
                     />
                 </div>
-            </motion.section>
+            </CaseStudySection>
 
-            <motion.section
-                id="output"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32 space-y-10 md:space-y-14"
-            >
-                <CaseStudySectionHeading number="04">Output</CaseStudySectionHeading>
-                <div className="mx-auto max-w-page space-y-6">
+            <CaseStudySection id="output" number="04" title="Output">
+                <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
                         I led product strategy, identity, UX/UI, and the front-end build.
                     </p>
@@ -225,7 +183,7 @@ const OfkCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) => (
                     <p className="max-w-2xl text-body text-ink-body">
                         The same website can introduce OFK online, guide a meeting, or support a project discussion with evidence.
                     </p>
-                </div>
+                </CaseStudyProse>
 
                 <div className="mx-auto w-full max-w-6xl space-y-8">
                     <CaseStudyImage
@@ -261,22 +219,10 @@ const OfkCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) => (
                         />
                     </div>
                 </div>
-            </motion.section>
+            </CaseStudySection>
 
-            <motion.section
-                id="impact"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32"
-            >
+            <CaseStudySection id="impact" number="05" title="Impact" rhythm="tight">
                 <div className="mx-auto max-w-page space-y-10">
-                    <div>
-                        <span className="mb-8 block font-mono text-eyebrow text-ink-low">05</span>
-                        <h2 className="text-display-md text-ink-high">Impact</h2>
-                    </div>
-
                     <div className="space-y-6">
                         <p className="max-w-2xl text-body text-ink-body">
                             OFK moved from a logo and scattered files to a live bilingual website.
@@ -296,7 +242,7 @@ const OfkCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) => (
                         Visit OFK Construction
                     </Button>
                 </div>
-            </motion.section>
+            </CaseStudySection>
         </div>
     </div>
 );

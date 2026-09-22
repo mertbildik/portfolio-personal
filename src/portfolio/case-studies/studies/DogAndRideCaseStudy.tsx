@@ -1,14 +1,12 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import contactAndFaq from '../../assets/dog-and-ride/contact-and-faq.webp';
 import home from '../../assets/dog-and-ride/home.webp';
 import presentation from '../../assets/dog-and-ride/presentation-1.webp';
 import productFeatures from '../../assets/dog-and-ride/product-features.webp';
 import testimonials from '../../assets/dog-and-ride/testimonials.webp';
-import type { CustomProject } from '../../content/projects';
+import type { Project } from '../../content/projects';
 import Button from '../../../shared/Button';
-import { sectionVariants, VIEWPORT_ONCE } from '../../../shared/motion';
-import { CaseStudyHeader, CaseStudyImage, CaseStudySectionHeading } from '../CaseStudyElements';
+import { CaseStudyDecision, CaseStudyHeader, CaseStudyImage, CaseStudyProse, CaseStudySection } from '../CaseStudyElements';
 import CaseStudySectionNavigator from '../CaseStudySectionNavigator';
 
 const SECTIONS = [
@@ -27,7 +25,7 @@ const METRICS = [
     { value: '100K+', label: 'Views on selected posts' },
 ] as const;
 
-const DogAndRideCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) => (
+const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
     <div className="w-full">
         <CaseStudyHeader
             title={project.title}
@@ -41,35 +39,19 @@ const DogAndRideCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) 
         <CaseStudySectionNavigator sections={SECTIONS} pageKey={project.id} />
 
         <div className="space-y-24 md:space-y-32">
-            <motion.section
-                id="problem"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32 space-y-10"
-            >
-                <CaseStudySectionHeading number="01">Problem</CaseStudySectionHeading>
-                <div className="mx-auto max-w-page space-y-6">
+            <CaseStudySection id="problem" number="01" title="Problem" rhythm="tight">
+                <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
                         Every dog and motorcycle needs a different setup. Riders needed clear answers about fit, safety, and daily use before trusting the product.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
                         A standard product page and checkout would hide that complexity. The website needed to explain the product and lead each rider to a consultation.
                     </p>
-                </div>
-            </motion.section>
+                </CaseStudyProse>
+            </CaseStudySection>
 
-            <motion.section
-                id="approach"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32 space-y-10 md:space-y-14"
-            >
-                <CaseStudySectionHeading number="02">Approach</CaseStudySectionHeading>
-                <div className="mx-auto max-w-page space-y-6">
+            <CaseStudySection id="approach" number="02" title="Approach">
+                <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
                         I gathered feedback from existing customers and people who tested the product. I asked what they liked, what they disliked, and what they needed before trusting it.
                     </p>
@@ -79,7 +61,7 @@ const DogAndRideCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) 
                     <p className="max-w-2xl text-body text-ink-body">
                         I developed the wireframes and components directly in Framer. One focused landing page covered the full path from product introduction to contact.
                     </p>
-                </div>
+                </CaseStudyProse>
 
                 <div className="mx-auto w-full max-w-page rounded-md bg-fill p-6 md:p-8">
                     <span className="block text-eyebrow text-ink-low">Reconstructed from project notes</span>
@@ -97,26 +79,15 @@ const DogAndRideCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) 
                         ))}
                     </ol>
                 </div>
-            </motion.section>
+            </CaseStudySection>
 
-            <motion.section
-                id="solution"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32 space-y-16 md:space-y-20"
-            >
-                <CaseStudySectionHeading number="03">Solution</CaseStudySectionHeading>
-
+            <CaseStudySection id="solution" number="03" title="Solution" rhythm="wide">
                 <div className="space-y-10 md:space-y-14">
-                    <div className="mx-auto max-w-page">
-                        <span className="font-mono text-caption text-ink-low">01</span>
-                        <h3 className="mt-4 text-card-title text-ink-high">Show the ride, not just the carrier</h3>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                    <CaseStudyDecision number="01" title="Show the ride, not just the carrier">
+                        <p className="max-w-2xl text-body text-ink-body">
                             I used the image feedback to direct and edit photographs of dogs, riders, and the carrier in use. The images show both the carrier and the ride it enables.
                         </p>
-                    </div>
+                    </CaseStudyDecision>
                     <CaseStudyImage
                         src={home}
                         alt="Dog & Ride landing page with a rider, dog, and brand message"
@@ -126,13 +97,11 @@ const DogAndRideCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) 
                 </div>
 
                 <div className="space-y-10 md:space-y-14">
-                    <div className="mx-auto max-w-page">
-                        <span className="font-mono text-caption text-ink-low">02</span>
-                        <h3 className="mt-4 text-card-title text-ink-high">Let buyer questions set the order</h3>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                    <CaseStudyDecision number="02" title="Let buyer questions set the order">
+                        <p className="max-w-2xl text-body text-ink-body">
                             The page moves from riding together to product features, safety, customer experiences, common questions, and contact. Each section answers a question that could stop a rider from getting in touch.
                         </p>
-                    </div>
+                    </CaseStudyDecision>
                     <CaseStudyImage
                         src={productFeatures}
                         alt="Dog & Ride product features beside photographs of riders and dogs"
@@ -142,13 +111,11 @@ const DogAndRideCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) 
                 </div>
 
                 <div className="space-y-10 md:space-y-14">
-                    <div className="mx-auto max-w-page">
-                        <span className="font-mono text-caption text-ink-low">03</span>
-                        <h3 className="mt-4 text-card-title text-ink-high">End with consultation</h3>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                    <CaseStudyDecision number="03" title="End with consultation">
+                        <p className="max-w-2xl text-body text-ink-body">
                             Dog & Ride does not have one setup for every rider. The page ends with direct contact instead of a standard checkout.
                         </p>
-                    </div>
+                    </CaseStudyDecision>
                     <CaseStudyImage
                         src={contactAndFaq}
                         alt="Dog & Ride contact form and common product questions"
@@ -156,25 +123,17 @@ const DogAndRideCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) 
                         className="mx-auto max-w-6xl"
                     />
                 </div>
-            </motion.section>
+            </CaseStudySection>
 
-            <motion.section
-                id="output"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32 space-y-10 md:space-y-14"
-            >
-                <CaseStudySectionHeading number="04">Output</CaseStudySectionHeading>
-                <div className="mx-auto max-w-page space-y-6">
+            <CaseStudySection id="output" number="04" title="Output">
+                <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
                         I delivered the brand identity, research, photography direction and editing, website design and Framer build, social media system, and pitch presentation.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
                         The website explains the product. Social media shows it in use. The pitch deck presents the same idea to potential partners.
                     </p>
-                </div>
+                </CaseStudyProse>
 
                 <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 md:grid-cols-2 md:items-start">
                     <CaseStudyImage
@@ -188,18 +147,10 @@ const DogAndRideCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) 
                         caption="The pitch deck adapts the same story for a potential partner."
                     />
                 </div>
-            </motion.section>
+            </CaseStudySection>
 
-            <motion.section
-                id="impact"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32"
-            >
+            <CaseStudySection id="impact" number="05" title="Impact" rhythm="tight">
                 <div className="mx-auto max-w-page space-y-10">
-                    <CaseStudySectionHeading number="05">Impact</CaseStudySectionHeading>
 
                     <div className="space-y-6">
                         <p className="max-w-2xl text-body text-ink-body">
@@ -226,7 +177,7 @@ const DogAndRideCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) 
                         Visit Dog & Ride
                     </Button>
                 </div>
-            </motion.section>
+            </CaseStudySection>
         </div>
     </div>
 );

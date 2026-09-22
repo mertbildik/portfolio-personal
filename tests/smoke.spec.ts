@@ -105,22 +105,6 @@ test('homepage card outcomes remain visible on narrow screens', async ({ page })
     await expect(page.getByText('High-stakes visual communication shaped from complex models, under strict NDA.')).toBeVisible();
 });
 
-// The template used to drop any output block whose title contained "brand" or
-// "social", so content written in projects.ts never appeared on the page.
-test('every output block in the content file reaches the page', async ({ page }) => {
-    for (const project of PROJECTS.filter((entry) => entry.renderer === 'template')) {
-        await page.goto(`/portfolio/${project.id}`);
-        await settle(page);
-
-        for (const block of project.caseStudy.output) {
-            await expect(
-                page.getByRole('heading', { name: block.title, exact: true }),
-                `${project.id} is missing the "${block.title}" block`,
-            ).toBeVisible();
-        }
-    }
-});
-
 test('old case-study links still redirect', async ({ page }) => {
     await page.goto('/case-study/ofk');
     await expect(page).toHaveURL('/portfolio/ofk');
@@ -134,16 +118,14 @@ for (const section of ['portfolio', 'contact']) {
     });
 }
 
-test('every referenced project image exists', () => {
-    for (const project of PROJECTS.filter((entry) => entry.renderer === 'template')) {
-        for (const block of project.caseStudy.output) {
-            for (const image of block.images ?? []) {
-                expect(
-                    existsSync(`${ASSET_ROOT}${project.id}/${image}.webp`),
-                    `${project.id} references missing image ${image}.webp`,
-                ).toBe(true);
-            }
-        }
+// Covers are wired up by hand in assets/covers.ts, so a new project can reach the
+// homepage with no image behind it. Vite cannot catch that; this can.
+test('every project has a cover image on disk', () => {
+    for (const project of PROJECTS) {
+        expect(
+            existsSync(`${ASSET_ROOT}${project.id}/cover.webp`),
+            `${project.id} is missing assets/${project.id}/cover.webp`,
+        ).toBe(true);
     }
 });
 
@@ -219,7 +201,7 @@ test('Adclusive presents the shipped two-sided product and honest outcome', asyn
     await expect(page.getByText('~50', { exact: true })).toBeVisible();
 });
 
-test('McKinsey uses the shared case-study header and section navigation', async ({ page }) => {
+test('McKinsey keeps the narrow frame, its NDA header and section navigation', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto('/portfolio/mckinsey');
 
@@ -229,8 +211,14 @@ test('McKinsey uses the shared case-study header and section navigation', async 
     }
     await expect(page.getByText('Work is under strict NDA. Process and outcomes can be shared on a call.')).toBeVisible();
 
+    // This study asks CaseStudyLayout for the narrow `page` frame. Read the token
+    // rather than its value, so retuning the scale in index.css is not a test failure.
     const frameWidth = await page.locator('main > div').evaluate((element) => element.getBoundingClientRect().width);
-    expect(frameWidth).toBe(692);
+    const pageColumn = await page.evaluate(
+        () => getComputedStyle(document.documentElement).getPropertyValue('--container-page'),
+    );
+    expect(pageColumn.trim()).not.toBe('');
+    expect(frameWidth).toBe(parseFloat(pageColumn));
 
     await page.getByRole('navigation', { name: 'Case study sections' }).hover();
     await page.getByRole('link', { name: 'Capabilities', exact: true }).click();
@@ -273,4 +261,12 @@ test('case-study section navigation changes at the layout breakpoint without ove
 test('an unknown path falls back to home', async ({ page }) => {
     await page.goto('/does-not-exist');
     await expect(page).toHaveURL('/');
+});
+
+// Retired projects keep their URLs public on old CVs and profiles, so a case study
+// that no longer exists has to land on the work list rather than a blank page.
+test('an unknown case study falls back to the portfolio', async ({ page }) => {
+    await page.goto('/portfolio/not-a-project');
+    await expect(page).toHaveURL('/#portfolio');
+    await expect(page.locator('#portfolio')).toBeInViewport();
 });

@@ -1,36 +1,36 @@
 import React from 'react';
 import { Navigate, useParams } from 'react-router';
-import { PROJECTS, type CustomProject } from '../content/projects';
+import { PROJECTS, type Project } from '../content/projects';
 import CaseStudyLayout from './CaseStudyLayout';
-import EmploymentCaseStudy from './templates/EmploymentCaseStudy';
-import ProjectCaseStudy from './templates/ProjectCaseStudy';
 
-/** Pages written by hand rather than driven by the shared template. */
-const HAND_WRITTEN: Record<CustomProject['page'], React.LazyExoticComponent<React.ComponentType<{ project: CustomProject }>>> = {
-    ofk: React.lazy(() => import('./studies/OfkCaseStudy')),
-    sinerjik: React.lazy(() => import('./studies/SinerjikCaseStudy')),
-    'dog-and-ride': React.lazy(() => import('./studies/DogAndRideCaseStudy')),
-    adclusive: React.lazy(() => import('./studies/AdclusiveCaseStudy')),
-    curvix: React.lazy(() => import('./studies/CurvixCaseStudy')),
-    'gala-network': React.lazy(() => import('./studies/GalaNetworkCaseStudy')),
+type StudyComponent = React.LazyExoticComponent<React.ComponentType<{ project: Project }>>;
+
+/**
+ * Every case study is a hand-written page, registered here by project id.
+ * `width` picks the page frame: the wide shell, or the narrow homepage column
+ * for studies that are mostly text and data rather than screenshots.
+ */
+const STUDIES: Record<string, { component: StudyComponent; width: 'page' | 'shell' }> = {
+    ofk: { component: React.lazy(() => import('./studies/OfkCaseStudy')), width: 'shell' },
+    sinerjik: { component: React.lazy(() => import('./studies/SinerjikCaseStudy')), width: 'shell' },
+    'dog-and-ride': { component: React.lazy(() => import('./studies/DogAndRideCaseStudy')), width: 'shell' },
+    adclusive: { component: React.lazy(() => import('./studies/AdclusiveCaseStudy')), width: 'shell' },
+    mckinsey: { component: React.lazy(() => import('./studies/McKinseyCaseStudy')), width: 'page' },
 };
 
 const CaseStudyPage: React.FC = () => {
     const { id = '' } = useParams();
     const project = PROJECTS.find((entry) => entry.id === id);
+    const study = STUDIES[id];
 
-    if (!project) return <Navigate to="/#portfolio" replace />;
+    if (!project || !study) return <Navigate to="/#portfolio" replace />;
 
-    if (project.renderer === 'template') {
-        return <CaseStudyLayout homepageGrid><ProjectCaseStudy project={project} /></CaseStudyLayout>;
-    }
-
-    if (project.renderer === 'employment') {
-        return <CaseStudyLayout homepageGrid><EmploymentCaseStudy data={project.employment} /></CaseStudyLayout>;
-    }
-
-    const HandWritten = HAND_WRITTEN[project.page];
-    return <CaseStudyLayout><HandWritten project={project} /></CaseStudyLayout>;
+    const Study = study.component;
+    return (
+        <CaseStudyLayout width={study.width}>
+            <Study project={project} />
+        </CaseStudyLayout>
+    );
 };
 
 export default CaseStudyPage;

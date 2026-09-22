@@ -2,17 +2,17 @@ import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import ActionCircle from '../shared/ActionCircle';
-import { homepageContainerVariants, homepageItemVariants } from '../shared/motion';
+import { staggerVariants, itemVariants } from '../shared/motion';
 import mertPhoto from './mert.webp';
 
 const HeroSection: React.FC = () => (
     <motion.div
         className="relative z-20 flex min-w-0 flex-col"
-        variants={homepageContainerVariants}
+        variants={staggerVariants}
         initial="hidden"
         animate="visible"
     >
-        <motion.div variants={homepageItemVariants} className="flex items-center gap-8">
+        <motion.div variants={itemVariants} className="flex items-center gap-8">
             <div className="relative ml-4 shrink-0 md:ml-5">
                 <div className="relative z-10 h-24 w-24 overflow-hidden rounded-full border border-line md:h-28 md:w-28">
                     <img
@@ -47,12 +47,12 @@ const HeroSection: React.FC = () => (
             </div>
         </motion.div>
 
-        <motion.h1 variants={homepageItemVariants} className="mt-16 text-hero text-ink-high md:mt-20 md:text-hero-lg">
+        <motion.h1 variants={itemVariants} className="mt-16 text-hero text-ink-high md:mt-20 md:text-hero-lg">
             <span>I design &amp; build </span>
             <span className="text-ink-max">digital products, websites, and visual experiences.</span>
         </motion.h1>
 
-        <motion.p variants={homepageItemVariants} className="mt-8 max-w-xl text-body text-ink-body">
+        <motion.p variants={itemVariants} className="mt-8 max-w-xl text-body text-ink-body">
             Today, I run my own company, taking B2B products from idea to shipped site. Previously, I was a visual
             communication specialist at{' '}
             <a
@@ -66,12 +66,12 @@ const HeroSection: React.FC = () => (
             .
         </motion.p>
 
-        <motion.blockquote variants={homepageItemVariants} className="mt-12 max-w-lg text-headline text-ink-high">
+        <motion.blockquote variants={itemVariants} className="mt-12 max-w-lg text-headline text-ink-high">
             “Helping people spend less time clicking and more time living.”
         </motion.blockquote>
 
         <motion.a
-            variants={homepageItemVariants}
+            variants={itemVariants}
             href="#contact"
             className="group mt-14 flex w-full cursor-pointer items-center justify-between whitespace-nowrap focus-visible:outline-none"
         >

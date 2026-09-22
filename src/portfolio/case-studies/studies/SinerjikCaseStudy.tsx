@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import approachSourceMaterial from '../../assets/sinerjik/approach-source-material.webp';
 import outputAbout from '../../assets/sinerjik/output-about.webp';
 import outputWarehouse from '../../assets/sinerjik/output-warehouse.webp';
@@ -7,10 +6,9 @@ import solutionProductFlow from '../../assets/sinerjik/solution-product-flow.web
 import solutionProof from '../../assets/sinerjik/solution-proof.webp';
 import solutionSectorMap from '../../assets/sinerjik/solution-sector-map.webp';
 import solutionWmsDemo from '../../assets/sinerjik/solution-wms-demo.webp';
-import type { CustomProject } from '../../content/projects';
+import type { Project } from '../../content/projects';
 import Button from '../../../shared/Button';
-import { sectionVariants, VIEWPORT_ONCE } from '../../../shared/motion';
-import { CaseStudyHeader, CaseStudyImage, CaseStudySectionHeading } from '../CaseStudyElements';
+import { CaseStudyDecision, CaseStudyHeader, CaseStudyImage, CaseStudyProse, CaseStudySection } from '../CaseStudyElements';
 import CaseStudySectionNavigator from '../CaseStudySectionNavigator';
 
 const SECTIONS = [
@@ -28,7 +26,7 @@ const QUESTIONS = [
     'Which services fit each sector?',
 ] as const;
 
-const SinerjikCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) => (
+const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
     <div className="w-full">
         <CaseStudyHeader
             title={project.title}
@@ -42,16 +40,8 @@ const SinerjikCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =>
         <CaseStudySectionNavigator sections={SECTIONS} pageKey={project.id} />
 
         <div className="space-y-24 md:space-y-32">
-            <motion.section
-                id="problem"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32 space-y-10"
-            >
-                <CaseStudySectionHeading number="01">Problem</CaseStudySectionHeading>
-                <div className="mx-auto max-w-page space-y-6">
+            <CaseStudySection id="problem" number="01" title="Problem" rhythm="tight">
+                <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
                         Sinerjik's website had to explain two sides of the business.
                     </p>
@@ -67,19 +57,11 @@ const SinerjikCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =>
                     <p className="max-w-2xl text-body text-ink-body">
                         I needed to show what the software did without showing its actual interface. The result also had to work for people browsing alone and for the team presenting in a meeting.
                     </p>
-                </div>
-            </motion.section>
+                </CaseStudyProse>
+            </CaseStudySection>
 
-            <motion.section
-                id="approach"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32 space-y-10 md:space-y-14"
-            >
-                <CaseStudySectionHeading number="02">Approach</CaseStudySectionHeading>
-                <div className="mx-auto max-w-page space-y-6">
+            <CaseStudySection id="approach" number="02" title="Approach">
+                <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
                         I started with the company documents, product details, services, customer references, and existing brand material.
                     </p>
@@ -105,7 +87,7 @@ const SinerjikCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =>
                     <p className="max-w-2xl text-body text-ink-body">
                         I did not conduct formal user research. The decisions came from the client's product knowledge and sales needs.
                     </p>
-                </div>
+                </CaseStudyProse>
 
                 <CaseStudyImage
                     src={approachSourceMaterial}
@@ -113,29 +95,18 @@ const SinerjikCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =>
                     caption="Company facts, services, and product details were organised before they became page content."
                     className="mx-auto max-w-5xl"
                 />
-            </motion.section>
+            </CaseStudySection>
 
-            <motion.section
-                id="solution"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32 space-y-16 md:space-y-20"
-            >
-                <CaseStudySectionHeading number="03">Solution</CaseStudySectionHeading>
-
+            <CaseStudySection id="solution" number="03" title="Solution" rhythm="wide">
                 <div className="space-y-10 md:space-y-14">
-                    <div className="mx-auto max-w-page">
-                        <span className="font-mono text-caption text-ink-low">01</span>
-                        <h3 className="mt-4 text-card-title text-ink-high">Put proof near the top</h3>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                    <CaseStudyDecision number="01" title="Put proof near the top">
+                        <p className="max-w-2xl text-body text-ink-body">
                             Sinerjik had strong facts to support its offer. These included more than 20 years of software experience, long client relationships, and large volumes of operational data.
                         </p>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                        <p className="max-w-2xl text-body text-ink-body">
                             The homepage shows this evidence before explaining every service. A visitor can judge the company early, while the team can point to the same facts during a pitch.
                         </p>
-                    </div>
+                    </CaseStudyDecision>
                     <CaseStudyImage
                         src={solutionProof}
                         alt="Sinerjik company figures beside a particle helix and customer logos"
@@ -145,19 +116,17 @@ const SinerjikCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =>
                 </div>
 
                 <div className="space-y-10 md:space-y-14">
-                    <div className="mx-auto max-w-page">
-                        <span className="font-mono text-caption text-ink-low">02</span>
-                        <h3 className="mt-4 text-card-title text-ink-high">Show the software through a working example</h3>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                    <CaseStudyDecision number="02" title="Show the software through a working example">
+                        <p className="max-w-2xl text-body text-ink-body">
                             Product screenshots were not available. A feature list alone would leave MoBI Plus+ hard to understand.
                         </p>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                        <p className="max-w-2xl text-body text-ink-body">
                             I built a warehouse demonstration from the product's real behavior. A delivery arrives, receives a rack, moves through picking, reaches low stock, and triggers a new order.
                         </p>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                        <p className="max-w-2xl text-body text-ink-body">
                             The labels and steps come from MoBI Plus+. The visual design is new, but the workflow is based on the real product.
                         </p>
-                    </div>
+                    </CaseStudyDecision>
                     <CaseStudyImage
                         src={solutionWmsDemo}
                         alt="Sinerjik homepage with an interactive MoBI Plus+ warehouse flow"
@@ -167,19 +136,17 @@ const SinerjikCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =>
                 </div>
 
                 <div className="space-y-10 md:space-y-14">
-                    <div className="mx-auto max-w-page">
-                        <span className="font-mono text-caption text-ink-low">03</span>
-                        <h3 className="mt-4 text-card-title text-ink-high">Show how the products connect</h3>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                    <CaseStudyDecision number="03" title="Show how the products connect">
+                        <p className="max-w-2xl text-body text-ink-body">
                             MoBI Plus+ includes four products. Listing them separately would make the suite harder to understand.
                         </p>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                        <p className="max-w-2xl text-body text-ink-body">
                             I presented them as one flow. Mobile records field activity, WMS manages the warehouse, CRM handles customers, and Analytic connects the data to the customer's ERP.
                         </p>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                        <p className="max-w-2xl text-body text-ink-body">
                             This gives the sales team one diagram for explaining the full suite.
                         </p>
-                    </div>
+                    </CaseStudyDecision>
                     <CaseStudyImage
                         src={solutionProductFlow}
                         alt="MoBI Plus+ diagram connecting field, warehouse, customer, analytics, and ERP"
@@ -189,19 +156,17 @@ const SinerjikCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =>
                 </div>
 
                 <div className="space-y-10 md:space-y-14">
-                    <div className="mx-auto max-w-page">
-                        <span className="font-mono text-caption text-ink-low">04</span>
-                        <h3 className="mt-4 text-card-title text-ink-high">Match sectors with the right offer</h3>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                    <CaseStudyDecision number="04" title="Match sectors with the right offer">
+                        <p className="max-w-2xl text-body text-ink-body">
                             Sinerjik works across manufacturing, food, energy, construction, automotive, retail, and education.
                         </p>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                        <p className="max-w-2xl text-body text-ink-body">
                             A long capability list would make every sector look the same. I designed an interactive section that changes the standards, services, and products shown for each sector.
                         </p>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                        <p className="max-w-2xl text-body text-ink-body">
                             This helps visitors find relevant information. It also lets the team adjust a pitch without changing pages.
                         </p>
-                    </div>
+                    </CaseStudyDecision>
                     <CaseStudyImage
                         src={solutionSectorMap}
                         alt="Sinerjik sector map connecting manufacturing to standards, services, and products"
@@ -209,18 +174,10 @@ const SinerjikCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =>
                         className="mx-auto max-w-6xl"
                     />
                 </div>
-            </motion.section>
+            </CaseStudySection>
 
-            <motion.section
-                id="output"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32 space-y-10 md:space-y-14"
-            >
-                <CaseStudySectionHeading number="04">Output</CaseStudySectionHeading>
-                <div className="mx-auto max-w-page space-y-6">
+            <CaseStudySection id="output" number="04" title="Output">
+                <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
                         I designed the site structure, interface, visual system, and motion. I also directed the front-end build with Claude Code.
                     </p>
@@ -233,7 +190,7 @@ const SinerjikCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =>
                     <p className="max-w-2xl text-body text-ink-body">
                         The same site can introduce Sinerjik, support a sales conversation, or explain a product flow.
                     </p>
-                </div>
+                </CaseStudyProse>
 
                 <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 md:grid-cols-2 md:items-start">
                     <CaseStudyImage
@@ -247,18 +204,10 @@ const SinerjikCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =>
                         caption="The products page turns warehouse operations into a visual explanation."
                     />
                 </div>
-            </motion.section>
+            </CaseStudySection>
 
-            <motion.section
-                id="impact"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32"
-            >
+            <CaseStudySection id="impact" number="05" title="Impact" rhythm="tight">
                 <div className="mx-auto max-w-page space-y-10">
-                    <CaseStudySectionHeading number="05">Impact</CaseStudySectionHeading>
 
                     <div className="grid grid-cols-1 gap-8 border-y border-line py-8 md:grid-cols-2">
                         <div>
@@ -290,7 +239,7 @@ const SinerjikCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =>
                         Visit Sinerjik
                     </Button>
                 </div>
-            </motion.section>
+            </CaseStudySection>
         </div>
     </div>
 );

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { CheckCircle2, ArrowRight, ArrowUpRight, Check, Copy } from 'lucide-react';
 import ActionCircle from '../shared/ActionCircle';
-import { homepageItemVariants, VIEWPORT_ONCE } from '../shared/motion';
+import { EASE, itemVariants, VIEWPORT_ONCE } from '../shared/motion';
 import SectionIntro from '../shared/SectionIntro';
 
 const CONTACT_EMAIL = 'mert.bildik@gmail.com';
@@ -105,7 +105,7 @@ const ContactSection: React.FC = () => {
     return (
         <>
             <motion.div
-                variants={homepageItemVariants}
+                variants={itemVariants}
                 initial="hidden"
                 whileInView="visible"
                 viewport={VIEWPORT_ONCE}
@@ -117,7 +117,7 @@ const ContactSection: React.FC = () => {
             </motion.div>
 
             <motion.div
-                variants={homepageItemVariants}
+                variants={itemVariants}
                 initial="hidden"
                 whileInView="visible"
                 viewport={VIEWPORT_ONCE}
@@ -133,7 +133,7 @@ const ContactSection: React.FC = () => {
                                 initial={{ opacity: 0, transform: 'translateY(8px)' }}
                                 animate={{ opacity: 1, transform: 'translateY(0)' }}
                                 exit={{ opacity: 0, transition: { duration: 0.16 } }}
-                                transition={{ duration: 0.28, ease: [0.23, 1, 0.32, 1] }}
+                                transition={{ duration: 0.28, ease: EASE }}
                                 className="border-y border-line py-10"
                             >
                                 <CheckCircle2 size={24} className="text-status-ok mb-6" strokeWidth={1.5} />

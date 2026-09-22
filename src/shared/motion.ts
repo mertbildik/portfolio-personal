@@ -10,14 +10,28 @@ import type { Variants } from 'motion/react';
 export const EASE = [0.23, 1, 0.32, 1] as const;
 export const VIEWPORT_ONCE = { once: true, margin: '-10%' } as const;
 
-export const homepageContainerVariants: Variants = {
+/**
+ * Four entrances, one per job. Pick by what the thing is, not by how it feels:
+ *
+ * | Variant            | For                                          | Travel |
+ * |--------------------|----------------------------------------------|--------|
+ * | `staggerVariants`  | a container whose children enter in sequence | —      |
+ * | `itemVariants`     | one child inside that container              | 12px   |
+ * | `headerVariants`   | a page header, entering on load              | 10px   |
+ * | `sectionVariants`  | a case-study section, entering on scroll     | 40px   |
+ *
+ * Nothing else should define its own. If a new element does not fit one of
+ * these, the question is which of these it is, not which fifth one to add.
+ */
+
+export const staggerVariants: Variants = {
     hidden: {},
     visible: {
         transition: { staggerChildren: 0.055, delayChildren: 0.08 },
     },
 };
 
-export const homepageItemVariants: Variants = {
+export const itemVariants: Variants = {
     hidden: { opacity: 0, transform: 'translateY(12px)' },
     visible: {
         opacity: 1,
@@ -26,38 +40,12 @@ export const homepageItemVariants: Variants = {
     },
 };
 
-export const blockVariants: Variants = {
+export const headerVariants: Variants = {
     hidden: { opacity: 0, y: 10 },
     visible: {
         opacity: 1,
         y: 0,
         transition: { duration: 0.8, ease: EASE },
-    },
-};
-
-export const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: { staggerChildren: 0.1, delayChildren: 0.2 },
-    },
-};
-
-/** Same stagger, tighter timing. Used by list-heavy pages. */
-export const listVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: { staggerChildren: 0.05, delayChildren: 0.1 },
-    },
-};
-
-export const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.6, ease: EASE },
     },
 };
 

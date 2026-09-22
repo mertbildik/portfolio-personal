@@ -1,9 +1,9 @@
 import React, { useLayoutEffect } from 'react';
 import { useLocation } from 'react-router';
 
-const CaseStudyLayout: React.FC<{ children: React.ReactNode; homepageGrid?: boolean }> = ({
+const CaseStudyLayout: React.FC<{ children: React.ReactNode; width?: 'page' | 'shell' }> = ({
     children,
-    homepageGrid = false,
+    width = 'shell',
 }) => {
     const { pathname } = useLocation();
 
@@ -14,7 +14,7 @@ const CaseStudyLayout: React.FC<{ children: React.ReactNode; homepageGrid?: bool
     return (
         <div
             className={`w-full mx-auto px-6 pb-32 flex-1 flex flex-col ${
-                homepageGrid
+                width === 'page'
                     ? 'max-w-page pt-20 md:pt-24'
                     : 'max-w-shell md:px-12 lg:pl-32 lg:pr-20 xl:px-32 pt-24'
             }`}

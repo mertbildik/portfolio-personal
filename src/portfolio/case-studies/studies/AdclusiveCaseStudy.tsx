@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import advertiserDashboard from '../../assets/adclusive/advertiser-dashboard.webp';
 import applications from '../../assets/adclusive/applications.webp';
 import createAccount from '../../assets/adclusive/create-account.webp';
@@ -13,9 +12,8 @@ import sitemap from '../../assets/adclusive/sitemap.webp';
 import trackingLinks from '../../assets/adclusive/tracking-links.webp';
 import wireframeCampaign from '../../assets/adclusive/wireframe-campaign.webp';
 import wireframeDashboard from '../../assets/adclusive/wireframe-dashboard.webp';
-import type { CustomProject } from '../../content/projects';
-import { sectionVariants, VIEWPORT_ONCE } from '../../../shared/motion';
-import { CaseStudyHeader, CaseStudyImage, CaseStudySectionHeading } from '../CaseStudyElements';
+import type { Project } from '../../content/projects';
+import { CaseStudyDecision, CaseStudyHeader, CaseStudyImage, CaseStudyProse, CaseStudySection } from '../CaseStudyElements';
 import CaseStudySectionNavigator from '../CaseStudySectionNavigator';
 
 const SECTIONS = [
@@ -26,7 +24,7 @@ const SECTIONS = [
     { id: 'impact', label: 'Impact', description: 'Launch and limits' },
 ] as const;
 
-const AdclusiveCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) => (
+const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
     <div className="w-full">
         <CaseStudyHeader
             title={project.title}
@@ -40,16 +38,8 @@ const AdclusiveCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =
         <CaseStudySectionNavigator sections={SECTIONS} pageKey={project.id} />
 
         <div className="space-y-24 md:space-y-32">
-            <motion.section
-                id="problem"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32 space-y-10"
-            >
-                <CaseStudySectionHeading number="01">Problem</CaseStudySectionHeading>
-                <div className="mx-auto max-w-page space-y-6">
+            <CaseStudySection id="problem" number="01" title="Problem" rhythm="tight">
+                <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">Every campaign had two sides.</p>
                     <p className="max-w-2xl text-body text-ink-body">
                         Advertisers needed to create an offer, set the commission, and review results. Publishers and influencers needed to find campaigns, create tracking links, and follow their earnings.
@@ -57,26 +47,18 @@ const AdclusiveCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =
                     <p className="max-w-2xl text-body text-ink-body">
                         Both sides depended on the same campaign data but needed different views. If the rules, links, or payment status were unclear, people could not trust the platform.
                     </p>
-                </div>
-            </motion.section>
+                </CaseStudyProse>
+            </CaseStudySection>
 
-            <motion.section
-                id="approach"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32 space-y-10 md:space-y-14"
-            >
-                <CaseStudySectionHeading number="02">Approach</CaseStudySectionHeading>
-                <div className="mx-auto max-w-page space-y-6">
+            <CaseStudySection id="approach" number="02" title="Approach">
+                <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
                         The marketing team shared what they learned from potential clients and stakeholders. The project manager and backend developer defined the product requirements. I turned that input into flows and screens.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
                         I started with a sitemap to separate the advertiser and publisher journeys. I then made quick digital wireframes to settle the navigation and content hierarchy before working on the visual design.
                     </p>
-                </div>
+                </CaseStudyProse>
 
                 <CaseStudyImage
                     src={sitemap}
@@ -85,11 +67,11 @@ const AdclusiveCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =
                     className="mx-auto max-w-6xl"
                 />
 
-                <div className="mx-auto max-w-page space-y-6">
+                <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
                         The wireframes were working sketches, not polished prototypes. They helped us agree on the structure while changes were still easy to make.
                     </p>
-                </div>
+                </CaseStudyProse>
 
                 <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 md:grid-cols-2 md:items-start">
                     <CaseStudyImage
@@ -104,37 +86,26 @@ const AdclusiveCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =
                     />
                 </div>
 
-                <div className="mx-auto max-w-page space-y-6">
+                <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
                         I was the only product designer on an eight-person team. I worked with two software engineers, a project manager, a senior project manager, and three people on the marketing team.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
                         I also created the design system and built some components in code. This helped keep the Figma files and product interface consistent.
                     </p>
-                </div>
-            </motion.section>
+                </CaseStudyProse>
+            </CaseStudySection>
 
-            <motion.section
-                id="solution"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32 space-y-16 md:space-y-20"
-            >
-                <CaseStudySectionHeading number="03">Solution</CaseStudySectionHeading>
-
+            <CaseStudySection id="solution" number="03" title="Solution" rhythm="wide">
                 <div className="space-y-10 md:space-y-14">
-                    <div className="mx-auto max-w-page">
-                        <span className="font-mono text-caption text-ink-low">01</span>
-                        <h3 className="mt-4 text-card-title text-ink-high">One product, two workspaces</h3>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                    <CaseStudyDecision number="01" title="One product, two workspaces">
+                        <p className="max-w-2xl text-body text-ink-body">
                             Publishers and advertisers selected their role when creating an account. Each role then received its own navigation and tasks.
                         </p>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                        <p className="max-w-2xl text-body text-ink-body">
                             The workspaces shared the same layout and component rules. People only saw the tools relevant to their side of the platform.
                         </p>
-                    </div>
+                    </CaseStudyDecision>
                     <CaseStudyImage
                         src={createAccount}
                         alt="Adclusive account creation with publisher and advertiser roles"
@@ -144,16 +115,14 @@ const AdclusiveCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =
                 </div>
 
                 <div className="space-y-10 md:space-y-14">
-                    <div className="mx-auto max-w-page">
-                        <span className="font-mono text-caption text-ink-low">02</span>
-                        <h3 className="mt-4 text-card-title text-ink-high">Campaign setup in three parts</h3>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                    <CaseStudyDecision number="02" title="Campaign setup in three parts">
+                        <p className="max-w-2xl text-body text-ink-body">
                             Advertisers had to provide campaign details, define who could participate, and set the commission.
                         </p>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                        <p className="max-w-2xl text-body text-ink-body">
                             I grouped those requirements into General information, Collaboration, and Commission. This made a long form easier to scan and complete.
                         </p>
-                    </div>
+                    </CaseStudyDecision>
                     <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 md:grid-cols-2 md:items-start">
                         <CaseStudyImage
                             src={wireframeCampaign}
@@ -169,16 +138,14 @@ const AdclusiveCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =
                 </div>
 
                 <div className="space-y-10 md:space-y-14">
-                    <div className="mx-auto max-w-page">
-                        <span className="font-mono text-caption text-ink-low">03</span>
-                        <h3 className="mt-4 text-card-title text-ink-high">Tracking links ready to use</h3>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                    <CaseStudyDecision number="03" title="Tracking links ready to use">
+                        <p className="max-w-2xl text-body text-ink-body">
                             Publishers could browse categories, find advertisers, and apply to campaigns.
                         </p>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                        <p className="max-w-2xl text-body text-ink-body">
                             Once accepted, they could generate raw, cookie-based, and redirect-based tracking links. Each link had a direct copy action.
                         </p>
-                    </div>
+                    </CaseStudyDecision>
                     <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 md:grid-cols-2 md:items-start">
                         <CaseStudyImage
                             src={search}
@@ -200,16 +167,14 @@ const AdclusiveCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =
                 </div>
 
                 <div className="space-y-10 md:space-y-14">
-                    <div className="mx-auto max-w-page">
-                        <span className="font-mono text-caption text-ink-low">04</span>
-                        <h3 className="mt-4 text-card-title text-ink-high">Clear financial states</h3>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                    <CaseStudyDecision number="04" title="Clear financial states">
+                        <p className="max-w-2xl text-body text-ink-body">
                             The advertiser dashboard connected sales, commissions, publisher performance, transactions, and invoices.
                         </p>
-                        <p className="mt-4 max-w-2xl text-body text-ink-body">
+                        <p className="max-w-2xl text-body text-ink-body">
                             The publisher dashboard separated estimated revenue from the available balance. It also showed whether earnings were awaiting approval, approved, invoiced, or ready for payment.
                         </p>
-                    </div>
+                    </CaseStudyDecision>
                     <CaseStudyImage
                         src={advertiserDashboard}
                         alt="Adclusive advertiser dashboard with sales, commissions, transactions, and invoices"
@@ -217,18 +182,10 @@ const AdclusiveCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =
                         className="mx-auto max-w-6xl"
                     />
                 </div>
-            </motion.section>
+            </CaseStudySection>
 
-            <motion.section
-                id="output"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32 space-y-10 md:space-y-14"
-            >
-                <CaseStudySectionHeading number="04">Output</CaseStudySectionHeading>
-                <div className="mx-auto max-w-page space-y-6">
+            <CaseStudySection id="output" number="04" title="Output">
+                <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
                         I owned the product structure, wireframes, visual design, and design system. I also supported the front end with tokens, HTML, CSS, and a small number of coded components.
                     </p>
@@ -248,7 +205,7 @@ const AdclusiveCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =
                             </li>
                         ))}
                     </ul>
-                </div>
+                </CaseStudyProse>
 
                 <div className="mx-auto grid w-full max-w-4xl grid-cols-1 gap-8 md:grid-cols-2 md:items-start">
                     <CaseStudyImage
@@ -269,22 +226,10 @@ const AdclusiveCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =
                     caption="Account settings kept profile, notification, payment, and password details together."
                     className="mx-auto max-w-6xl"
                 />
-            </motion.section>
+            </CaseStudySection>
 
-            <motion.section
-                id="impact"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32"
-            >
+            <CaseStudySection id="impact" number="05" title="Impact" rhythm="tight">
                 <div className="mx-auto max-w-page space-y-10">
-                    <div>
-                        <span className="mb-8 block font-mono text-eyebrow text-ink-low">05</span>
-                        <h2 className="text-display-md text-ink-high">Impact</h2>
-                    </div>
-
                     <div className="space-y-6">
                         <p className="max-w-2xl text-body text-ink-body">
                             The MVP launched in June 2022. Four months later, it had around 70 accounts: approximately 20 advertisers and 50 publishers or influencers.
@@ -311,7 +256,7 @@ const AdclusiveCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =
                         </p>
                     </div>
                 </div>
-            </motion.section>
+            </CaseStudySection>
         </div>
     </div>
 );

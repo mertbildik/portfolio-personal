@@ -1,194 +1,72 @@
-import { EMPLOYMENT_CONTENT, type EmploymentData } from './employment';
+/** The two headings the homepage groups work under, in display order. */
+export const GROUPS = ['Client work', 'Experience'] as const;
+export type Group = (typeof GROUPS)[number];
 
-export interface ImpactStat {
-    number: string;
-    title: string;
-    description: string;
-}
-
-export interface OutputBlock {
-    title: string;
-    description: string;
-    /** Filenames (without extension) from src/portfolio/assets/<project id>/ */
-    images?: string[];
-    columns?: 1 | 2;
-}
-
-export interface CaseStudy {
-    timeline: string;
-    tools: string[];
-    oneLineSummary: string;
-    problem: string;
-    context: string;
-    goals: string[];
-    usersScenario: string;
-    approach: string;
-    solution: string;
-    keyDecisions: string[];
-    output: OutputBlock[];
-    impact: {
-        user: string | ImpactStat[];
-        business: string | ImpactStat[];
-    };
-    learnings: string;
-}
-
-interface ProjectBase {
+/**
+ * The project index. This is metadata only: every case study's prose lives in
+ * its own component under case-studies/studies/. Adding a project means one
+ * entry here, one study file, and one folder under assets/.
+ */
+export interface Project {
     id: string;
-    kind: 'clientProject' | 'employment' | 'venture';
     title: string;
-    role: string;
+    group: Group;
+    /** The card's first line: how the work happened, and in what role. */
+    relationship: string;
     yearOrStatus: string;
+    /** The card's second line: the clearest outcome, in one sentence. */
+    summary: string;
+    /** Alt text for the card image; the image itself is in assets/covers.ts. */
+    coverAlt: string;
+    /** Blurs the card image behind an "ask on a call" overlay. */
+    confidential?: boolean;
 }
-
-export interface TemplateProject extends ProjectBase {
-    renderer: 'template';
-    caseStudy: CaseStudy;
-}
-
-export interface EmploymentProject extends ProjectBase {
-    renderer: 'employment';
-    employment: EmploymentData;
-}
-
-export interface CustomProject extends ProjectBase {
-    renderer: 'custom';
-    page: 'ofk' | 'sinerjik' | 'dog-and-ride' | 'adclusive' | 'curvix' | 'gala-network';
-}
-
-export type Project = TemplateProject | EmploymentProject | CustomProject;
-export type ProjectKind = Project['kind'];
 
 export const PROJECTS: Project[] = [
     {
         id: 'ofk',
-        kind: 'clientProject',
         title: 'OFK Construction',
-        role: 'Product designer',
+        group: 'Client work',
+        relationship: 'Client project · Product designer',
         yearOrStatus: '2026',
-        renderer: 'custom',
-        page: 'ofk',
+        summary: 'A bilingual brand and website that makes an established construction record verifiable in one visit.',
+        coverAlt: 'OFK Construction homepage',
     },
     {
         id: 'sinerjik',
-        kind: 'clientProject',
         title: 'Sinerjik',
-        role: 'UX/UI designer',
+        group: 'Client work',
+        relationship: 'Client project · UX/UI designer',
         yearOrStatus: '2026',
-        renderer: 'custom',
-        page: 'sinerjik',
+        summary: 'A sales website used in four pitches, with one becoming a signed client.',
+        coverAlt: 'Sinerjik homepage and warehouse demonstration',
     },
     {
         id: 'dog-and-ride',
-        kind: 'clientProject',
         title: 'Dog & Ride',
-        role: 'Multidisciplinary designer',
+        group: 'Client work',
+        relationship: 'Client project · Multidisciplinary designer',
         yearOrStatus: '2025',
-        renderer: 'custom',
-        page: 'dog-and-ride',
-    },
-    {
-        id: 'bunect',
-        kind: 'clientProject',
-        title: 'Bunect',
-        role: 'Design lead',
-        yearOrStatus: '2025',
-        renderer: 'template',
-        caseStudy: {
-            timeline: 'Jan 2025 to Present (ongoing)',
-            tools: ['Framer', 'Notion', 'Adobe Creative Suite', 'Canva', 'PowerPoint'],
-            oneLineSummary: 'A word of mouth service business turned into a clear digital system with a website, sales deck, and improved branding that converts traffic into inquiries.',
-            problem: 'Bunect was growing mainly through word of mouth.\nThere was no website to explain services clearly.\nThere was no deck to present the offer in meetings.',
-            context: 'Core problem statement\nThe service was real, but there was no clear digital path to educate and convert new clients.',
-            goals: ['Make services easy to understand', 'Make contact one tap away'],
-            usersScenario: 'People had to ask everything in chat.\nThat slowed down decisions and cost leads.',
-            approach: 'Services were grouped into clear categories.\nContent was written from real client questions.\nA landing flow was built to push high intent users to action fast.',
-            solution: 'The goal was simple.\nLet people understand the offer in seconds and reach the team instantly.',
-            keyDecisions: [
-                'Landing page website — Clear service categories. Short explanations for each service. Contact form for warm leads.',
-                'One click conversion path — A direct button that opens WhatsApp in one tap. Built for fast mobile decisions.',
-                'Sales presentation deck — A deck for meetings and outreach. Clear structure. Easy to skim.',
-                'Brand refinement — A base identity existed. The system was improved and made more consistent across touchpoints.',
-            ],
-            output: [
-                {
-                    title: 'Website',
-                    description: 'A single landing page that explains services and converts traffic into inquiries. Built to work with social and Google Ads.',
-                    images: ['home', 'services', 'contact'],
-                },
-                {
-                    title: 'Presentation deck',
-                    description: 'A reusable deck for client meetings and outreach.',
-                    images: ['presentation-1', 'presentation-2'],
-                },
-                {
-                    title: 'Brand system',
-                    description: 'Cleaner visuals and more consistent use of type and color.',
-                },
-            ],
-            impact: {
-                user: [
-                    {
-                        number: '+20',
-                        title: 'WhatsApp clicks per month',
-                        description: 'People don’t hunt for info. They tap once and ask the right question.',
-                    },
-                    {
-                        number: '3',
-                        title: 'Clear service paths',
-                        description: 'Accounting, TRC, and company setup each has a direct route. People land, pick, and move.',
-                    },
-                ],
-                business: [
-                    {
-                        number: '+2000',
-                        title: 'Website visits per month',
-                        description: 'A steady stream of intent in one place. Easier to answer questions and convert interest.',
-                    },
-                    {
-                        number: '+8',
-                        title: 'Meetings booked per month',
-                        description: 'The deck and site make the first conversation shorter, clearer, and easier to lead.',
-                    },
-                ],
-            },
-            learnings: 'Small businesses do not need complex funnels.\nThey need clear offers and fast contact paths.',
-        },
+        summary: 'One connected brand, website, and sales story for a new way to travel with dogs.',
+        coverAlt: 'Dog & Ride homepage',
     },
     {
         id: 'adclusive',
-        kind: 'employment',
         title: 'Adclusive',
-        role: 'Product designer',
+        group: 'Experience',
+        relationship: 'Long-term engagement · Product designer',
         yearOrStatus: '2021 – 2024',
-        renderer: 'custom',
-        page: 'adclusive',
+        summary: 'A multi-role platform bringing campaigns, tracking, performance, and finance into one system.',
+        coverAlt: 'Adclusive platform cover',
     },
     {
         id: 'mckinsey',
-        kind: 'employment',
         title: 'McKinsey & Co.',
-        role: 'Visual communication',
+        group: 'Experience',
+        relationship: 'Employment · Visual communication specialist',
         yearOrStatus: '2021 – 2024',
-        renderer: 'employment',
-        employment: EMPLOYMENT_CONTENT.mckinsey,
-    },
-    {
-        id: 'curvix',
-        kind: 'venture',
-        title: 'Curvix',
-        role: 'Founder',
-        yearOrStatus: 'Current',
-        renderer: 'custom',
-        page: 'curvix',
-    },
-    {
-        id: 'gala-network',
-        kind: 'venture',
-        title: 'GalaNetwork',
-        role: 'Co-founder',
-        yearOrStatus: 'Current',
-        renderer: 'custom',
-        page: 'gala-network',
+        summary: 'High-stakes visual communication shaped from complex models, under strict NDA.',
+        coverAlt: 'McKinsey & Company confidential work cover',
+        confidential: true,
     },
 ];

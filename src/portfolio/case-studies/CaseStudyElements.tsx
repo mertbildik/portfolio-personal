@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { blockVariants } from '../../shared/motion';
+import { headerVariants, sectionVariants, VIEWPORT_ONCE } from '../../shared/motion';
 import BackLink from './BackLink';
 
 interface CaseStudyHeaderProps {
@@ -21,7 +21,7 @@ export const CaseStudyHeader: React.FC<CaseStudyHeaderProps> = ({
     tools,
 }) => (
     <motion.header
-        variants={blockVariants}
+        variants={headerVariants}
         initial="hidden"
         animate="visible"
         className="mx-auto mb-24 w-full max-w-page md:mb-32"
@@ -68,6 +68,66 @@ export const CaseStudySectionHeading: React.FC<{ number: string; children: React
     <div className="mx-auto w-full max-w-page">
         <span className="mb-8 block font-mono text-eyebrow text-ink-low">{number}</span>
         <h2 className="text-display-md text-ink-high">{children}</h2>
+    </div>
+);
+
+/**
+ * Vertical rhythm between a section's heading and the blocks under it.
+ *
+ * `tight`   text-only sections, and Impact.
+ * `default` a section carrying one or two figures.
+ * `wide`    a section built from several CaseStudyDecision blocks.
+ */
+const RHYTHM = {
+    tight: 'space-y-10',
+    default: 'space-y-10 md:space-y-14',
+    wide: 'space-y-16 md:space-y-20',
+} as const;
+
+interface CaseStudySectionProps {
+    id: string;
+    number: string;
+    title: string;
+    rhythm?: keyof typeof RHYTHM;
+    children: React.ReactNode;
+}
+
+/** One numbered case-study section: the entrance, the anchor, and the heading. */
+export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
+    id,
+    number,
+    title,
+    rhythm = 'default',
+    children,
+}) => (
+    <motion.section
+        id={id}
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={VIEWPORT_ONCE}
+        className={`scroll-mt-32 ${RHYTHM[rhythm]}`}
+    >
+        <CaseStudySectionHeading number={number}>{title}</CaseStudySectionHeading>
+        {children}
+    </motion.section>
+);
+
+/** A run of body copy inside a section, held to the page column. */
+export const CaseStudyProse: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+    <div className="mx-auto max-w-page space-y-6">{children}</div>
+);
+
+/** One numbered decision inside a Solution section. */
+export const CaseStudyDecision: React.FC<{
+    number: string;
+    title: string;
+    children: React.ReactNode;
+}> = ({ number, title, children }) => (
+    <div className="mx-auto max-w-page">
+        <span className="font-mono text-caption text-ink-low">{number}</span>
+        <h3 className="mt-4 text-card-title text-ink-high">{title}</h3>
+        <div className="mt-4 space-y-4">{children}</div>
     </div>
 );
 
