@@ -216,12 +216,6 @@ const AdclusiveCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =
                         caption="Advertisers could review sales, commissions, publisher activity, and invoice status together."
                         className="mx-auto max-w-6xl"
                     />
-                    <CaseStudyImage
-                        src={publisherDashboard}
-                        alt="Adclusive publisher dashboard with estimated revenue, account balance, and earnings split across payment stages"
-                        caption="Publishers could separate estimated revenue from the balance they could actually withdraw."
-                        className="mx-auto max-w-6xl"
-                    />
                 </div>
             </motion.section>
 
