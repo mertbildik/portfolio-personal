@@ -97,6 +97,30 @@ interface CaseStudySectionProps {
     children: React.ReactNode;
 }
 
+/**
+ * The entrance and anchor offset every case-study section shares.
+ *
+ * Studies that run the standard numbered frame use CaseStudySection below. A
+ * study with its own section headings uses this directly, so the entrance is
+ * still defined once rather than repeated at each section.
+ */
+export const CaseStudySectionShell: React.FC<{
+    id: string;
+    className?: string;
+    children: React.ReactNode;
+}> = ({ id, className = '', children }) => (
+    <motion.section
+        id={id}
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={VIEWPORT_ONCE}
+        className={`scroll-mt-32 ${className}`}
+    >
+        {children}
+    </motion.section>
+);
+
 /** One numbered case-study section: the entrance, the anchor, and the heading. */
 export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
     id,
@@ -105,22 +129,25 @@ export const CaseStudySection: React.FC<CaseStudySectionProps> = ({
     rhythm = 'default',
     children,
 }) => (
-    <motion.section
-        id={id}
-        variants={sectionVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={VIEWPORT_ONCE}
-        className={`scroll-mt-32 ${RHYTHM[rhythm]}`}
-    >
+    <CaseStudySectionShell id={id} className={RHYTHM[rhythm]}>
         <CaseStudySectionHeading number={number}>{title}</CaseStudySectionHeading>
         {children}
-    </motion.section>
+    </CaseStudySectionShell>
 );
 
 /** A run of body copy inside a section, held to the page column. */
 export const CaseStudyProse: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <div className="mx-auto max-w-page space-y-6">{children}</div>
+);
+
+/**
+ * One paragraph of case-study body copy.
+ *
+ * Every study's prose goes through here, so the measure and ink of body text
+ * are set in one place rather than repeated on each paragraph.
+ */
+export const CaseStudyParagraph: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+    <p className="max-w-2xl text-body text-ink-body">{children}</p>
 );
 
 /** One numbered decision inside a Solution section. */

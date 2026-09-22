@@ -4,7 +4,8 @@ import { Lock } from 'lucide-react';
 import type { Project } from '../../content/projects';
 import BackLink from '../BackLink';
 import CaseStudySectionNavigator from '../CaseStudySectionNavigator';
-import { EASE, headerVariants, sectionVariants, VIEWPORT_ONCE } from '../../../shared/motion';
+import { CaseStudySectionShell } from '../CaseStudyElements';
+import { EASE, headerVariants, VIEWPORT_ONCE } from '../../../shared/motion';
 
 const SECTIONS = [
     { id: 'impact', label: 'Impact', description: 'Scale and outcomes' },
@@ -153,14 +154,7 @@ const McKinseyCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
         <CaseStudySectionNavigator sections={SECTIONS} pageKey={project.id} />
 
         <div className="space-y-24 md:space-y-32">
-            <motion.section
-                id="impact"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32"
-            >
+            <CaseStudySectionShell id="impact">
                 <h2 className="mb-12 text-display-md text-ink-high">Impact &amp; metrics</h2>
 
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -185,16 +179,9 @@ const McKinseyCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                         </motion.div>
                     ))}
                 </div>
-            </motion.section>
+            </CaseStudySectionShell>
 
-            <motion.section
-                id="capabilities"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32"
-            >
+            <CaseStudySectionShell id="capabilities">
                 <h2 className="mb-12 text-display-md text-ink-high">Core capabilities</h2>
 
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -221,16 +208,9 @@ const McKinseyCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                         </motion.div>
                     ))}
                 </div>
-            </motion.section>
+            </CaseStudySectionShell>
 
-            <motion.section
-                id="restricted-access"
-                variants={sectionVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="scroll-mt-32"
-            >
+            <CaseStudySectionShell id="restricted-access">
                 <div className="surface overflow-hidden rounded-md">
                     <div className="grid grid-cols-1 gap-12 p-8 md:grid-cols-2 md:p-12">
                         <div className="flex flex-col justify-between gap-8">
@@ -273,7 +253,7 @@ const McKinseyCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                         </div>
                     </div>
                 </div>
-            </motion.section>
+            </CaseStudySectionShell>
         </div>
     </div>
 );

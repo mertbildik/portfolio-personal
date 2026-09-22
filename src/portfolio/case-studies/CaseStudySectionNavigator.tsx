@@ -12,6 +12,11 @@ const CaseStudySectionNavigator: React.FC<{ sections: readonly Section[]; pageKe
 }) => {
     const [activeSection, setActiveSection] = useState(sections[0].id);
 
+    // The scrollspy depends on which sections exist, not on the identity of the
+    // array holding them: callers build that list inline, so a fresh array on
+    // every render must not mean tearing down and re-attaching the listeners.
+    const sectionKey = sections.map((section) => section.id).join('|');
+
     useEffect(() => {
         let frame: number | null = null;
         const update = () => {
@@ -37,7 +42,7 @@ const CaseStudySectionNavigator: React.FC<{ sections: readonly Section[]; pageKe
             window.removeEventListener('resize', update);
             if (frame !== null) window.cancelAnimationFrame(frame);
         };
-    }, [pageKey, sections]);
+    }, [pageKey, sectionKey]);
 
     return (
         <nav
