@@ -3,11 +3,13 @@ export const GROUPS = ['Client work', 'Experience'] as const;
 export type Group = (typeof GROUPS)[number];
 
 /**
- * The project index. This is metadata only: every case study's prose lives in
- * its own component under case-studies/studies/. Adding a project means one
- * entry here, one study file, and one folder under assets/.
+ * The shape of an index entry while it is being written.
+ *
+ * Consumers use `Project` below, which is this with the id narrowed to the ids
+ * that actually exist. This looser version exists only to break the circularity:
+ * the id union is derived from the index, so the index cannot be typed by it.
  */
-export interface Project {
+interface ProjectEntry {
     id: string;
     title: string;
     group: Group;
@@ -22,7 +24,17 @@ export interface Project {
     confidential?: boolean;
 }
 
-export const PROJECTS: Project[] = [
+/**
+ * The project index. This is metadata only: every case study's prose lives in
+ * its own component under case-studies/studies/. Adding a project means one
+ * entry here, one study file, and one folder under assets/.
+ *
+ * This file must not import anything. The Playwright suite loads it in plain
+ * Node, which cannot resolve a .webp, so an import here breaks the whole suite
+ * while the build and the typecheck stay green. Image bindings live in
+ * assets/covers.ts for that reason.
+ */
+export const PROJECTS = [
     {
         id: 'ofk',
         title: 'OFK Construction',
@@ -71,4 +83,20 @@ export const PROJECTS: Project[] = [
         coverAlt: 'McKinsey & Company confidential work cover',
         confidential: true,
     },
-];
+] as const satisfies readonly ProjectEntry[];
+
+/**
+ * Every project id that exists, derived from the index so there is only one list.
+ *
+ * The two registries that nothing else can check are keyed to this type: COVERS
+ * in assets/covers.ts and STUDIES in case-studies/CaseStudyPage.tsx. Adding a
+ * project above therefore fails `npm run typecheck` until it has both a cover
+ * image and a case-study page — instead of shipping a card with a blank image,
+ * or a link that bounces the visitor straight back to the work list.
+ */
+export type ProjectId = (typeof PROJECTS)[number]['id'];
+
+/** An index entry as the rest of the app sees it. */
+export interface Project extends Omit<ProjectEntry, 'id'> {
+    id: ProjectId;
+}
