@@ -82,7 +82,7 @@ test('homepage call to action scrolls to contact', async ({ page }) => {
     await expect(page.locator('#contact')).toBeInViewport();
 });
 
-test('homepage presents four work modules in two groups', async ({ page }) => {
+test('homepage presents five work modules in two groups', async ({ page }) => {
     await page.goto('/');
     await settle(page);
 
@@ -90,7 +90,7 @@ test('homepage presents four work modules in two groups', async ({ page }) => {
     await expect(portfolio.getByRole('heading', { name: 'Client work' })).toBeVisible();
     await expect(portfolio.getByRole('heading', { name: 'Experience' })).toBeVisible();
 
-    for (const project of ['OFK Construction', 'Dog & Ride', 'Adclusive', 'McKinsey & Co.']) {
+    for (const project of ['OFK Construction', 'Sinerjik', 'Dog & Ride', 'Adclusive', 'McKinsey & Co.']) {
         await expect(portfolio.getByRole('link', { name: new RegExp(project.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) })).toBeVisible();
     }
 });
@@ -101,6 +101,7 @@ test('homepage card outcomes remain visible on narrow screens', async ({ page })
     await settle(page);
 
     await expect(page.getByText('A bilingual brand and website that makes an established construction record')).toBeVisible();
+    await expect(page.getByText('A sales website used in four pitches')).toBeVisible();
     await expect(page.getByText('High-stakes visual communication shaped from complex models, under strict NDA.')).toBeVisible();
 });
 
@@ -166,6 +167,7 @@ test('case-study section navigation uses addressable native anchors', async ({ p
 
 for (const study of [
     { id: 'ofk', link: 'Visit OFK Construction', href: 'https://ofkconstruction.com' },
+    { id: 'sinerjik', link: 'Visit Sinerjik', href: 'https://www.sinerjik.com.tr' },
     { id: 'dog-and-ride', link: 'Visit Dog & Ride', href: 'https://www.dogandride.com/' },
 ]) {
     test(`${study.id} presents the final case-study frame and live site`, async ({ page }) => {
@@ -181,6 +183,16 @@ for (const study of [
         await expect(page.getByRole('link', { name: study.link })).toHaveAttribute('href', study.href);
     });
 }
+
+test('Sinerjik presents the website as a sales tool', async ({ page }) => {
+    await page.goto('/portfolio/sinerjik');
+    await settle(page);
+
+    await expect(page.getByText('Signed client', { exact: true })).toBeVisible();
+    await expect(page.getByText('Pitches using the website', { exact: true })).toBeVisible();
+    await expect(page.getByText('One of those pitches led to a signed client.', { exact: false })).toBeVisible();
+    await expect(page.getByText('without exposing its production interface', { exact: false })).toBeVisible();
+});
 
 test('Dog & Ride presents supporting metrics for the first five months', async ({ page }) => {
     await page.goto('/portfolio/dog-and-ride');

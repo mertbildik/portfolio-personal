@@ -53,7 +53,7 @@ export interface EmploymentProject extends ProjectBase {
 
 export interface CustomProject extends ProjectBase {
     renderer: 'custom';
-    page: 'ofk' | 'dog-and-ride' | 'adclusive' | 'curvix' | 'gala-network';
+    page: 'ofk' | 'sinerjik' | 'dog-and-ride' | 'adclusive' | 'curvix' | 'gala-network';
 }
 
 export type Project = TemplateProject | EmploymentProject | CustomProject;
@@ -68,6 +68,15 @@ export const PROJECTS: Project[] = [
         yearOrStatus: '2026',
         renderer: 'custom',
         page: 'ofk',
+    },
+    {
+        id: 'sinerjik',
+        kind: 'clientProject',
+        title: 'Sinerjik',
+        role: 'UX/UI designer',
+        yearOrStatus: '2026',
+        renderer: 'custom',
+        page: 'sinerjik',
     },
     {
         id: 'dog-and-ride',

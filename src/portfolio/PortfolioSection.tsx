@@ -8,6 +8,7 @@ import adclusiveCover from './assets/adclusive/cover.webp';
 import dogAndRideCover from './assets/dog-and-ride/cover.webp';
 import mckinseyCover from './assets/mckinsey/cover.webp';
 import ofkCover from './assets/ofk/cover.webp';
+import sinerjikCover from './assets/sinerjik/cover.webp';
 import { PROJECTS, type Project } from './content/projects';
 
 interface WorkCardData {
@@ -33,6 +34,12 @@ const GROUPS: { title: string; projects: WorkCardData[] }[] = [
                 relationship: 'Client project · Product designer',
                 outcome: 'A bilingual brand and website that makes an established construction record verifiable in one visit.',
                 image: { src: ofkCover, alt: 'OFK Construction homepage' },
+            },
+            {
+                project: project('sinerjik'),
+                relationship: 'Client project · UX/UI designer',
+                outcome: 'A sales website used in four pitches, with one becoming a signed client.',
+                image: { src: sinerjikCover, alt: 'Sinerjik homepage and warehouse demonstration' },
             },
             {
                 project: project('dog-and-ride'),

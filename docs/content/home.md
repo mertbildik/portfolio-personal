@@ -28,6 +28,7 @@ Editorial reference only. Published landing-page copy lives in `src/homepage/`, 
 | Project | Role | Year / Status |
 | --- | --- | --- |
 | [OFK Construction](./client-projects/ofk-construction.md) | Product designer | 2026 |
+| [Sinerjik](./client-projects/sinerjik.md) | UX/UI designer | 2026 |
 | [Dog & Ride](./client-projects/dog-and-ride.md) | Multidisciplinary designer | 2025 |
 | [Bunect](./client-projects/bunect.md) <!-- hidden from the site's list --> | Design lead | 2025 |
 ### Experience
