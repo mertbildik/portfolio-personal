@@ -7,6 +7,7 @@ import createCampaign from '../../assets/adclusive/create-campaign.webp';
 import generalAccountSettings from '../../assets/adclusive/general-account-settings.webp';
 import mobileLogin from '../../assets/adclusive/mobile-login.webp';
 import mobileOnboarding from '../../assets/adclusive/mobile-onboarding.webp';
+import publisherDashboard from '../../assets/adclusive/publisher-dashboard.webp';
 import search from '../../assets/adclusive/search.webp';
 import sitemap from '../../assets/adclusive/sitemap.webp';
 import trackingLinks from '../../assets/adclusive/tracking-links.webp';
@@ -207,6 +208,12 @@ const AdclusiveCaseStudy: React.FC<{ project: CustomProject }> = ({ project }) =
                         src={advertiserDashboard}
                         alt="Adclusive advertiser dashboard with sales, commissions, transactions, and invoices"
                         caption="Advertisers could review sales, commissions, publisher activity, and invoice status together."
+                        className="mx-auto max-w-6xl"
+                    />
+                    <CaseStudyImage
+                        src={publisherDashboard}
+                        alt="Adclusive publisher dashboard with estimated revenue, account balance, and earnings split across payment stages"
+                        caption="Publishers could separate estimated revenue from the balance they could actually withdraw."
                         className="mx-auto max-w-6xl"
                     />
                 </div>

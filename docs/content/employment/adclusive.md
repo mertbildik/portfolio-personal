@@ -77,7 +77,7 @@ The advertiser dashboard connected sales, commissions, publisher performance, tr
 
 The publisher dashboard separated estimated revenue from the available balance. It also showed whether earnings were awaiting approval, approved, invoiced, or ready for payment.
 
-**Visual:** `advertiser-dashboard.webp`
+**Visuals:** `advertiser-dashboard.webp`, `publisher-dashboard.webp`
 
 *Each side saw the financial information needed for its part of the transaction.*
 
