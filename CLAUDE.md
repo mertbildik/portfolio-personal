@@ -109,10 +109,15 @@ Change a value in `src/index.css` `@theme` block, never in a component.
 
 The app uses real paths (`/portfolio/ofk`). The host must serve `index.html` for any unknown path — `public/_redirects` (Netlify, Cloudflare Pages) and `vercel.json` (Vercel) cover it. Any other host needs the same rewrite.
 
+## Git
+
+Solo repository, no review step. Commit straight to `main` — do not open a branch for a
+change unless asked. Push only when asked.
+
 ## Don't
 
 - Don't add lint/format tooling — it's deliberately absent.
 - Don't introduce `react-router-dom`. Use `react-router`.
 - Don't put portfolio images in `public/`. They go in `src/portfolio/assets/`.
 - Don't add a Tailwind config file. Edit `@theme` in `src/index.css`.
-- Don't write a case study that's a copy of a doc page — the smoke test asserts every `output` block reaches the page.
+- Don't create a second copy of a fact. Metadata belongs in `content/projects.ts`, a case study's words belong in its own component.
