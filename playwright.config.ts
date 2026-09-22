@@ -8,9 +8,14 @@ export default defineConfig({
     testDir: './tests',
     fullyParallel: true,
     reporter: process.env.CI ? 'list' : [['list'], ['html', { open: 'never' }]],
+    // settle() waits on networkidle twice per page, which is a timing heuristic.
+    // A single blip used to mean a red run with nothing to inspect: retry it on
+    // CI, and keep the trace of the attempt that failed.
+    retries: process.env.CI ? 2 : 0,
     use: {
         baseURL: `http://localhost:${PORT}`,
         channel: 'chromium',
+        trace: 'on-first-retry',
     },
     webServer: {
         command: `npm run build && npm run preview -- --port ${PORT} --strictPort`,
