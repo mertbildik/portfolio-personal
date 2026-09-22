@@ -7,7 +7,7 @@ Personal portfolio site. Vite + React + TypeScript + Tailwind, deployed as a sta
 ```bash
 npm install
 cp .env.example .env    # then fill in VITE_FORMSPREE_ID, or the contact form cannot send
-npm run dev             # http://localhost:3000
+npm run dev             # prints the local URL
 ```
 
 Scripts are in `package.json`. `npm run format:check`, `npm run typecheck`, `npm run build`

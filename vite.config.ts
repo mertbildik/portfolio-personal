@@ -138,8 +138,6 @@ export default defineConfig({
     // postcss.config.js: the whole theme lives in src/index.css.
     plugins: [designSystemIsLocalOnly(), react(), tailwindcss(), seo()],
     server: {
-        port: 3000,
-        host: '0.0.0.0',
         // Polling watcher: required for file changes to be seen from WSL.
         watch: {
             usePolling: true,

@@ -1,7 +1,6 @@
 name: CI
 
-# The repo commits straight to main, so this is the gate: it runs the same three
-# commands that used to depend on someone remembering them.
+# Pull requests are the gate into main, and main is what Vercel deploys.
 on:
   push:
     branches: [main]

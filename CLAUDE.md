@@ -57,8 +57,7 @@ docs/
 - `tests/smoke.spec.ts` is the only suite. Every page is loaded on production CSS, with viewport overflow and image-load checks. It also iterates `PROJECTS` from `src/portfolio/content/projects.ts`, so **every project you add is tested automatically**. That import runs in plain Node, so `projects.ts` must never import an asset — keep image bindings in `assets/covers.ts`.
 - Tests run against the **production build** (`:4173`), not the dev server. Missing Tailwind classes and clipped layouts only show up here — `npm run build` is part of the loop, not optional.
 - `.github/workflows/ci.yml` runs `format:check`, `typecheck`, `build` and `test` on every
-  push and pull request. That is the gate; before, the same commands were listed here as
-  "pre-merge" in a repo that commits straight to `main`, so nothing ran them.
+  pull request and on every push to `main`.
 - Run the same four locally before pushing if you want the answer sooner.
 
 ## Post-change consistency
