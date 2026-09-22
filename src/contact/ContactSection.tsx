@@ -42,8 +42,15 @@ const LiveClock: React.FC = () => {
     );
 };
 
+/**
+ * `error` means the send was attempted and failed, so retrying is worth it.
+ * `unavailable` means the form has no Formspree id to post to, which retrying
+ * can never fix — the visitor is pointed at the email address instead.
+ */
+type FormState = 'idle' | 'submitting' | 'success' | 'error' | 'unavailable';
+
 const ContactSection: React.FC = () => {
-    const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+    const [formState, setFormState] = useState<FormState>('idle');
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
     const [emailCopied, setEmailCopied] = useState(false);
     const [isFormReady, setIsFormReady] = useState(false);
@@ -65,8 +72,8 @@ const ContactSection: React.FC = () => {
         const endpoint = formSpreeId ? `https://formspree.io/f/${formSpreeId}` : null;
 
         if (!endpoint) {
-            console.error('Formspree ID is missing in .env');
-            setFormState('error');
+            console.error('VITE_FORMSPREE_ID is not set, so the contact form cannot send.');
+            setFormState('unavailable');
             return;
         }
 
@@ -75,6 +82,9 @@ const ContactSection: React.FC = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    // Formspree replies with JSON rather than an HTML redirect
+                    // page when asked for it.
+                    Accept: 'application/json',
                 },
                 body: JSON.stringify({
                     name: formData.name,
@@ -170,9 +180,13 @@ const ContactSection: React.FC = () => {
                             <motion.form
                                 key="form"
                                 onSubmit={handleSubmit}
-                                onInput={(event) =>
-                                    setIsFormReady(formIsReady(event.currentTarget))
-                                }
+                                onInput={(event) => {
+                                    setIsFormReady(formIsReady(event.currentTarget));
+                                    // A failed send is stale as soon as the visitor
+                                    // changes something; `unavailable` is not, because
+                                    // editing cannot supply the missing id.
+                                    setFormState((state) => (state === 'error' ? 'idle' : state));
+                                }}
                                 className="border-y border-line"
                             >
                                 <div className="group relative grid grid-cols-1 gap-2 border-b border-line px-4 py-5 transition-colors duration-200 ease-entrance focus-within:bg-fill md:grid-cols-[9rem_minmax(0,1fr)] md:gap-6 md:px-6 md:py-6">
@@ -270,21 +284,38 @@ const ContactSection: React.FC = () => {
                                             aria-live="polite"
                                             className="text-body-sm text-ink-low mt-1 group-hover:text-ink-body group-focus-visible:text-ink-body group-disabled:text-ink-low transition-colors duration-300"
                                         >
-                                            {formState === 'error' ? (
-                                                <span className="text-status-error">
-                                                    Submission failed. Click to retry.
-                                                </span>
-                                            ) : isFormReady ? (
-                                                'Ready to send.'
-                                            ) : (
-                                                'Complete all fields.'
-                                            )}
+                                            {isFormReady
+                                                ? 'Ready to send.'
+                                                : 'Complete all fields.'}
                                         </span>
                                     </div>
                                     <ActionCircle small>
                                         <ArrowRight size={18} />
                                     </ActionCircle>
                                 </button>
+
+                                {/*
+                                 * The failure message sits outside the submit button:
+                                 * it carries a mailto link, and a link inside a button
+                                 * is not valid, nor reachable by keyboard.
+                                 */}
+                                {(formState === 'error' || formState === 'unavailable') && (
+                                    <p
+                                        role="alert"
+                                        className="border-t border-line px-4 py-5 text-body-sm text-status-error md:px-6 md:py-6"
+                                    >
+                                        {formState === 'unavailable'
+                                            ? 'The form is not connected, so this cannot send. Email me directly at '
+                                            : 'Sending failed. Try again, or email me directly at '}
+                                        <a
+                                            href={`mailto:${CONTACT_EMAIL}`}
+                                            className="underline decoration-from-font underline-offset-4 transition-colors duration-200 ease-out hover:text-ink-max focus-visible:text-ink-max focus-visible:outline-none"
+                                        >
+                                            {CONTACT_EMAIL}
+                                        </a>
+                                        .
+                                    </p>
+                                )}
                             </motion.form>
                         )}
                     </AnimatePresence>

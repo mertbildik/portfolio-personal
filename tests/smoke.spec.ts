@@ -80,6 +80,65 @@ test('contact details stay reachable on a short screen', async ({ page }) => {
     }
 });
 
+/**
+ * The contact form is the only way the site converts, and it posts to a third
+ * party. These drive it against a stubbed Formspree so the failure path is
+ * exercised without sending anything.
+ */
+const FORMSPREE = 'https://formspree.io/**';
+
+async function fillInquiry(page: Page) {
+    await page.goto('/#contact');
+    // By role, not by label: the "Copy email address" button's aria-label
+    // contains "Email address" too.
+    await page.getByRole('textbox', { name: 'Your name' }).fill('Test Sender');
+    await page.getByRole('textbox', { name: 'Email address' }).fill('sender@example.com');
+    await page
+        .getByRole('textbox', { name: 'Project details' })
+        .fill('A short brief about a project.');
+}
+
+test('a successful inquiry confirms back to the sender', async ({ page }) => {
+    await page.route(FORMSPREE, (route) =>
+        route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' }),
+    );
+
+    await fillInquiry(page);
+    await page.getByRole('button', { name: 'Send inquiry' }).click();
+
+    await expect(page.getByRole('heading', { name: 'Request initiated.' })).toBeVisible();
+    await expect(page.getByText('sender@example.com')).toBeVisible();
+});
+
+test('a failed inquiry offers the email address rather than only a retry', async ({ page }) => {
+    await page.route(FORMSPREE, (route) => route.fulfill({ status: 500, body: 'nope' }));
+
+    await fillInquiry(page);
+    await page.getByRole('button', { name: 'Send inquiry' }).click();
+
+    const alert = page.getByRole('alert');
+    await expect(alert).toContainText('Sending failed');
+    await expect(alert.getByRole('link', { name: 'mert.bildik@gmail.com' })).toHaveAttribute(
+        'href',
+        'mailto:mert.bildik@gmail.com',
+    );
+});
+
+// The failure message used to survive every later edit, so "Ready to send."
+// could never come back once a send had failed.
+test('editing the form clears a previous failure', async ({ page }) => {
+    await page.route(FORMSPREE, (route) => route.fulfill({ status: 500, body: 'nope' }));
+
+    await fillInquiry(page);
+    await page.getByRole('button', { name: 'Send inquiry' }).click();
+    await expect(page.getByRole('alert')).toBeVisible();
+
+    await page.getByRole('textbox', { name: 'Project details' }).fill('A revised brief.');
+
+    await expect(page.getByRole('alert')).toHaveCount(0);
+    await expect(page.getByText('Ready to send.')).toBeVisible();
+});
+
 test('homepage call to action scrolls to contact', async ({ page }) => {
     await page.goto('/');
     await page.getByRole('link', { name: 'Get in touch' }).click();
