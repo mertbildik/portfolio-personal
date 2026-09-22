@@ -53,7 +53,7 @@ export interface EmploymentProject extends ProjectBase {
 
 export interface CustomProject extends ProjectBase {
     renderer: 'custom';
-    page: 'ofk' | 'dog-and-ride' | 'curvix' | 'gala-network';
+    page: 'ofk' | 'dog-and-ride' | 'adclusive' | 'curvix' | 'gala-network';
 }
 
 export type Project = TemplateProject | EmploymentProject | CustomProject;
@@ -152,74 +152,8 @@ export const PROJECTS: Project[] = [
         title: 'Adclusive',
         role: 'Product designer',
         yearOrStatus: '2021 – 2024',
-        renderer: 'template',
-        caseStudy: {
-            timeline: 'Sep 2021 to Jan 2024',
-            tools: ['Figma', 'Notion', 'VSCode', 'Angular'],
-            oneLineSummary: 'A multi role ad platform that connects advertisers with publishers and influencers, with dashboards, campaign setup, and tracking built into one system.',
-            problem: 'Two sides needed to work in one product.\nAdvertisers. Publishers and influencers.\n\nThe platform required clarity across complex areas.\nCampaign creation. Asset management. Tracking links. Performance and finance.',
-            context: 'Core problem statement\nA complex ad product needed simple, repeatable UX so users can launch campaigns, track performance, and manage payments without confusion.',
-            goals: [
-                'Create and manage campaigns',
-                'Browse and search advertisers',
-                'Track performance and revenue',
-                'Understand approvals, invoices, and payout status',
-            ],
-            usersScenario: 'Without a clear system, users get lost.\nCampaign setup slows down.\nTrust in numbers and payouts drops.',
-            approach: 'Screens were designed around repeatable patterns.\nConsistent layout. Predictable navigation. Clear data hierarchy.\n\nWork happened with an 8 person team.\nBackend, marketing, and stakeholders.',
-            solution: 'The goal was simple.\nBring both sides into one platform with clear flows.',
-            keyDecisions: [
-                'Role based portal structure — Separate areas for advertiser work and publisher work. Consistent sidebar navigation across screens.',
-                'Publisher dashboard and finance clarity — Revenue overview. Account balance. Status buckets like awaiting approval, approved…',
-                'Advertiser campaign setup — A structured create campaign flow with sections for general info, collaboration rules…',
-                'Tracking and assets — Link management with multiple tracking options. Creative uploads for images and banners…',
-            ],
-            output: [
-                {
-                    title: 'Platform',
-                    description: 'A working platform with active users. Around 20 advertisers and close to 50 influencers. The product supports campaign setup, tracking, creatives, performance, and finance in one place. The business model takes a commission on deals.',
-                },
-                {
-                    title: 'Wireframes',
-                    description: 'Structure first. Every screen was blocked out in low fidelity so navigation and data hierarchy were settled before any visual work.',
-                    images: ['wireframe-1', 'wireframe-2', 'wireframe-3', 'wireframe-4'],
-                    columns: 2,
-                },
-                {
-                    title: 'End product',
-                    description: 'The shipped interface across login, home, dashboards, and the advertiser directory.',
-                    images: ['home', 'login', 'dashboard', 'advertisers'],
-                    columns: 2,
-                },
-            ],
-            impact: {
-                user: [
-                    {
-                        number: '20+',
-                        title: 'Active advertisers',
-                        description: 'Real demand on the platform. Advertisers could launch, track, and manage campaigns without bouncing between tools.',
-                    },
-                    {
-                        number: '50+',
-                        title: 'Active influencers',
-                        description: 'Real supply in the network. Creators could get briefs, share assets, and follow performance with less back and forth.',
-                    },
-                ],
-                business: [
-                    {
-                        number: '5',
-                        title: 'Core workflows in one place',
-                        description: 'Campaign setup, tracking, creatives, performance, and finance live in the same system.',
-                    },
-                    {
-                        number: '1',
-                        title: 'Commission model, built in',
-                        description: 'Deals run through the platform, so revenue is tied to real activity, not promises.',
-                    },
-                ],
-            },
-            learnings: 'Teamwork matters more in web apps than in simple sites.\nAlignment saves weeks.\n\nKey learnings covered dashboards, payment logic, tracking systems, and APIs.\nCross functional work improved speed and decision making.',
-        },
+        renderer: 'custom',
+        page: 'adclusive',
     },
     {
         id: 'mckinsey',

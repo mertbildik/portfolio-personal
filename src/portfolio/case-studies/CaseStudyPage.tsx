@@ -9,6 +9,7 @@ import ProjectCaseStudy from './templates/ProjectCaseStudy';
 const HAND_WRITTEN: Record<CustomProject['page'], React.LazyExoticComponent<React.ComponentType<{ project: CustomProject }>>> = {
     ofk: React.lazy(() => import('./studies/OfkCaseStudy')),
     'dog-and-ride': React.lazy(() => import('./studies/DogAndRideCaseStudy')),
+    adclusive: React.lazy(() => import('./studies/AdclusiveCaseStudy')),
     curvix: React.lazy(() => import('./studies/CurvixCaseStudy')),
     'gala-network': React.lazy(() => import('./studies/GalaNetworkCaseStudy')),
 };

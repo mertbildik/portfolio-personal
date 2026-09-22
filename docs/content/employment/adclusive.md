@@ -1,96 +1,110 @@
 # Adclusive
 
-Editorial reference only. Published project content lives in `src/portfolio/content/projects.ts`.
+Editorial reference only. Published project content lives in `src/portfolio/case-studies/studies/AdclusiveCaseStudy.tsx`.
 
 - **Kind:** Long-term engagement
-- **Role:** Product designer
+- **Role:** Part-time product designer
 - **Year / Status:** 2021 – 2024
 - **Timeline:** Sep 2021 to Jan 2024
-- **Tools:** Figma, Notion, VSCode, Angular
+- **Scope:** Product structure, UX/UI, design system, front-end support
+- **Tools:** Figma, Slack, HTML, CSS, Angular
 
-**One-line summary:** A multi role ad platform that connects advertisers with publishers and influencers, with dashboards, campaign setup, and tracking built into one system.
+**Summary:** Adclusive connected advertisers with publishers and influencers. I designed both sides of the product so campaigns, tracking, performance, and payments worked in one system.
 
 ## Problem
 
-Two sides needed to work in one product.
-Advertisers. Publishers and influencers.
+Every campaign had two sides.
 
-The platform required clarity across complex areas.
-Campaign creation. Asset management. Tracking links. Performance and finance.
+Advertisers needed to create an offer, set the commission, and review results. Publishers and influencers needed to find campaigns, create tracking links, and follow their earnings.
 
-**Context**
-
-Core problem statement
-A complex ad product needed simple, repeatable UX so users can launch campaigns, track performance, and manage payments without confusion.
-
-**Objectives**
-
-- Create and manage campaigns
-- Browse and search advertisers
-- Track performance and revenue
-- Understand approvals, invoices, and payout status
-
-**User scenario:** Without a clear system, users get lost.
-Campaign setup slows down.
-Trust in numbers and payouts drops.
+Both sides depended on the same campaign data but needed different views. If the rules, links, or payment status were unclear, people could not trust the platform.
 
 ## Approach
 
-Screens were designed around repeatable patterns.
-Consistent layout. Predictable navigation. Clear data hierarchy.
+The marketing team shared what they learned from potential clients and stakeholders. The project manager and backend developer defined the product requirements. I turned that input into flows and screens.
 
-Work happened with an 8 person team.
-Backend, marketing, and stakeholders.
+I started with a sitemap to separate the advertiser and publisher journeys. I then made quick digital wireframes to settle the navigation and content hierarchy before working on the visual design.
+
+**Visual:** `sitemap.webp`
+
+*The shared entry split into separate advertiser and publisher workspaces.*
+
+The wireframes were working sketches, not polished prototypes. They helped us agree on the structure while changes were still easy to make.
+
+**Visual:** `wireframe-dashboard.webp`
+
+*The wireframe settled the dashboard hierarchy before visual design.*
+
+I was the only product designer on an eight-person team. I worked with two software engineers, a project manager, a senior project manager, and three people on the marketing team.
+
+I also created the design system and built some components in code. This helped keep the Figma files and product interface consistent.
 
 ## Solution
 
-The goal was simple.
-Bring both sides into one platform with clear flows.
+### One product, two workspaces
 
-### Key decisions
+Publishers and advertisers selected their role when creating an account. Each role then received its own navigation and tasks.
 
-**Role based portal structure** — Separate areas for advertiser work and publisher work. Consistent sidebar navigation across screens.
+The workspaces shared the same layout and component rules. People only saw the tools relevant to their side of the platform.
 
-**Publisher dashboard and finance clarity** — Revenue overview. Account balance. Status buckets like awaiting approval, approved...
+**Visual:** `create-account.webp`
 
-**Advertiser campaign setup** — A structured create campaign flow with sections for general info, collaboration rules...
+*The account type determined which workspace and tools appeared next.*
 
-**Tracking and assets** — Link management with multiple tracking options. Creative uploads for images and banners...
+### Campaign setup in three parts
+
+Advertisers had to provide campaign details, define who could participate, and set the commission.
+
+I grouped those requirements into General information, Collaboration, and Commission. This made a long form easier to scan and complete.
+
+**Visuals:** `wireframe-campaign.webp`, `create-campaign.webp`
+
+*The final form kept the three-part structure established in the wireframe.*
+
+### Tracking links ready to use
+
+Publishers could browse categories, find advertisers, and apply to campaigns.
+
+Once accepted, they could generate raw, cookie-based, and redirect-based tracking links. Each link had a direct copy action.
+
+**Visuals:** `search.webp`, `applications.webp`, `tracking-links.webp`
+
+*Publishers could browse campaigns, compare invitations, and copy each tracking format from one place.*
+
+### Clear financial states
+
+The advertiser dashboard connected sales, commissions, publisher performance, transactions, and invoices.
+
+The publisher dashboard separated estimated revenue from the available balance. It also showed whether earnings were awaiting approval, approved, invoiced, or ready for payment.
+
+**Visual:** `advertiser-dashboard.webp`
+
+*Each side saw the financial information needed for its part of the transaction.*
 
 ## Output
 
-### Platform
+I owned the product structure, wireframes, visual design, and design system. I also supported the front end with tokens, HTML, CSS, and a small number of coded components.
 
-A working platform with active users. Around 20 advertisers and close to 50 influencers. The product supports campaign setup, tracking, creatives, performance, and finance in one place. The business model takes a commission on deals.
+The shipped MVP included:
 
-### Wireframes
+- Advertiser and publisher workspaces
+- Account creation and onboarding
+- Campaign creation and discovery
+- Campaign applications and tracking links
+- Performance dashboards
+- Transaction, invoice, and payout states
+- Desktop and mobile interfaces
 
-Structure first. Every screen was blocked out in low fidelity so navigation and data hierarchy were settled before any visual work.
+**Visuals:** `mobile-login.webp`, `mobile-onboarding.webp`, `general-account-settings.webp`
 
-- Images: `wireframe-1`, `wireframe-2`, `wireframe-3`, `wireframe-4` (2-column grid)
+*The shipped onboarding helped new advertisers verify their account, create a campaign, and complete their details.*
 
-### End product
-
-The shipped interface across login, home, dashboards, and the advertiser directory.
-
-- Images: `home`, `login`, `dashboard`, `advertisers` (2-column grid)
+*Account settings kept profile, notification, payment, and password details together.*
 
 ## Impact
 
-**User**
+The MVP launched in June 2022. Four months later, it had around 70 accounts: approximately 20 advertisers and 50 publishers or influencers.
 
-- **20+ Active advertisers** — Real demand on the platform. Advertisers could launch, track, and manage campaigns without bouncing between tools.
-- **50+ Active influencers** — Real supply in the network. Creators could get briefs, share assets, and follow performance with less back and forth.
+Adclusive stopped operating in January 2024. The platform needed both sides to grow together: campaigns to attract creators, and creators to attract advertisers. We never reached enough activity for that cycle to sustain itself. Regulatory requirements made the model harder to run.
 
-**Business**
-
-- **5 Core workflows in one place** — Campaign setup, tracking, creatives, performance, and finance live in the same system.
-- **1 Commission model, built in** — Deals run through the platform, so revenue is tied to real activity, not promises.
-
-## Retrospective
-
-Teamwork matters more in web apps than in simple sites.
-Alignment saves weeks.
-
-Key learnings covered dashboards, payment logic, tracking systems, and APIs.
-Cross functional work improved speed and decision making.
+I cannot link the account numbers to a specific design decision. The verified result is that we launched a working MVP and brought early advertisers, publishers, and influencers onto it.

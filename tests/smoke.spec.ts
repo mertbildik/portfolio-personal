@@ -192,6 +192,21 @@ test('Dog & Ride presents supporting metrics for the first five months', async (
     }
 });
 
+test('Adclusive presents the shipped two-sided product and honest outcome', async ({ page }) => {
+    await page.goto('/portfolio/adclusive');
+    await settle(page);
+
+    for (const label of ['Role', 'Timeline', 'Scope', 'Tools']) {
+        await expect(page.getByText(label, { exact: true }).first()).toBeVisible();
+    }
+    for (const section of ['Problem', 'Approach', 'Solution', 'Output', 'Impact']) {
+        await expect(page.getByRole('heading', { name: section, exact: true })).toBeVisible();
+    }
+    await expect(page.getByText('The MVP launched in June 2022.', { exact: false })).toBeVisible();
+    await expect(page.getByText('~20', { exact: true })).toBeVisible();
+    await expect(page.getByText('~50', { exact: true })).toBeVisible();
+});
+
 test('McKinsey uses the shared case-study header and section navigation', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto('/portfolio/mckinsey');
