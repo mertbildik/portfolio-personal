@@ -109,10 +109,34 @@ const seo = (): Plugin => {
     };
 };
 
+/**
+ * Keeps the living design system out of the production stylesheet.
+ *
+ * src/design/ is dev-only: App.tsx gates it behind `import.meta.env.DEV`, so
+ * Rollup drops every line of its JavaScript. Tailwind does not work that way —
+ * it scans src/** as text and has no idea the catalogue will never render, so
+ * the sidebar's own utilities would ship to visitors. Excluding the folder in
+ * builds only makes the shipped CSS byte-for-byte what it would be if
+ * src/design/ did not exist, while `npm run dev` still styles the catalogue.
+ *
+ * `enforce: 'pre'` is load-bearing: this has to reach index.css before
+ * @tailwindcss/vite reads its @source directives.
+ */
+const designSystemIsLocalOnly = (): Plugin => ({
+    name: 'design-system-local-only',
+    apply: 'build',
+    enforce: 'pre',
+
+    transform(code, id) {
+        if (!id.split('?')[0].endsWith('/src/index.css')) return null;
+        return `${code}\n@source not "./design";\n`;
+    },
+});
+
 export default defineConfig({
     // Tailwind 4 runs as a Vite plugin. There is no tailwind.config.js and no
     // postcss.config.js: the whole theme lives in src/index.css.
-    plugins: [react(), tailwindcss(), seo()],
+    plugins: [designSystemIsLocalOnly(), react(), tailwindcss(), seo()],
     server: {
         port: 3000,
         host: '0.0.0.0',

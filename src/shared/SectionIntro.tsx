@@ -5,8 +5,8 @@ const SectionIntro: React.FC<{
     description: React.ReactNode;
 }> = ({ title, description }) => (
     <div className="flex flex-col justify-start relative z-20">
-        <h2 className="text-display-lg text-ink-high">{title}</h2>
-        <p className="mt-6 text-ink-body max-w-page text-body">{description}</p>
+        <h2 className="text-title text-ink-strong">{title}</h2>
+        <p className="mt-4 max-w-measure text-body text-ink">{description}</p>
     </div>
 );
 

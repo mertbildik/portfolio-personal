@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { CheckCircle2, ArrowRight, ArrowUpRight, Check, Copy } from 'lucide-react';
 import ActionCircle from '../shared/ActionCircle';
-import { EASE, itemVariants, VIEWPORT_ONCE } from '../shared/motion';
+import { EASE } from '../shared/motion';
 import SectionIntro from '../shared/SectionIntro';
 
 const CONTACT_EMAIL = 'mert.bildik@gmail.com';
@@ -34,9 +34,9 @@ const LiveClock: React.FC = () => {
 
     return (
         <div className="flex items-baseline gap-2">
-            <span className="text-caption font-mono text-ink-low">{timeString}</span>
-            <span className="text-caption text-ink-low">
-                Warsaw, <span className="font-mono">PL</span>
+            <span className="text-data font-mono text-ink-quiet">{timeString}</span>
+            <span className="text-small text-ink-quiet">
+                Warsaw, <span className="font-mono text-data">PL</span>
             </span>
         </div>
     );
@@ -122,46 +122,31 @@ const ContactSection: React.FC = () => {
 
     return (
         <>
-            <motion.div
-                variants={itemVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-            >
-                <SectionIntro
-                    title="Let's talk."
-                    description="Available for new projects. I reply within 24 hours."
-                />
-            </motion.div>
+            <SectionIntro
+                title="Let's talk."
+                description="Available for new projects. I reply within 24 hours."
+            />
 
-            <motion.div
-                variants={itemVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={VIEWPORT_ONCE}
-                className="relative z-30 mt-20 flex h-full flex-col justify-center md:mt-24"
-            >
-                <div className="flex w-full flex-col gap-16 md:gap-20">
+            <div className="relative z-30 mt-10 flex h-full flex-col justify-center md:mt-12">
+                <div className="flex w-full flex-col gap-10 md:gap-12">
                     {/* SECTION: FORM INTERFACE */}
                     <AnimatePresence mode="wait">
                         {formState === 'success' ? (
                             <motion.div
                                 key="success"
-                                initial={{ opacity: 0, transform: 'translateY(8px)' }}
-                                animate={{ opacity: 1, transform: 'translateY(0)' }}
-                                exit={{ opacity: 0, transition: { duration: 0.16 } }}
-                                transition={{ duration: 0.28, ease: EASE }}
-                                className="border-y border-line py-10"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0, transition: { duration: 0.1 } }}
+                                transition={{ duration: 0.16, ease: EASE }}
+                                className="rule-y py-8"
                             >
                                 <CheckCircle2
                                     size={24}
-                                    className="text-status-ok mb-6"
+                                    className="text-ok mb-4"
                                     strokeWidth={1.5}
                                 />
-                                <h3 className="text-headline text-ink-high mb-2">
-                                    Request initiated.
-                                </h3>
-                                <p className="text-ink-body text-body-sm max-w-xs mb-8">
+                                <h3 className="text-heading text-ink-strong">Request initiated.</h3>
+                                <p className="text-ink text-small max-w-measure mb-6">
                                     I'll review your brief shortly. Expect a response at{' '}
                                     {formData.email}.
                                 </p>
@@ -171,7 +156,7 @@ const ContactSection: React.FC = () => {
                                         setFormData({ name: '', email: '', message: '' });
                                         setIsFormReady(false);
                                     }}
-                                    className="text-button text-ink-body hover:text-ink-max focus-visible:text-ink-max focus-visible:outline-none transition-colors duration-300 border-b border-transparent hover:border-ink-low focus-visible:border-ink-low pb-0.5"
+                                    className="text-label text-ink hover:text-ink-loud focus-visible:text-ink-loud focus-visible:outline-none transition-colors duration-150 border-b border-transparent hover:border-edge-strong focus-visible:border-edge-strong pb-0.5"
                                 >
                                     Start over
                                 </button>
@@ -187,12 +172,12 @@ const ContactSection: React.FC = () => {
                                     // editing cannot supply the missing id.
                                     setFormState((state) => (state === 'error' ? 'idle' : state));
                                 }}
-                                className="border-y border-line"
+                                className="rule-y"
                             >
-                                <div className="group relative grid grid-cols-1 gap-2 border-b border-line px-4 py-5 transition-colors duration-200 ease-entrance focus-within:bg-fill md:grid-cols-[9rem_minmax(0,1fr)] md:gap-6 md:px-6 md:py-6">
+                                <div className="group relative grid grid-cols-1 gap-2 rule-b px-4 py-4 transition-colors duration-120 ease-out focus-within:bg-hover md:grid-cols-[9rem_minmax(0,1fr)] md:gap-6 md:px-6">
                                     <label
                                         htmlFor="contact-name"
-                                        className="text-button text-ink-low group-focus-within:text-ink-max transition-colors duration-200 ease-out md:pt-2.5"
+                                        className="text-label text-ink-quiet group-focus-within:text-ink-loud transition-colors duration-120 ease-out md:pt-3"
                                     >
                                         Your name
                                     </label>
@@ -203,21 +188,21 @@ const ContactSection: React.FC = () => {
                                         value={formData.name}
                                         onChange={handleInputChange}
                                         required
-                                        className="block w-full min-h-11 bg-transparent text-ink-high text-body focus:outline-none placeholder:text-ink-body pr-6"
+                                        className="block w-full min-h-11 bg-transparent text-ink-strong text-body focus:outline-none placeholder:text-ink-faint pr-6"
                                         placeholder="How should I address you?"
                                     />
                                     <span
-                                        className="absolute top-6 right-6 opacity-0 group-focus-within:opacity-100 transition-opacity duration-200 ease-out text-ink-max text-caption font-mono"
+                                        className="absolute top-6 right-6 opacity-0 group-focus-within:opacity-100 transition-opacity duration-120 ease-out text-ink-loud text-data font-mono"
                                         aria-hidden="true"
                                     >
                                         +
                                     </span>
                                 </div>
 
-                                <div className="group relative grid grid-cols-1 gap-2 border-b border-line px-4 py-5 transition-colors duration-200 ease-entrance focus-within:bg-fill md:grid-cols-[9rem_minmax(0,1fr)] md:gap-6 md:px-6 md:py-6">
+                                <div className="group relative grid grid-cols-1 gap-2 rule-b px-4 py-4 transition-colors duration-120 ease-out focus-within:bg-hover md:grid-cols-[9rem_minmax(0,1fr)] md:gap-6 md:px-6">
                                     <label
                                         htmlFor="contact-email"
-                                        className="text-button text-ink-low group-focus-within:text-ink-max transition-colors duration-200 ease-out md:pt-2.5"
+                                        className="text-label text-ink-quiet group-focus-within:text-ink-loud transition-colors duration-120 ease-out md:pt-3"
                                     >
                                         Email address
                                     </label>
@@ -228,21 +213,21 @@ const ContactSection: React.FC = () => {
                                         value={formData.email}
                                         onChange={handleInputChange}
                                         required
-                                        className="block w-full min-h-11 bg-transparent text-ink-high text-body focus:outline-none placeholder:text-ink-body pr-6"
+                                        className="block w-full min-h-11 bg-transparent text-ink-strong text-body focus:outline-none placeholder:text-ink-faint pr-6"
                                         placeholder="you@company.com"
                                     />
                                     <span
-                                        className="absolute top-6 right-6 opacity-0 group-focus-within:opacity-100 transition-opacity duration-200 ease-out text-ink-max text-caption font-mono"
+                                        className="absolute top-6 right-6 opacity-0 group-focus-within:opacity-100 transition-opacity duration-120 ease-out text-ink-loud text-data font-mono"
                                         aria-hidden="true"
                                     >
                                         +
                                     </span>
                                 </div>
 
-                                <div className="group relative grid grid-cols-1 gap-3 border-b border-line px-4 py-5 transition-colors duration-200 ease-entrance focus-within:bg-fill md:grid-cols-[9rem_minmax(0,1fr)] md:gap-6 md:px-6 md:py-6">
+                                <div className="group relative grid grid-cols-1 gap-2 rule-b px-4 py-4 transition-colors duration-120 ease-out focus-within:bg-hover md:grid-cols-[9rem_minmax(0,1fr)] md:gap-6 md:px-6">
                                     <label
                                         htmlFor="contact-message"
-                                        className="text-button text-ink-low group-focus-within:text-ink-max transition-colors duration-200 ease-out md:pt-1"
+                                        className="text-label text-ink-quiet group-focus-within:text-ink-loud transition-colors duration-120 ease-out md:pt-1"
                                     >
                                         Project details
                                     </label>
@@ -253,7 +238,7 @@ const ContactSection: React.FC = () => {
                                         value={formData.message}
                                         onChange={handleInputChange}
                                         required
-                                        className="block w-full bg-transparent text-ink-high text-body focus:outline-none placeholder:text-ink-body resize-none min-h-28 md:min-h-20 max-h-[160px] pr-6"
+                                        className="block w-full bg-transparent text-ink-strong text-body focus:outline-none placeholder:text-ink-faint resize-none min-h-28 md:min-h-20 max-h-[160px] pr-6"
                                         placeholder="What are you building? Include the timeline and budget range if you have them."
                                         onInput={(e) => {
                                             const target = e.target as HTMLTextAreaElement;
@@ -262,7 +247,7 @@ const ContactSection: React.FC = () => {
                                         }}
                                     />
                                     <span
-                                        className="absolute top-6 right-6 opacity-0 group-focus-within:opacity-100 transition-opacity duration-200 ease-out text-ink-max text-caption font-mono"
+                                        className="absolute top-6 right-6 opacity-0 group-focus-within:opacity-100 transition-opacity duration-120 ease-out text-ink-loud text-data font-mono"
                                         aria-hidden="true"
                                     >
                                         +
@@ -272,17 +257,17 @@ const ContactSection: React.FC = () => {
                                 <button
                                     type="submit"
                                     disabled={formState === 'submitting'}
-                                    className="group grid w-full cursor-pointer grid-cols-[1fr_auto] items-center gap-6 px-4 py-5 transition-colors duration-200 ease-entrance focus-visible:bg-fill focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:grid-cols-[9rem_minmax(0,1fr)_auto] md:px-6 md:py-6"
+                                    className="group grid w-full cursor-pointer grid-cols-[1fr_auto] items-center gap-6 px-4 py-4 transition-colors duration-120 ease-out focus-visible:bg-hover focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:grid-cols-[9rem_minmax(0,1fr)_auto] md:px-6"
                                 >
                                     <div className="md:col-start-2 flex flex-col shrink-0 text-left">
-                                        <span className="text-button text-ink-high group-hover:text-ink-max group-focus-visible:text-ink-max group-disabled:text-ink-high transition-colors duration-300">
+                                        <span className="text-label text-ink-strong group-hover:text-ink-loud group-focus-visible:text-ink-loud group-disabled:text-ink-strong transition-colors duration-150">
                                             {formState === 'submitting'
                                                 ? 'Sending…'
                                                 : 'Send inquiry'}
                                         </span>
                                         <span
                                             aria-live="polite"
-                                            className="text-body-sm text-ink-low mt-1 group-hover:text-ink-body group-focus-visible:text-ink-body group-disabled:text-ink-low transition-colors duration-300"
+                                            className="text-small text-ink-quiet mt-1 group-hover:text-ink group-focus-visible:text-ink group-disabled:text-ink-quiet transition-colors duration-150"
                                         >
                                             {isFormReady
                                                 ? 'Ready to send.'
@@ -302,14 +287,14 @@ const ContactSection: React.FC = () => {
                                 {(formState === 'error' || formState === 'unavailable') && (
                                     <p
                                         role="alert"
-                                        className="border-t border-line px-4 py-5 text-body-sm text-status-error md:px-6 md:py-6"
+                                        className="rule-t px-4 py-4 text-small text-danger md:px-6"
                                     >
                                         {formState === 'unavailable'
                                             ? 'The form is not connected, so this cannot send. Email me directly at '
                                             : 'Sending failed. Try again, or email me directly at '}
                                         <a
                                             href={`mailto:${CONTACT_EMAIL}`}
-                                            className="underline decoration-from-font underline-offset-4 transition-colors duration-200 ease-out hover:text-ink-max focus-visible:text-ink-max focus-visible:outline-none"
+                                            className="underline decoration-from-font underline-offset-4 transition-colors duration-120 ease-out hover:text-ink-loud focus-visible:text-ink-loud focus-visible:outline-none"
                                         >
                                             {CONTACT_EMAIL}
                                         </a>
@@ -321,62 +306,62 @@ const ContactSection: React.FC = () => {
                     </AnimatePresence>
 
                     {/* FOOTER METADATA - Data Grid System */}
-                    <motion.div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
+                    <div className="grid grid-cols-1 gap-2 md:grid-cols-3 md:gap-8">
                         {/* 01: Email */}
-                        <div className="flex flex-col gap-4 py-8">
-                            <span className="text-eyebrow text-ink-low">Connect</span>
+                        <div className="flex flex-col gap-2 py-6">
+                            <span className="text-label text-ink-quiet">Connect</span>
                             <button
                                 type="button"
                                 onClick={handleCopyEmail}
                                 aria-label={emailCopied ? 'Email copied' : 'Copy email address'}
-                                className="group cursor-pointer flex min-h-11 items-center gap-3 text-ink-low hover:text-ink-max focus-visible:text-ink-max focus-visible:outline-none transition-colors duration-200 ease-out w-fit"
+                                className="group cursor-pointer flex min-h-11 items-center gap-3 text-ink-quiet hover:text-ink-loud focus-visible:text-ink-loud focus-visible:outline-none transition-colors duration-120 ease-out w-fit"
                             >
-                                <span className="text-caption font-mono">{CONTACT_EMAIL}</span>
+                                <span className="text-data font-mono">{CONTACT_EMAIL}</span>
                                 {emailCopied ? (
-                                    <Check size={12} className="text-status-ok" />
+                                    <Check size={12} className="text-ok" />
                                 ) : (
                                     <Copy
                                         size={12}
-                                        className="opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300 text-ink-low"
+                                        className="opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-150 text-ink-quiet"
                                     />
                                 )}
                             </button>
                         </div>
 
                         {/* 02: Social */}
-                        <div className="flex flex-col gap-4 py-8">
-                            <span className="text-eyebrow text-ink-low">Networks</span>
+                        <div className="flex flex-col gap-2 py-6">
+                            <span className="text-label text-ink-quiet">Networks</span>
                             <div className="flex flex-col gap-2">
                                 <a
                                     href="https://www.linkedin.com/in/mertbildik/"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex min-h-11 items-center gap-2 text-ink-body hover:text-ink-max focus-visible:text-ink-max focus-visible:outline-none transition-colors duration-300 group w-fit"
+                                    className="flex min-h-11 items-center gap-2 text-ink hover:text-ink-loud focus-visible:text-ink-loud focus-visible:outline-none transition-colors duration-150 group w-fit"
                                 >
-                                    <span className="text-button">LinkedIn</span>
+                                    <span className="text-label">LinkedIn</span>
                                     <ArrowUpRight
                                         size={10}
-                                        className="opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300"
+                                        className="opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-150"
                                     />
                                 </a>
                             </div>
                         </div>
 
                         {/* 03: Time - aligned right/end */}
-                        <div className="flex flex-col gap-4 py-8">
-                            <span className="text-eyebrow text-ink-low">Local time</span>
+                        <div className="flex flex-col gap-2 py-6">
+                            <span className="text-label text-ink-quiet">Local time</span>
                             <div>
                                 <LiveClock />
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
 
-                    <div className="flex items-center justify-between gap-6 pb-2 text-caption text-ink-low">
+                    <div className="flex items-center justify-between gap-6 pb-2 text-small text-ink-quiet">
                         <span>Mert Bildik</span>
-                        <span className="font-mono">© 2026</span>
+                        <span className="font-mono text-data">© 2026</span>
                     </div>
                 </div>
-            </motion.div>
+            </div>
         </>
     );
 };

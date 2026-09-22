@@ -62,7 +62,7 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             src={problemImage1}
                             alt="OFK source folders for the logo, project photography, and reference documents"
                             caption="The proof existed, but it was scattered across documents and folders."
-                            className="mx-auto max-w-2xl"
+                            className="mx-auto max-w-page"
                         />
                     </>
                 ),
@@ -81,9 +81,9 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                 {QUESTIONS.map((question, index) => (
                                     <li
                                         key={question}
-                                        className="flex gap-4 border-t border-line py-5 text-body-sm text-ink-body"
+                                        className="flex gap-4 rule-t py-4 text-small text-ink"
                                     >
-                                        <span className="shrink-0 font-mono text-caption text-ink-low">
+                                        <span className="shrink-0 font-mono text-data text-ink-quiet">
                                             {String(index + 1).padStart(2, '0')}
                                         </span>
                                         {question}
@@ -151,7 +151,7 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             </CaseStudyParagraph>
                         </CaseStudyProse>
 
-                        <div className="space-y-10 md:space-y-14">
+                        <div className="space-y-8 md:space-y-10">
                             <CaseStudyDecision number="01" title="Projects became the proof">
                                 <CaseStudyParagraph>
                                     A service list says what OFK offers. A named project shows that
@@ -168,7 +168,7 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             />
                         </div>
 
-                        <div className="space-y-10 md:space-y-14">
+                        <div className="space-y-8 md:space-y-10">
                             <CaseStudyDecision number="02" title="References stayed verifiable">
                                 <CaseStudyParagraph>
                                     A company name suggests credibility. A signed document lets a
@@ -184,7 +184,7 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             />
                         </div>
 
-                        <div className="space-y-10 md:space-y-14">
+                        <div className="space-y-8 md:space-y-10">
                             <CaseStudyDecision number="03" title="Two languages shared one system">
                                 <CaseStudyParagraph>
                                     Separate sites would double the work and invite mismatched
@@ -262,7 +262,7 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                 description: 'The verified change',
                 rhythm: 'tight',
                 children: (
-                    <div className="mx-auto max-w-page space-y-10">
+                    <div className="mx-auto max-w-page space-y-8">
                         <div className="space-y-6">
                             <CaseStudyParagraph>
                                 OFK moved from a logo and scattered files to a live bilingual

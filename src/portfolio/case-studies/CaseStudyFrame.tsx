@@ -71,7 +71,7 @@ const CaseStudyFrame: React.FC<CaseStudyFrameProps> = ({
             pageKey={project.id}
         />
 
-        <div className="space-y-24 md:space-y-32">
+        <div className="space-y-16 md:space-y-20">
             {CASE_STUDY_SECTIONS.map(({ id, label }, index) => (
                 <CaseStudySection
                     key={id}

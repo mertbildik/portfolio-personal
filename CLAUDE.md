@@ -17,7 +17,8 @@ npm run preview -- --port 4173 --strictPort   # if you want to poke the build ma
 
 Prettier formats; there is **no ESLint**, and nothing here wants one. Config matches
 what the code already did: 4-space and single quotes in TS/TSX, 2-space for CSS, HTML,
-JSON and YAML. `docs/` is ignored until the design system replaces it.
+JSON and YAML. `docs/` is ignored, so the two content documents keep the line breaks
+they were written with.
 
 ## Stack quirks (real ones)
 
@@ -43,10 +44,14 @@ src/
     case-studies/       # detail route, layout, shared parts
       studies/          # one hand-written page per project
   shared/               # genuinely cross-feature UI and motion only
+  design/               # the living design system at /design — DEV ONLY, never ships
+    theme.ts            # parses the @theme block of index.css
+    live.ts             # reads painted values and contrast from the browser
+    census.ts           # counts real class usage across src/**/*.tsx
+    pages/              # Overview, Type, Colour, Space, Surfaces, Motion, Components
   main.tsx, index.css   # root + the ONLY place design values are defined
 public/                # static assets; _redirects handles SPA fallback on Netlify/CF
 docs/
-  design/              # superseded; see "The rules here are Mert's to set"
   content/             # writing.md (voice) and case-study-system.md (the frame)
 ```
 
@@ -108,25 +113,41 @@ in a study.
 
 A study whose subject is an ongoing role rather than a shipped project runs its own
 sections: see `McKinseyCaseStudy.tsx`, which keeps its own header because confidential work
-reports a status rather than a timeline, and uses `CaseStudySectionShell` for the entrance.
+reports a status rather than a timeline, and uses `CaseStudySectionShell` for its sections.
 
 `docs/content/case-study-system.md` and `docs/content/writing.md` describe the frame and the
-voice. Read them for intent, not as rules — see the note below on what is current.
+voice.
 
-## Design rules
+## The design system
 
-These are the ones held in the code today. They stand until the design system replaces
-them, at which point they are open for review like anything else:
+It is a set of pages, not a document: `src/design/`, served at `/design` by `npm run dev`.
+Open it before changing anything visual, and read the page for the layer you are touching —
+Type, Colour, Space, Surfaces, Motion, or Components.
 
-- One typeface for words (Inter) + Geist Mono for data. No third face.
-- No shadows. Depth is border + fill.
-- No new colours. Green and red are status only. Everything else is white at an alpha.
-- Ink ramp carries hierarchy; size does not. A heading uses one size.
-- Sans for sentences and labels; monospace for data (timestamps, coordinates, counts, values).
+The constraints it holds, in short:
+
+- Two typefaces. Inter for words, Geist Mono for data. No third face.
+- Eight type roles on five sizes, two weights (500 names, 400 is read). Size marks the page
+  and the section; below that, hierarchy comes from weight and ink. Inter never runs below
+  13; Geist Mono sets data at 12.
+- Achromatic. Each ink is chosen by its job (`ink-loud`, `ink-strong`, `ink`, `ink-quiet`,
+  `ink-faint`); green and red are status only.
+- A 4px grid: every distance, and every line height but display's (34px, an optical
+  choice), is a multiple of 4. Dividers use `rule-t`, `rule-b` or `rule-y`, which take no
+  space; a `border` is only for an object's edge.
+- No elevation. Depth is edge and fill.
 - One minimal radius (6px) on boxes; full circle on pills, dots, buttons and the portrait.
-- No arbitrary values where a token or scale step already covers it.
+- Motion for feedback and causality only. Nothing animates on arrival.
+- No arbitrary value where a token or a 4px step already covers it.
 
-Change a value in `src/index.css` `@theme` block, never in a component.
+Change a value in the `@theme` block of `src/index.css`, never in a component. The design
+system reads that block, the browser and `src/**/*.tsx` directly — every number, ratio and
+usage count on those pages is derived, so nothing there needs updating when a token changes,
+and a page that looks wrong means the code is wrong.
+
+`/design` is local only. `App.tsx` gates it behind `import.meta.env.DEV` and `vite.config.ts`
+excludes the folder from Tailwind's sources in builds, so neither its JavaScript nor its CSS
+ships. Keep both gates if you touch either file.
 
 ## Routers / hosts
 
@@ -156,9 +177,10 @@ written by earlier sessions rather than chosen — a closed dependency list, a s
 font constraint, a ban on formatters — and were removed once looked at. If a rule here
 blocks something reasonable, say so and ask rather than working around it.
 
-`docs/design/` and `docs/content/` are **not** current. They will be replaced by a
-generated design system; several of their rules are already contradicted by the code. Do
-not treat them as authority, and do not spend effort reconciling them.
+`docs/design/` was nine markdown files describing the design system. It is gone: `/design`
+holds the same material, derives its values instead of restating them, and shows the real
+components. `docs/content/` stayed, because voice is prose and has nothing to read back from
+the code.
 
 `.claude/settings.local.json` switches six design and UX skills off — `ui-ux-pro-max`,
 `ux-writing`, `grill-with-docs`, `verify-visually`, `vercel-react-best-practices`,

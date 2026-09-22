@@ -1,11 +1,9 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { Lock } from 'lucide-react';
 import type { Project } from '../../content/projects';
 import BackLink from '../BackLink';
 import CaseStudySectionNavigator from '../CaseStudySectionNavigator';
 import { CaseStudySectionShell } from '../CaseStudyElements';
-import { EASE, headerVariants, VIEWPORT_ONCE } from '../../../shared/motion';
 
 const SECTIONS = [
     { id: 'impact', label: 'Impact', description: 'Scale and outcomes' },
@@ -96,48 +94,43 @@ const SHARABLE_ON_CALL = [
 
 const McKinseyCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
     <div className="w-full">
-        <motion.header
-            variants={headerVariants}
-            initial="hidden"
-            animate="visible"
-            className="mb-24 w-full md:mb-32"
-        >
-            <div className="mb-16 md:mb-24">
+        <header className="mb-16 w-full md:mb-20">
+            <div className="mb-10 flex">
                 <BackLink to="/#portfolio" ariaLabel="Back to portfolio">
                     Go back
                 </BackLink>
             </div>
 
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-6">
                 <div className="flex flex-wrap items-center gap-3">
-                    <div className="inline-flex items-center rounded-md surface px-3 py-1.5">
-                        <span className="text-caption text-ink-low">
+                    <div className="inline-flex items-center rounded-md bg-raised px-2 py-1">
+                        <span className="text-small text-ink-quiet">
                             Visual communication specialist
                         </span>
                     </div>
                     <div className="flex items-center gap-2">
-                        <span className="h-1.5 w-1.5 rounded-full bg-ink-low" />
-                        <span className="text-caption text-ink-low">Status: Confidential</span>
+                        <span className="h-1.5 w-1.5 rounded-full bg-ink-quiet" />
+                        <span className="text-small text-ink-quiet">Status: Confidential</span>
                     </div>
                 </div>
 
-                <h1 className="text-display-lg text-ink-high">
+                <h1 className="text-display text-ink-strong">
                     {project.title.replace(' & Co.', '')}
                     <br />
                     <span>&amp; Company</span>
                 </h1>
 
-                <p className="max-w-xl text-body text-ink-body">
+                <p className="max-w-measure text-body text-ink">
                     Translating complex financial models into intuitive narratives.
                 </p>
 
-                <div className="space-y-3">
-                    <span className="block text-eyebrow text-ink-low">Tools</span>
+                <div className="space-y-2">
+                    <span className="block text-small text-ink-quiet">Tools</span>
                     <div className="flex flex-wrap gap-2">
                         {TOOLS.map((tool) => (
                             <span
                                 key={tool}
-                                className="rounded-md surface px-2 py-1 text-caption text-ink-low text-nowrap"
+                                className="rounded-md bg-raised px-2 py-1 text-small text-ink-quiet text-nowrap"
                             >
                                 {tool}
                             </span>
@@ -145,87 +138,73 @@ const McKinseyCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                     </div>
                 </div>
 
-                <p className="max-w-xl whitespace-pre-line text-body-sm text-ink-low">
+                <p className="max-w-measure whitespace-pre-line text-small text-ink-quiet">
                     {'Work is under strict NDA. \nProcess and outcomes can be shared on a call.'}
                 </p>
             </div>
-        </motion.header>
+        </header>
 
         <CaseStudySectionNavigator sections={SECTIONS} pageKey={project.id} />
 
-        <div className="space-y-24 md:space-y-32">
+        <div className="space-y-16 md:space-y-20">
             <CaseStudySectionShell id="impact">
-                <h2 className="mb-12 text-display-md text-ink-high">Impact &amp; metrics</h2>
+                <h2 className="mb-8 text-title text-ink-strong">Impact &amp; metrics</h2>
 
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    {STATS.map((stat, index) => (
-                        <motion.div
-                            key={stat.label}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={VIEWPORT_ONCE}
-                            transition={{ duration: 0.8, delay: index * 0.05, ease: EASE }}
-                            className="flex min-h-[180px] flex-col items-start p-6 text-left"
-                        >
-                            <span className="block font-mono text-display-md text-ink-high">
+                <div className="grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-2">
+                    {STATS.map((stat) => (
+                        <div key={stat.label} className="flex flex-col items-start text-left">
+                            <span className="block font-mono text-title text-ink-strong">
                                 {stat.value}
                             </span>
-                            <div className="mt-6 flex flex-col items-start gap-2">
-                                <span className="block text-eyebrow text-ink-low">
+                            <div className="mt-4 flex flex-col items-start gap-1">
+                                <span className="block text-label text-ink-quiet">
                                     {stat.label}
                                 </span>
-                                <p className="text-body-sm text-ink-body">{stat.desc}</p>
+                                <p className="text-small text-ink">{stat.desc}</p>
                             </div>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
             </CaseStudySectionShell>
 
             <CaseStudySectionShell id="capabilities">
-                <h2 className="mb-12 text-display-md text-ink-high">Core capabilities</h2>
+                <h2 className="mb-8 text-title text-ink-strong">Core capabilities</h2>
 
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    {CAPABILITIES.map((capability, index) => (
-                        <motion.div
-                            key={capability.number}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={VIEWPORT_ONCE}
-                            transition={{ duration: 0.8, delay: index * 0.1, ease: EASE }}
-                            className="flex min-h-[320px] flex-col gap-8 p-8 md:p-10"
-                        >
-                            <h3 className="text-card-title text-ink-high">
+                <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2">
+                    {CAPABILITIES.map((capability) => (
+                        <div key={capability.number} className="flex flex-col gap-3">
+                            <h3 className="text-heading text-ink-strong">
                                 <span className="font-mono">{capability.number}</span> /{' '}
                                 {capability.title}
                             </h3>
-                            <ul className="flex flex-col gap-4">
+                            <ul className="flex flex-col gap-2">
                                 {capability.items.map((item) => (
-                                    <li key={item} className="text-body-sm text-ink-body">
+                                    <li key={item} className="text-small text-ink">
                                         {item}
                                     </li>
                                 ))}
                             </ul>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
             </CaseStudySectionShell>
 
             <CaseStudySectionShell id="restricted-access">
-                <div className="surface overflow-hidden rounded-md">
-                    <div className="grid grid-cols-1 gap-12 p-8 md:grid-cols-2 md:p-12">
+                <div className="panel overflow-hidden rounded-md">
+                    <div className="grid grid-cols-1 gap-10 p-6 md:grid-cols-2 md:p-8">
                         <div className="flex flex-col justify-between gap-8">
                             <div className="flex flex-col gap-6">
-                                <div className="flex items-center gap-3 text-ink-low">
+                                <div className="flex items-center gap-3 text-ink-quiet">
                                     <Lock size={20} strokeWidth={1.5} />
-                                    <h2 className="text-display-md text-ink-high">
+                                    <h2 className="text-title text-ink-strong">
                                         Restricted access
                                     </h2>
                                 </div>
                                 <div className="flex flex-col gap-2">
-                                    <h3 className="text-headline text-ink-high">
+                                    <h3 className="text-heading text-ink-strong">
                                         Client work is protected by NDA.
                                     </h3>
-                                    <p className="text-body text-ink-body">
+                                    <p className="text-body text-ink">
                                         I can’t share decks, screenshots, or client-specific
                                         materials.
                                     </p>
@@ -233,20 +212,20 @@ const McKinseyCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             </div>
 
                             <div className="flex flex-col gap-1">
-                                <span className="text-eyebrow text-ink-low">Active status</span>
-                                <span className="text-caption text-ink-low">Confidential</span>
+                                <span className="text-label text-ink-quiet">Active status</span>
+                                <span className="text-small text-ink-quiet">Confidential</span>
                             </div>
                         </div>
 
                         <div className="flex flex-col justify-center">
-                            <span className="mb-8 block text-eyebrow text-ink-low">
+                            <span className="mb-4 block text-label text-ink-quiet">
                                 What I can share on a call:
                             </span>
-                            <ul className="flex flex-col gap-4">
+                            <ul className="flex flex-col gap-3">
                                 {SHARABLE_ON_CALL.map((item) => (
-                                    <li key={item} className="flex items-start gap-4">
-                                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-ink-body" />
-                                        <span className="text-body-sm text-ink-body">{item}</span>
+                                    <li key={item} className="flex items-start gap-3">
+                                        <div className="mt-2 h-1 w-1 shrink-0 rounded-full bg-ink" />
+                                        <span className="text-small text-ink">{item}</span>
                                     </li>
                                 ))}
                             </ul>

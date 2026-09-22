@@ -51,38 +51,38 @@ const CaseStudySectionNavigator: React.FC<{ sections: readonly Section[]; pageKe
         >
             <div
                 aria-hidden="true"
-                className="absolute right-0 top-1/2 flex -translate-y-1/2 flex-col items-end gap-3 pr-2 transition-opacity duration-200 ease-entrance group-hover:opacity-0 group-focus-within:opacity-0"
+                className="absolute right-0 top-1/2 flex -translate-y-1/2 flex-col items-end gap-3 pr-2 transition-opacity duration-120 ease-out group-hover:opacity-0 group-focus-within:opacity-0"
             >
                 {sections.map((section) => (
                     <span
                         key={section.id}
-                        className={`h-px ${activeSection === section.id ? 'w-5 bg-ink-high' : 'w-2 bg-ink-low'}`}
+                        className={`h-px ${activeSection === section.id ? 'w-5 bg-ink-strong' : 'w-2 bg-ink-quiet'}`}
                     />
                 ))}
             </div>
 
-            <div className="pointer-events-none absolute right-0 top-1/2 w-40 -translate-y-1/2 translate-x-2 rounded-l-md border-y border-l border-line bg-canvas p-3 opacity-0 transition-[opacity,transform] duration-200 ease-entrance group-hover:pointer-events-auto group-hover:translate-x-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-x-0 group-focus-within:opacity-100 xl:w-56">
-                <span className="block px-3 pb-2 text-eyebrow text-ink-low">Sections</span>
+            <div className="pointer-events-none absolute right-0 top-1/2 w-40 -translate-y-1/2 translate-x-2 rounded-l-md border-y border-l border-edge bg-canvas p-3 opacity-0 transition-[opacity,transform] duration-120 ease-out group-hover:pointer-events-auto group-hover:translate-x-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-x-0 group-focus-within:opacity-100 xl:w-56">
+                <span className="block px-3 pb-2 text-label text-ink-quiet">Sections</span>
                 {sections.map((section) => (
                     <a
                         key={section.id}
                         href={`#${section.id}`}
                         aria-label={section.label}
                         aria-current={activeSection === section.id ? 'location' : undefined}
-                        className={`flex gap-3 rounded-md px-3 py-2.5 focus-visible:bg-fill focus-visible:outline-none transition-[color,background-color] duration-200 ease-out ${
+                        className={`flex gap-3 rounded-md px-3 py-2 focus-visible:bg-hover focus-visible:outline-none transition-[color,background-color] duration-120 ease-out ${
                             activeSection === section.id
-                                ? 'bg-fill text-ink-max'
-                                : 'text-ink-low hover:text-ink-high focus-visible:text-ink-high'
+                                ? 'bg-hover text-ink-loud'
+                                : 'text-ink-quiet hover:text-ink-strong focus-visible:text-ink-strong'
                         }`}
                     >
                         <span
                             className={`mt-2 h-1 w-1 shrink-0 rounded-full ${
-                                activeSection === section.id ? 'bg-ink-high' : 'bg-ink-low'
+                                activeSection === section.id ? 'bg-ink-strong' : 'bg-ink-quiet'
                             }`}
                         />
                         <span>
-                            <span className="block text-button">{section.label}</span>
-                            <span className="mt-1 block text-caption text-ink-low">
+                            <span className="block text-label">{section.label}</span>
+                            <span className="mt-1 block text-small text-ink-quiet">
                                 {section.description}
                             </span>
                         </span>

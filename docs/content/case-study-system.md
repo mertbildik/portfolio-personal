@@ -1,8 +1,6 @@
 # Case Study System
 
-This document defines the shared case-study frame. Use [`writing.md`](./writing.md) for voice, headings, captions, evidence checks, and UI text. Use `docs/design/` for presentation.
-
-Every case study is a hand-written component. The frame below is a rule, not a template: it is held by hand, using the shared parts in `case-studies/CaseStudyElements.tsx`.
+This document defines the shared case-study frame. Use [`writing.md`](./writing.md) for voice, headings, captions, evidence checks, and UI text. Use `/design` for presentation.
 
 ## Header
 
@@ -17,8 +15,6 @@ Every case study opens with:
 
 The summary carries the project’s central story. Do not add separate Central Story or Project Context sections. Place useful context in the summary, metadata, or Problem.
 
-Work that cannot show its output replaces timeline and scope with its confidentiality status, and says in the header what can be shared instead.
-
 ## Sections
 
 Every case study follows the same order:
@@ -30,8 +26,6 @@ Every case study follows the same order:
 5. **Impact** — What changed after delivery, supported by evidence and honest limits.
 
 The frame stays consistent. The narrative and decisions must come from the project itself.
-
-A study whose subject is an ongoing role rather than a shipped project may use its own section names, but still runs Problem-to-Impact in spirit: what the work was for, how it was done, and what changed.
 
 ## Evidence And Visuals
 

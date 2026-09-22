@@ -1,7 +1,8 @@
 @import 'tailwindcss';
 
 /* Inter variable, self-hosted from public/fonts so the site makes no third-party
-   requests. One file covers weights 100-900. */
+   requests. One file covers weights 100-900 and carries Inter 4's optical-size
+   axis, which the browser applies by font size on its own. */
 @font-face {
   font-family: 'Inter';
   font-style: normal;
@@ -23,12 +24,19 @@
 /* ============================================================================
    DESIGN TOKENS
 
-   This block is the only place a design value is defined. Every name here comes
-   from docs/design/*.md, and those files explain what each one means and when to
-   reach for it. If a value needs to change, it changes here and nowhere else.
+   This block is the only place a design value is defined. If a value needs to
+   change, it changes here and nowhere else.
+
+   What each name means and when to reach for it is at /design, the living design
+   system in src/design/ — run `npm run dev` and open it. Those pages parse this
+   block rather than describing it, so they answer for whatever is written below
+   and cannot drift from it.
+
+   Names say what a token is FOR, never what it looks like: `ink-quiet`, not
+   `ink-low`; `title`, not `display-lg`.
 
    Tailwind reads the PREFIX of each variable to decide which classes to build:
-     --color-*      -> bg-*, text-*, border-*, ring-*, from-*, via-*
+     --color-*      -> bg-*, text-*, border-*
      --text-*       -> text-* (size, and its own leading/tracking/weight)
      --font-*       -> font-*
      --ease-*       -> ease-*
@@ -45,106 +53,90 @@
   --breakpoint-lg: 64rem;
   --breakpoint-xl: 80rem;
 
-  /* ---- type scale ------------------------------------------------------
-     Nine tokens. Each sets size, weight, line height and letter spacing in one
-     class, so `text-card-title` is one decision rather than four.
-     Every size is fixed: the site is a single narrow column that never grows
-     past its cap, so fluid type has no room to express itself. Readability is
-     carried by whitespace and the ink ramp, not by large type.
+  /* ---- type ------------------------------------------------------------
+     Eight roles on five sizes: 12 · 13 · 15 · 20 · 28. Two weights: text that
+     names something is 500, text that is read is 400. Size makes the page and
+     section levels; below that, hierarchy comes from weight and ink.
 
-     Two weights hold the whole scale: everything that reads as text is 400, and
-     only the two small labels (button, eyebrow) get 500. Type looks heavier as it
-     grows and heavier again as light text on a dark canvas, so anything at 20px
-     and up carries no extra weight at all. 500 exists to keep 13-14px from going
-     weak, nothing else.
-     Rules and reasoning: docs/design/typography.md */
+     Inter never runs below 13. Geist Mono is about a fifth wider than Inter, so
+     at 12 it sits optically level with 13px Inter beside it: `data` is the mono
+     role, and the one reason 12 exists.
 
-  --text-display-lg: 32px;
-  --text-display-lg--line-height: 1.25;
-  --text-display-lg--letter-spacing: -0.024em;
-  --text-display-lg--font-weight: 400;
+     Tracking is mostly left to Inter's optical-size axis, which already tightens
+     large text. The two large steps take a light touch on top; small text stays
+     at 0, because tightening it on a dark canvas smears it.
 
-  --text-hero: 34px;
-  --text-hero--line-height: 1.16;
-  --text-hero--letter-spacing: -0.03em;
-  --text-hero--font-weight: 400;
+     Line heights sit on the 4px grid except display. A statement that wraps to
+     two or three lines needs leading near 1.2 to hold together: 32 lets the
+     lines collide, 36 pulls them apart. That one value is optical, on purpose. */
 
-  --text-hero-lg: 40px;
-  --text-hero-lg--line-height: 1.14;
-  --text-hero-lg--letter-spacing: -0.032em;
-  --text-hero-lg--font-weight: 400;
+  --text-display: 28px; /* the top of every page: the statement, a study's title */
+  --text-display--line-height: 34px;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 500;
 
-  --text-display-md: 26px;
-  --text-display-md--line-height: 1.25;
-  --text-display-md--letter-spacing: -0.02em;
-  --text-display-md--font-weight: 400;
+  --text-title: 20px; /* section titles */
+  --text-title--line-height: 28px;
+  --text-title--letter-spacing: -0.01em;
+  --text-title--font-weight: 500;
 
-  --text-headline: 22px;
-  --text-headline--line-height: 1.25;
-  --text-headline--letter-spacing: -0.6px;
-  --text-headline--font-weight: 400;
+  --text-lead: 20px; /* a voice line under a statement; the size of a title, the weight of prose */
+  --text-lead--line-height: 28px;
+  --text-lead--letter-spacing: -0.01em;
+  --text-lead--font-weight: 400;
 
-  --text-card-title: 20px;
-  --text-card-title--line-height: 1.25;
-  --text-card-title--letter-spacing: -0.3px;
-  --text-card-title--font-weight: 400;
+  --text-heading: 15px; /* block, card, group and decision headings */
+  --text-heading--line-height: 24px;
+  --text-heading--letter-spacing: 0;
+  --text-heading--font-weight: 500;
 
-  /* The body sizes run at 1.60 rather than the usual 1.50: light text on a dark
-     canvas needs more air between lines to stay calm. */
-  --text-body: 16px;
-  --text-body--line-height: 1.6;
-  --text-body--letter-spacing: -0.05px;
+  --text-body: 15px; /* prose, lead sentences, entered form values */
+  --text-body--line-height: 24px;
+  --text-body--letter-spacing: 0;
   --text-body--font-weight: 400;
 
-  --text-body-sm: 14px;
-  --text-body-sm--line-height: 1.6;
-  --text-body-sm--letter-spacing: 0;
-  --text-body-sm--font-weight: 400;
+  --text-small: 13px; /* secondary sentences, captions, metadata keys and values, chips */
+  --text-small--line-height: 20px;
+  --text-small--letter-spacing: 0;
+  --text-small--font-weight: 400;
 
-  --text-caption: 12px;
-  --text-caption--line-height: 1.4;
-  --text-caption--letter-spacing: 0;
-  --text-caption--font-weight: 400;
+  --text-label: 13px; /* group and field labels, actions */
+  --text-label--line-height: 20px;
+  --text-label--letter-spacing: 0;
+  --text-label--font-weight: 500;
 
-  --text-button: 14px;
-  --text-button--line-height: 1.2;
-  --text-button--letter-spacing: 0;
-  --text-button--font-weight: 500;
+  --text-data: 12px; /* Geist Mono only: years, dates, ordinals, counts, times */
+  --text-data--line-height: 16px;
+  --text-data--letter-spacing: 0;
+  --text-data--font-weight: 400;
 
-  --text-eyebrow: 13px;
-  --text-eyebrow--line-height: 1.3;
-  --text-eyebrow--letter-spacing: 0;
-  --text-eyebrow--font-weight: 500;
+  /* ---- colour ----------------------------------------------------------
+     Achromatic on purpose: project screenshots are the only colour on the
+     site, and they are judged against a ground with no hue of its own.
 
-  /* ---- canvas ----------------------------------------------------------
-     The one dark foundation, also used behind every image frame. */
-  --color-canvas: #111111;
+     Each ink is set for its job against APCA, the contrast model that holds
+     up on dark backgrounds (WCAG 2 overstates contrast near black). Values
+     were solved in OKLCH for the target Lc on this canvas. */
+  --color-canvas: #111111; /* the one ground, and the backing in every image frame */
+  --color-raised: #191919; /* static grouped content: chips, the panel */
+  --color-hover: #1f1f1f; /* interaction feedback: a focused row or control */
+  --color-edge: #292929; /* object edges and hairline rules */
+  --color-edge-strong: #404040; /* the edge of a hovered or focused control */
 
-  /* ---- ink ramp --------------------------------------------------------
-     Four accessible steps measured against the canvas. */
-  --color-ink-max: #ffffff; /* 18.9:1  focal emphasis, hover, focus, selected, active */
-  --color-ink-high: #e8e8e8; /* 15.4:1  headings, titles, primary actions, input values */
-  --color-ink-body: #b0b0b0; /*  8.7:1  paragraphs, descriptions, links at rest */
-  --color-ink-low: #7e7e7e; /*  4.7:1  labels, captions, years, timestamps, metadata */
+  --color-ink-loud: #fdfdfd; /* Lc 106  hover, focus and active resolution; the one focal phrase */
+  --color-ink-strong: #ececec; /* Lc 95   headings, titles, entered values */
+  --color-ink: #d4d4d4; /* Lc 80   prose and anything a visitor came to read */
+  --color-ink-quiet: #a3a3a3; /* Lc 52   labels, captions, metadata */
+  --color-ink-faint: #848484; /* Lc 36   placeholders only */
 
-  /* ---- borders ---------------------------------------------------------
-     One quiet resting edge for images and circle controls. Interaction usually
-     relies on ink and tonal shifts rather than a brighter perimeter. */
-  --color-line: rgb(255 255 255 / 0.06);
+  /* Status: the only chroma in the interface, always beside words. */
+  --color-ok: #62b77a;
+  --color-danger: #d66b6b;
 
-  /* ---- fills -----------------------------------------------------------
-     Interactive feedback uses one flat tonal shift. Static grouped content
-     uses the quieter translucent surface below so the canvas remains visible. */
-  --color-fill: rgb(255 255 255 / 0.02);
+  /* The canvas atmosphere: two white-alpha washes on the one fixed layer. */
   --surface-canvas:
     radial-gradient(ellipse 80% 55% at 50% -10%, rgb(255 255 255 / 0.04), transparent 70%),
     radial-gradient(ellipse 55% 45% at 100% 100%, rgb(255 255 255 / 0.015), transparent 70%);
-  --surface-panel: rgb(255 255 255 / 0.018);
-
-  /* ---- status ----------------------------------------------------------
-     The only interface chroma. Always paired with text or a shape change. */
-  --color-status-ok: #62b77a; /* 7.7:1  availability and confirmed success */
-  --color-status-error: #d66b6b; /* 5.6:1  actionable failure */
 
   /* ---- shape -----------------------------------------------------------
      One minimal radius on boxes, full circle on pills, dots, buttons and the
@@ -155,14 +147,16 @@
   --radius-xl: 6px;
 
   /* ---- motion ----------------------------------------------------------
-     The one entrance curve, for transitions written in CSS. motion needs
-     the same curve as four numbers rather than a CSS string, so it keeps its own
-     copy in src/shared/motion.ts. Two spellings of one curve, in two
-     different runtimes: change one and change the other.
-     Durations use Tailwind's own scale: 200 is the default state change, 300 a
-     larger reveal or inversion. */
-  --ease-entrance: cubic-bezier(0.23, 1, 0.32, 1);
-  --default-transition-duration: 200ms;
+     Motion exists for feedback and causality only: a press, a hover, a change
+     of state. Nothing animates on arrival.
+
+     One curve, a strong ease-out, replacing Tailwind's own `ease-out` so the
+     familiar class name means the right thing. motion needs it as four numbers,
+     so src/shared/motion.ts keeps the same curve as EASE: change one, change
+     the other. Durations: 100 a press, 120 a state change, 150 a reveal. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --default-transition-duration: 120ms;
+  --default-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
 
   /* The one deliberate ambient loop on content: the portrait ring on the
      hero turns slowly. Constant motion runs linear. */
@@ -173,17 +167,43 @@
     }
   }
 
-  /* ---- frame ------------------------------------------------------------ */
+  /* ---- measure ----------------------------------------------------------
+     Widths are set by what they hold. The measure is in em, so it follows the
+     type it holds: about 66 characters a line at any size. It is not named
+     `prose` because Tailwind's own `max-w-prose` (65ch) outranks a theme value
+     of that name. The frames hold everything else. */
   --container-shell: 1600px; /* case studies and their full-width visuals */
-  --container-page: 692px; /* homepage sections */
+  --container-page: 692px; /* homepage sections and the case-study column */
+  --container-measure: 32em; /* running text: 480px at 15px, about 66 characters */
 }
 
 @utility canvas-atmosphere {
   background-image: var(--surface-canvas);
 }
 
-@utility surface {
-  background-color: var(--surface-panel);
+/* A raised surface that holds a larger grouped layout. The 1px top light is
+   material, not elevation: it is the edge catching light, and it never casts. */
+@utility panel {
+  background-color: var(--color-raised);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.045);
+}
+
+/* Hairline rules that take no layout space. A 1px border adds a pixel to the
+   box and pushes everything under it off the 4px grid; an inset line draws the
+   same rule without moving anything. Use these for dividers, a border for the
+   edge of an object. */
+@utility rule-t {
+  box-shadow: inset 0 1px 0 var(--color-edge);
+}
+
+@utility rule-b {
+  box-shadow: inset 0 -1px 0 var(--color-edge);
+}
+
+@utility rule-y {
+  box-shadow:
+    inset 0 1px 0 var(--color-edge),
+    inset 0 -1px 0 var(--color-edge);
 }
 
 @layer base {
@@ -200,9 +220,24 @@
   }
 
   body {
-    /* Transparent so GlobalBackground's fixed canvas shows through every route.
+    /* Transparent so the fixed canvas layer in App.tsx shows through every route.
        Selection is set once here and never overridden. */
-    @apply bg-transparent text-ink-high antialiased selection:bg-ink-max selection:text-canvas font-sans;
+    @apply bg-transparent text-ink-strong antialiased selection:bg-ink-loud selection:text-canvas font-sans;
+    /* Only upright faces are loaded; never let the browser fake a bold or italic. */
+    font-synthesis: none;
+  }
+
+  /* Headings balance their lines; running text avoids a lone last word. */
+  h1,
+  h2,
+  h3,
+  h4,
+  blockquote {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 
   /* Tailwind 4's reset stopped giving buttons a pointer cursor, unlike Tailwind 3.
@@ -224,8 +259,8 @@
   .work-card-rest,
   .work-card-reveal,
   .work-card-arrow {
-    transition-duration: 220ms;
-    transition-timing-function: var(--ease-entrance);
+    transition-duration: 150ms;
+    transition-timing-function: var(--ease-out);
   }
 
   .work-card-image {
@@ -241,12 +276,12 @@
   .work-card-copy {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.25rem;
   }
 
   .work-card-arrow {
     opacity: 0;
-    transform: translateX(-8px);
+    transform: translateX(-4px);
   }
 
   @media (min-width: 48rem) and (hover: hover) and (pointer: fine) {
@@ -284,6 +319,64 @@
       opacity: 1;
       transform: translateX(0);
     }
+  }
+
+  /* A case-study figure states what it is: its number in the study, counted by
+     CSS in document order, and its corner marks. Marks carry information or
+     they do not exist. */
+  .case-study {
+    counter-reset: figure;
+  }
+
+  .figure {
+    counter-increment: figure;
+  }
+
+  .figure-number::before {
+    content: 'Fig ' counter(figure, decimal-leading-zero);
+  }
+
+  .figure-marks::before,
+  .figure-marks::after,
+  .figure-marks > .figure-marks-bottom::before,
+  .figure-marks > .figure-marks-bottom::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    width: 7px;
+    height: 7px;
+    pointer-events: none;
+    border-color: var(--color-edge-strong);
+    border-style: solid;
+    border-width: 0;
+  }
+
+  .figure-marks::before {
+    top: 6px;
+    left: 6px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+  }
+
+  .figure-marks::after {
+    top: 6px;
+    right: 6px;
+    border-top-width: 1px;
+    border-right-width: 1px;
+  }
+
+  .figure-marks > .figure-marks-bottom::before {
+    bottom: 6px;
+    left: 6px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+  }
+
+  .figure-marks > .figure-marks-bottom::after {
+    bottom: 6px;
+    right: 6px;
+    border-bottom-width: 1px;
+    border-right-width: 1px;
   }
 }
 

@@ -77,17 +77,17 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             </CaseStudyParagraph>
                         </CaseStudyProse>
 
-                        <div className="mx-auto w-full max-w-page rounded-md bg-fill p-6 md:p-8">
-                            <span className="block text-eyebrow text-ink-low">
+                        <div className="mx-auto w-full max-w-page rounded-md bg-hover p-6 md:p-8">
+                            <span className="block text-label text-ink-quiet">
                                 Reconstructed from project notes
                             </span>
                             <ol className="mt-6 grid grid-cols-1 gap-x-8 md:grid-cols-2">
                                 {QUESTIONS.map((question, index) => (
                                     <li
                                         key={question}
-                                        className="flex gap-4 border-t border-line py-5 text-body-sm text-ink-body"
+                                        className="flex gap-4 rule-t py-4 text-small text-ink"
                                     >
-                                        <span className="shrink-0 font-mono text-caption text-ink-low">
+                                        <span className="shrink-0 font-mono text-data text-ink-quiet">
                                             {String(index + 1).padStart(2, '0')}
                                         </span>
                                         {question}
@@ -103,7 +103,7 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                 rhythm: 'wide',
                 children: (
                     <>
-                        <div className="space-y-10 md:space-y-14">
+                        <div className="space-y-8 md:space-y-10">
                             <CaseStudyDecision
                                 number="01"
                                 title="Show the ride, not just the carrier"
@@ -122,7 +122,7 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             />
                         </div>
 
-                        <div className="space-y-10 md:space-y-14">
+                        <div className="space-y-8 md:space-y-10">
                             <CaseStudyDecision
                                 number="02"
                                 title="Let buyer questions set the order"
@@ -142,7 +142,7 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             />
                         </div>
 
-                        <div className="space-y-10 md:space-y-14">
+                        <div className="space-y-8 md:space-y-10">
                             <CaseStudyDecision number="03" title="End with consultation">
                                 <CaseStudyParagraph>
                                     Dog & Ride does not have one setup for every rider. The page
@@ -194,7 +194,7 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                 description: 'One story across each channel',
                 rhythm: 'tight',
                 children: (
-                    <div className="mx-auto max-w-page space-y-10">
+                    <div className="mx-auto max-w-page space-y-8">
                         <div className="space-y-6">
                             <CaseStudyParagraph>
                                 Dog & Ride moved from a logo and video content to one identity and
@@ -207,16 +207,16 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                         </div>
 
                         <div>
-                            <span className="block text-eyebrow text-ink-low">
+                            <span className="block text-label text-ink-quiet">
                                 First five months after launch
                             </span>
                             <dl className="mt-6 grid grid-cols-2 gap-x-6 md:grid-cols-5">
                                 {METRICS.map((metric) => (
-                                    <div key={metric.label} className="border-t border-line py-5">
-                                        <dt className="text-caption text-ink-low">
+                                    <div key={metric.label} className="rule-t py-4">
+                                        <dt className="text-small text-ink-quiet">
                                             {metric.label}
                                         </dt>
-                                        <dd className="mt-3 font-mono text-card-title text-ink-high">
+                                        <dd className="mt-3 font-mono text-heading text-ink-strong">
                                             {metric.value}
                                         </dd>
                                     </div>

@@ -80,9 +80,9 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                 {QUESTIONS.map((question, index) => (
                                     <li
                                         key={question}
-                                        className="flex gap-4 border-t border-line py-5 text-body-sm text-ink-body"
+                                        className="flex gap-4 rule-t py-4 text-small text-ink"
                                     >
-                                        <span className="shrink-0 font-mono text-caption text-ink-low">
+                                        <span className="shrink-0 font-mono text-data text-ink-quiet">
                                             {String(index + 1).padStart(2, '0')}
                                         </span>
                                         {question}
@@ -119,7 +119,7 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                 rhythm: 'wide',
                 children: (
                     <>
-                        <div className="space-y-10 md:space-y-14">
+                        <div className="space-y-8 md:space-y-10">
                             <CaseStudyDecision number="01" title="Put proof near the top">
                                 <CaseStudyParagraph>
                                     Sinerjik had strong facts to support its offer. These included
@@ -140,7 +140,7 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             />
                         </div>
 
-                        <div className="space-y-10 md:space-y-14">
+                        <div className="space-y-8 md:space-y-10">
                             <CaseStudyDecision
                                 number="02"
                                 title="Show the software through a working example"
@@ -167,7 +167,7 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             />
                         </div>
 
-                        <div className="space-y-10 md:space-y-14">
+                        <div className="space-y-8 md:space-y-10">
                             <CaseStudyDecision number="03" title="Show how the products connect">
                                 <CaseStudyParagraph>
                                     MoBI Plus+ includes four products. Listing them separately would
@@ -191,7 +191,7 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             />
                         </div>
 
-                        <div className="space-y-10 md:space-y-14">
+                        <div className="space-y-8 md:space-y-10">
                             <CaseStudyDecision
                                 number="04"
                                 title="Match sectors with the right offer"
@@ -262,21 +262,21 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                 description: 'One client from four pitches',
                 rhythm: 'tight',
                 children: (
-                    <div className="mx-auto max-w-page space-y-10">
-                        <div className="grid grid-cols-1 gap-8 border-y border-line py-8 md:grid-cols-2">
+                    <div className="mx-auto max-w-page space-y-8">
+                        <div className="grid grid-cols-1 gap-8 rule-y py-8 md:grid-cols-2">
                             <div>
-                                <span className="block font-mono text-display-md text-ink-high">
+                                <span className="block font-mono text-title text-ink-strong">
                                     1
                                 </span>
-                                <span className="mt-3 block text-eyebrow text-ink-low">
+                                <span className="mt-3 block text-label text-ink-quiet">
                                     Signed client
                                 </span>
                             </div>
                             <div>
-                                <span className="block font-mono text-display-md text-ink-high">
+                                <span className="block font-mono text-title text-ink-strong">
                                     4
                                 </span>
-                                <span className="mt-3 block text-eyebrow text-ink-low">
+                                <span className="mt-3 block text-label text-ink-quiet">
                                     Pitches using the website
                                 </span>
                             </div>

@@ -125,7 +125,7 @@ const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                 rhythm: 'wide',
                 children: (
                     <>
-                        <div className="space-y-10 md:space-y-14">
+                        <div className="space-y-8 md:space-y-10">
                             <CaseStudyDecision number="01" title="One product, two workspaces">
                                 <CaseStudyParagraph>
                                     Publishers and advertisers selected their role when creating an
@@ -145,7 +145,7 @@ const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             />
                         </div>
 
-                        <div className="space-y-10 md:space-y-14">
+                        <div className="space-y-8 md:space-y-10">
                             <CaseStudyDecision number="02" title="Campaign setup in three parts">
                                 <CaseStudyParagraph>
                                     Advertisers had to provide campaign details, define who could
@@ -171,7 +171,7 @@ const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             </div>
                         </div>
 
-                        <div className="space-y-10 md:space-y-14">
+                        <div className="space-y-8 md:space-y-10">
                             <CaseStudyDecision number="03" title="Tracking links ready to use">
                                 <CaseStudyParagraph>
                                     Publishers could browse categories, find advertisers, and apply
@@ -203,7 +203,7 @@ const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             />
                         </div>
 
-                        <div className="space-y-10 md:space-y-14">
+                        <div className="space-y-8 md:space-y-10">
                             <CaseStudyDecision number="04" title="Clear financial states">
                                 <CaseStudyParagraph>
                                     The advertiser dashboard connected sales, commissions, publisher
@@ -238,10 +238,7 @@ const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             <CaseStudyParagraph>The shipped MVP included:</CaseStudyParagraph>
                             <ul className="grid max-w-2xl grid-cols-1 gap-x-8 md:grid-cols-2">
                                 {SHIPPED.map((item) => (
-                                    <li
-                                        key={item}
-                                        className="border-t border-line py-4 text-body-sm text-ink-body"
-                                    >
+                                    <li key={item} className="rule-t py-4 text-small text-ink">
                                         {item}
                                     </li>
                                 ))}
@@ -274,7 +271,7 @@ const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                 description: 'Launch and limits',
                 rhythm: 'tight',
                 children: (
-                    <div className="mx-auto max-w-page space-y-10">
+                    <div className="mx-auto max-w-page space-y-8">
                         <div className="space-y-6">
                             <CaseStudyParagraph>
                                 The MVP launched in June 2022. Four months later, it had around 70
@@ -283,20 +280,20 @@ const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             </CaseStudyParagraph>
                         </div>
 
-                        <div className="grid max-w-2xl grid-cols-1 gap-8 border-y border-line py-8 md:grid-cols-2">
+                        <div className="grid max-w-2xl grid-cols-1 gap-8 rule-y py-8 md:grid-cols-2">
                             <div>
-                                <span className="block font-mono text-display-md text-ink-high">
+                                <span className="block font-mono text-title text-ink-strong">
                                     ~20
                                 </span>
-                                <span className="mt-3 block text-eyebrow text-ink-low">
+                                <span className="mt-3 block text-label text-ink-quiet">
                                     Advertiser accounts
                                 </span>
                             </div>
                             <div>
-                                <span className="block font-mono text-display-md text-ink-high">
+                                <span className="block font-mono text-title text-ink-strong">
                                     ~50
                                 </span>
-                                <span className="mt-3 block text-eyebrow text-ink-low">
+                                <span className="mt-3 block text-label text-ink-quiet">
                                     Publisher and influencer accounts
                                 </span>
                             </div>

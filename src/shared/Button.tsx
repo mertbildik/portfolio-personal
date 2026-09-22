@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 
 const BASE =
-    'group inline-flex min-h-11 items-center gap-3 rounded-full border border-line px-5 text-button text-ink-body transition-[color,background-color,border-color] duration-200 ease-entrance hover:border-ink-low hover:bg-fill hover:text-ink-max focus-visible:border-ink-low focus-visible:bg-fill focus-visible:text-ink-max focus-visible:outline-none';
+    'group inline-flex min-h-11 items-center gap-3 rounded-full border border-edge px-5 text-label text-ink transition-[color,background-color,border-color] duration-120 ease-out hover:border-edge-strong hover:bg-hover hover:text-ink-loud focus-visible:border-edge-strong focus-visible:bg-hover focus-visible:text-ink-loud focus-visible:outline-none';
 
 type LinkProps = {
     href: string;
