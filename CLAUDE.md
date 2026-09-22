@@ -32,29 +32,30 @@ src/
   app/                  # application shell, routes, and providers
   homepage/             # homepage composition, hero, page frame, and portrait
   contact/              # contact form and contact details
-  portfolio/            # portfolio index, runtime content, assets, and case studies
-    content/            # projects.ts and employment.ts — runtime content source
+  portfolio/            # portfolio index, assets, and case studies
+    content/projects.ts # the project index — metadata only, no prose
     assets/<id>/        # case-study images, .webp only
-    case-studies/       # detail route, layout, templates, and custom studies
+    assets/covers.ts    # id -> homepage card image
+    case-studies/       # detail route, layout, shared parts
+      studies/          # one hand-written page per project
   shared/               # genuinely cross-feature UI and motion only
   main.tsx, index.css   # root + the ONLY place design values are defined
 public/                # static assets; _redirects handles SPA fallback on Netlify/CF
 docs/
   design/              # design system — read direction.md first
-  content/writing.md   # how to add a project or case study
-  engineering/         # architecture and engineering references
+  content/             # writing.md (voice) and case-study-system.md (the frame)
 ```
 
 ## Tests
 
-- `tests/smoke.spec.ts` is the only suite. Every page is loaded on production CSS, with viewport overflow and image-load checks. It also iterates `PROJECTS` from `src/portfolio/content/projects.ts`, so **every project you add is tested automatically**.
+- `tests/smoke.spec.ts` is the only suite. Every page is loaded on production CSS, with viewport overflow and image-load checks. It also iterates `PROJECTS` from `src/portfolio/content/projects.ts`, so **every project you add is tested automatically**. That import runs in plain Node, so `projects.ts` must never import an asset — keep image bindings in `assets/covers.ts`.
 - Tests run against the **production build** (`:4173`), not the dev server. Missing Tailwind classes and clipped layouts only show up here — `npm run build` is part of the loop, not optional.
 - Pre-merge: `npm run typecheck && npm run build && npm run test`.
 
 ## Post-change consistency
 
 - After changing a fact, rule, decision, name, route, or value, search the likely related files and check for contradictions. Keep the search targeted; do not scan the whole repository without a reason.
-- `docs/content/` is the human-readable editorial reference; `src/portfolio/content/` and hand-written case-study components are the runtime representation. Content changes must keep both representations consistent.
+- Each fact has exactly one home. Project metadata lives in `content/projects.ts`; a case study's prose lives in its own component. Do not create a second copy of either, in docs or anywhere else.
 - If a meaningful conflict appears, show it, recommend the smallest correct resolution, and wait for approval. Do not resolve it silently.
 - Test only the affected scope unless broader verification is explicitly requested.
 
@@ -75,7 +76,20 @@ Git history owns change history.
 
 ## Adding content
 
-A project = one entry in `src/portfolio/content/projects.ts` + images under `src/portfolio/assets/<id>/` (lowercase-hyphenated, `.webp` only). Each entry explicitly selects `template`, `employment`, or `custom` rendering. `ProjectCaseStudy` parses plain strings — `\n` for paragraphs, `•`/`-` lines for bullets, em dash splits `keyDecisions` into title/body. Full rules in `docs/content/writing.md`.
+A project is four things, and nothing else:
+
+1. One entry in `src/portfolio/content/projects.ts` — metadata only. No prose.
+2. One folder `src/portfolio/assets/<id>/` (lowercase-hyphenated, `.webp` only) containing `cover.webp`.
+3. One line in `src/portfolio/assets/covers.ts` mapping the id to that cover.
+4. One page in `src/portfolio/case-studies/studies/<Name>CaseStudy.tsx`, registered by id in `CaseStudyPage.tsx`.
+
+Every case study is written by hand. There is no template and no content schema — copy the
+nearest existing study and replace its words. Build sections with `CaseStudySection`,
+numbered sub-decisions with `CaseStudyDecision`, body copy with `CaseStudyProse`, and
+figures with `CaseStudyImage`, all from `case-studies/CaseStudyElements.tsx`.
+
+The frame each study follows is in `docs/content/case-study-system.md`; how to write inside
+it is in `docs/content/writing.md`.
 
 ## Design rules (load-bearing)
 

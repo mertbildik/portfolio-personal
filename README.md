@@ -21,6 +21,7 @@ The app uses real URLs (`/portfolio/ofk`), so the host must serve `index.html` f
 | Where | What |
 |---|---|
 | [`docs/design/direction.md`](docs/design/direction.md) | The design system. Start here; it points at the other eight files. |
-| [`docs/content/writing.md`](docs/content/writing.md) | Adding a case study or a project |
-| [`CLAUDE.md`](CLAUDE.md) | The working rules, for agents and for anyone new |
+| [`docs/content/case-study-system.md`](docs/content/case-study-system.md) | The frame every case study follows |
+| [`docs/content/writing.md`](docs/content/writing.md) | How to write inside that frame |
+| [`CLAUDE.md`](CLAUDE.md) | The working rules, including how to add a project |
 | `src/index.css` | Every design value, in one `@theme` block |

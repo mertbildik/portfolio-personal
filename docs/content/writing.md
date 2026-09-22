@@ -2,7 +2,7 @@
 
 Writing is part of the interface. Help the reader understand the work, decide what matters, and know where to look next. Prefer clear thinking in a small space over more detail.
 
-`docs/content/` is the human-readable editorial reference. Published runtime content lives in `src/portfolio/content/` and hand-written case-study components. Content changes must update both representations so they stay consistent.
+These rules govern the words on the site. The words themselves live in one place only: the case-study component in `src/portfolio/case-studies/studies/`, or the homepage section that renders them. There is no second copy to keep in step.
 
 ## Voice And Clarity
 
