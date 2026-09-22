@@ -55,20 +55,20 @@ const Components: React.FC = () => (
         <Chapter
             id="action-circle"
             title="ActionCircle"
-            lede="The one control that fills on hover — ink-loud, icon to canvas — and presses to 0.97. It decorates the control around it: aria-hidden and driven by the parent’s group state, so it never carries the label itself."
+            lede="The one control that fills on hover — ink, icon to canvas — and presses to 0.97. It decorates the control around it: aria-hidden and driven by the parent’s group state, so it never carries the label itself."
         >
             <Home path="src/shared/ActionCircle.tsx" />
             <Frame>
                 <div className="flex flex-col gap-8">
                     <a
                         href="#action-circle"
-                        className="group flex w-full max-w-sm items-center justify-between focus-visible:outline-none"
+                        className="group flex w-full max-w-sm items-center justify-between"
                     >
                         <span className="flex flex-col">
-                            <span className="text-heading text-ink-strong transition-colors duration-120 ease-out group-hover:text-ink-loud">
+                            <span className="text-heading text-ink transition-colors duration-120 ease-out">
                                 Get in touch
                             </span>
-                            <span className="mt-1 flex items-center gap-2 text-small text-ink-quiet transition-colors duration-120 ease-out group-hover:text-ink">
+                            <span className="mt-1 flex items-center gap-2 text-small text-ink-secondary transition-colors duration-120 ease-out group-hover:text-ink">
                                 <span className="h-1.5 w-1.5 rounded-full bg-ok" />
                                 Available for new projects
                             </span>
@@ -80,8 +80,8 @@ const Components: React.FC = () => (
 
                     <div>
                         <Label>small — the contact form’s submit</Label>
-                        <button className="group flex items-center gap-4 focus-visible:outline-none">
-                            <span className="text-label text-ink-strong transition-colors duration-120 ease-out group-hover:text-ink-loud">
+                        <button className="group flex items-center gap-4">
+                            <span className="text-label text-ink transition-colors duration-120 ease-out">
                                 Send inquiry
                             </span>
                             <ActionCircle small>
@@ -109,7 +109,7 @@ const Components: React.FC = () => (
         <Chapter
             id="section-intro"
             title="SectionIntro"
-            lede="A homepage section’s title and its one supporting sentence: title on ink-strong, body on ink, held to the prose measure."
+            lede="A homepage section’s title and its one supporting sentence: title on ink-large, body on ink, held to the prose measure."
         >
             <Home path="src/shared/SectionIntro.tsx" />
             <Frame>

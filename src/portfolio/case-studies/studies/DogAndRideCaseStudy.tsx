@@ -78,7 +78,7 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                         </CaseStudyProse>
 
                         <div className="mx-auto w-full max-w-page rounded-md bg-hover p-6 md:p-8">
-                            <span className="block text-label text-ink-quiet">
+                            <span className="block text-label text-ink-secondary">
                                 Reconstructed from project notes
                             </span>
                             <ol className="mt-6 grid grid-cols-1 gap-x-8 md:grid-cols-2">
@@ -87,7 +87,7 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                         key={question}
                                         className="flex gap-4 rule-t py-4 text-small text-ink"
                                     >
-                                        <span className="shrink-0 font-mono text-data text-ink-quiet">
+                                        <span className="shrink-0 font-mono text-data text-ink-secondary">
                                             {String(index + 1).padStart(2, '0')}
                                         </span>
                                         {question}
@@ -207,16 +207,16 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                         </div>
 
                         <div>
-                            <span className="block text-label text-ink-quiet">
+                            <span className="block text-label text-ink-secondary">
                                 First five months after launch
                             </span>
                             <dl className="mt-6 grid grid-cols-2 gap-x-6 md:grid-cols-5">
                                 {METRICS.map((metric) => (
                                     <div key={metric.label} className="rule-t py-4">
-                                        <dt className="text-small text-ink-quiet">
+                                        <dt className="text-small text-ink-secondary">
                                             {metric.label}
                                         </dt>
-                                        <dd className="mt-3 font-mono text-heading text-ink-strong">
+                                        <dd className="mt-3 font-mono text-heading text-ink">
                                             {metric.value}
                                         </dd>
                                     </div>

@@ -82,7 +82,7 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                         key={question}
                                         className="flex gap-4 rule-t py-4 text-small text-ink"
                                     >
-                                        <span className="shrink-0 font-mono text-data text-ink-quiet">
+                                        <span className="shrink-0 font-mono text-data text-ink-secondary">
                                             {String(index + 1).padStart(2, '0')}
                                         </span>
                                         {question}
@@ -265,18 +265,14 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                     <div className="mx-auto max-w-page space-y-8">
                         <div className="grid grid-cols-1 gap-8 rule-y py-8 md:grid-cols-2">
                             <div>
-                                <span className="block font-mono text-title text-ink-strong">
-                                    1
-                                </span>
-                                <span className="mt-3 block text-label text-ink-quiet">
+                                <span className="block font-mono text-title text-ink-large">1</span>
+                                <span className="mt-3 block text-label text-ink-secondary">
                                     Signed client
                                 </span>
                             </div>
                             <div>
-                                <span className="block font-mono text-title text-ink-strong">
-                                    4
-                                </span>
-                                <span className="mt-3 block text-label text-ink-quiet">
+                                <span className="block font-mono text-title text-ink-large">4</span>
+                                <span className="mt-3 block text-label text-ink-secondary">
                                     Pitches using the website
                                 </span>
                             </div>

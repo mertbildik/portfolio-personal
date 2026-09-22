@@ -19,7 +19,7 @@ const BLOCKS: [string, string][] = [
     ],
     [
         'Chip',
-        'A role or a tool on bg-raised, in ink-quiet. No border and no hover: it is not a control.',
+        'A role or a tool on bg-raised, in ink: it is a value. No border and no hover: it is not a control.',
     ],
     [
         'Panel',
@@ -31,13 +31,13 @@ const BLOCKS: [string, string][] = [
     ],
     [
         'Circle control',
-        'An edge outline beside a text label. The one control that fills on hover: ink-loud, icon to canvas.',
+        'An edge outline beside a text label. The one control that fills on hover: ink, icon to canvas.',
     ],
     ['Pill button', 'A full-radius edge with a label. Gains the hover fill and the strong edge.'],
     ['Row', 'Open and borderless at rest. Responds through ink and a revealed icon, never a fill.'],
     [
         'Form row',
-        'Aligned label and field between hairline rules. Focus fills the row with hover, lifts the label to ink-loud and reveals its marker.',
+        'Aligned label and field between hairline rules. Focus lifts the label from ink-secondary to ink and reveals its marker.',
     ],
     ['Back control', 'A short rule that grows beside its label.'],
     ['Portrait', 'A full circle inside the slowly turning location ring. Not a pattern to reuse.'],
@@ -45,10 +45,13 @@ const BLOCKS: [string, string][] = [
 
 const STATES: [string, string][] = [
     ['Rest', 'The ink of the element’s job. No reactive fill.'],
-    ['Hover', 'Ink lifts toward ink-loud while hierarchy remains. Revealed icons use ink-loud.'],
+    [
+        'Hover',
+        'Secondary lifts to ink. Text already at ink changes by an underline, a fill or a revealed icon, never by brightness.',
+    ],
     ['Focus', 'An ink lift plus the hover fill, a revealed icon or the strong edge.'],
     ['Pressed', 'A circle control scales to 0.97 for 100ms.'],
-    ['Selected', 'ink-loud on a hover fill, with an ink-strong marker.'],
+    ['Selected', 'ink on a hover fill, with an ink marker.'],
     ['Loading', 'The label changes and the whole control takes the disabled treatment.'],
     ['Disabled', 'Half opacity on the whole control and a not-allowed cursor.'],
 ];
@@ -70,19 +73,19 @@ const Surfaces: React.FC = () => (
                 columns={['Use', 'Class', 'For', 'Uses']}
                 rows={[
                     [
-                        <span className="text-ink-strong">Edge</span>,
+                        <span className="text-ink">Edge</span>,
                         <Mono bright>border border-edge</Mono>,
                         'Frames, controls, the portrait.',
                         <Mono>{uses('border-edge')}</Mono>,
                     ],
                     [
-                        <span className="text-ink-strong">Strong edge</span>,
+                        <span className="text-ink">Strong edge</span>,
                         <Mono bright>border-edge-strong</Mono>,
                         'A hovered or focused control.',
                         <Mono>{uses('border-edge-strong')}</Mono>,
                     ],
                     [
-                        <span className="text-ink-strong">Rule</span>,
+                        <span className="text-ink">Rule</span>,
                         <Mono bright>rule-t · rule-b · rule-y</Mono>,
                         'Dividers: metadata, form rows, lists.',
                         <Mono>{uses('rule-t') + uses('rule-b') + uses('rule-y')}</Mono>,
@@ -103,7 +106,7 @@ const Surfaces: React.FC = () => (
             </p>
             <Frame className="mt-6">
                 <div className="panel max-w-sm rounded-md p-4">
-                    <span className="flex items-center gap-3 text-label text-ink-quiet">
+                    <span className="flex items-center gap-3 text-label text-ink-secondary">
                         <Lock size={16} strokeWidth={1.5} />
                         Restricted access
                     </span>
@@ -139,7 +142,7 @@ const Surfaces: React.FC = () => (
             <Table
                 columns={['Block', 'Treatment']}
                 rows={BLOCKS.map(([name, treatment]) => [
-                    <span className="text-ink-strong">{name}</span>,
+                    <span className="text-ink">{name}</span>,
                     treatment,
                 ])}
             />
@@ -153,7 +156,7 @@ const Surfaces: React.FC = () => (
             <Table
                 columns={['State', 'Treatment']}
                 rows={STATES.map(([state, treatment]) => [
-                    <span className="text-ink-strong">{state}</span>,
+                    <span className="text-ink">{state}</span>,
                     treatment,
                 ])}
             />

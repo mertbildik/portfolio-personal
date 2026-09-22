@@ -37,32 +37,29 @@ export const CaseStudyHeader: React.FC<CaseStudyHeaderProps> = ({
             </BackLink>
         </div>
 
-        <h1 className="text-display text-ink-strong">{title}</h1>
+        <h1 className="text-display text-ink-large">{title}</h1>
         <p className="mt-4 max-w-measure text-body text-ink">{summary}</p>
 
         <div className="mt-8 grid grid-cols-1 gap-4 rule-t pt-4 md:grid-cols-3 md:gap-8">
             <div>
-                <span className="block text-small text-ink-quiet">Role</span>
+                <span className="block text-small text-ink-secondary">Role</span>
                 <span className="mt-1 block text-small text-ink">{role}</span>
             </div>
             <div>
-                <span className="block text-small text-ink-quiet">Timeline</span>
+                <span className="block text-small text-ink-secondary">Timeline</span>
                 <span className="mt-1 block font-mono text-data text-ink">{timeline}</span>
             </div>
             <div>
-                <span className="block text-small text-ink-quiet">Scope</span>
+                <span className="block text-small text-ink-secondary">Scope</span>
                 <span className="mt-1 block text-small text-ink">{scope}</span>
             </div>
         </div>
 
         <div className="mt-6 space-y-2">
-            <span className="block text-small text-ink-quiet">Tools</span>
+            <span className="block text-small text-ink-secondary">Tools</span>
             <div className="flex flex-wrap gap-2">
                 {tools.map((tool) => (
-                    <span
-                        key={tool}
-                        className="rounded-md bg-raised px-2 py-1 text-small text-ink-quiet"
-                    >
+                    <span key={tool} className="rounded-md bg-raised px-2 py-1 text-small text-ink">
                         {tool}
                     </span>
                 ))}
@@ -77,8 +74,8 @@ export const CaseStudySectionHeading: React.FC<{ number: string; children: React
     children,
 }) => (
     <div className="mx-auto w-full max-w-page">
-        <span className="mb-2 block font-mono text-data text-ink-quiet">{number}</span>
-        <h2 className="text-title text-ink-strong">{children}</h2>
+        <span className="mb-2 block font-mono text-data text-ink-secondary">{number}</span>
+        <h2 className="text-title text-ink-large">{children}</h2>
     </div>
 );
 
@@ -158,8 +155,8 @@ export const CaseStudyDecision: React.FC<{
     children: React.ReactNode;
 }> = ({ number, title, children }) => (
     <div className="mx-auto max-w-page">
-        <span className="font-mono text-data text-ink-quiet">{number}</span>
-        <h3 className="mt-2 text-heading text-ink-strong">{title}</h3>
+        <span className="font-mono text-data text-ink-secondary">{number}</span>
+        <h3 className="mt-2 text-heading text-ink">{title}</h3>
         <div className="mt-2 space-y-4">{children}</div>
     </div>
 );
@@ -204,8 +201,8 @@ export const CaseStudyImage: React.FC<CaseStudyImageProps> = ({
                 />
             </div>
             <figcaption className="mt-3 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                <span className="max-w-measure text-small text-ink-quiet">{caption}</span>
-                <span className="font-mono text-data whitespace-nowrap text-ink-quiet">
+                <span className="max-w-measure text-small text-ink">{caption}</span>
+                <span className="font-mono text-data whitespace-nowrap text-ink-secondary">
                     <span className="figure-number" />
                     {size && ` · ${size.width}×${size.height}`}
                 </span>

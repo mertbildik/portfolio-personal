@@ -32,8 +32,8 @@
    block rather than describing it, so they answer for whatever is written below
    and cannot drift from it.
 
-   Names say what a token is FOR, never what it looks like: `ink-quiet`, not
-   `ink-low`; `title`, not `display-lg`.
+   Names say what a token is FOR, never what it looks like: `ink-secondary`,
+   not `ink-low`; `title`, not `display-lg`.
 
    Tailwind reads the PREFIX of each variable to decide which classes to build:
      --color-*      -> bg-*, text-*, border-*
@@ -114,24 +114,42 @@
      Achromatic on purpose: project screenshots are the only colour on the
      site, and they are judged against a ground with no hue of its own.
 
-     Each ink is set for its job against APCA, the contrast model that holds
-     up on dark backgrounds (WCAG 2 overstates contrast near black). Values
-     were solved in OKLCH for the target Lc on this canvas. */
+     Contrast is set by what text needs to be read, not by how important it
+     is. Readability depends on size and weight: small text needs more
+     contrast than large text (APCA's size/weight table), and on a dark ground
+     the penalty for dim small text grows as the text gets smaller. So the
+     smallest reading text carries the most contrast, and large type carries
+     less. Hierarchy between page, section, block and body comes from the type
+     system; colour makes only two distinctions: content from annotation, and
+     a value from a placeholder.
+
+     Lc is APCA on this canvas, the ratio is WCAG 2, which is the binding
+     floor. Every ink clears WCAG AAA except ink-faint, which clears AA. */
   --color-canvas: #111111; /* the one ground, and the backing in every image frame */
   --color-raised: #191919; /* static grouped content: chips, the panel */
   --color-hover: #1f1f1f; /* interaction feedback: a focused row or control */
   --color-edge: #292929; /* object edges and hairline rules */
-  --color-edge-strong: #404040; /* the edge of a hovered or focused control */
+  --color-edge-strong: #404040; /* the edge of a hovered control; an inline link's underline */
 
-  --color-ink-loud: #fdfdfd; /* Lc 106  hover, focus and active resolution; the one focal phrase */
-  --color-ink-strong: #ececec; /* Lc 95   headings, titles, entered values */
-  --color-ink: #d4d4d4; /* Lc 80   prose and anything a visitor came to read */
-  --color-ink-quiet: #a3a3a3; /* Lc 52   labels, captions, metadata */
-  --color-ink-faint: #848484; /* Lc 36   placeholders only */
+  /* Lc 90 · 14.9:1  everything read at 12-15px: body, block headings,
+     captions, summaries, metadata values, entered values, actions. APCA's
+     preferred body level; brighter only adds bloom on a dark ground. */
+  --color-ink: #e5e5e5;
+  /* Lc 84 · 13.6:1  text of 20px and up: display, title, lead. The same ink,
+     corrected for size: a large stroke reads brighter than a small one at one
+     value, so this sits just under ink to look equal to it, not dimmer. */
+  --color-ink-large: #dcdcdc;
+  /* Lc 65 · 9.8:1   annotation: keys, group labels, ordinals, years, figure
+     numbers, hints, inactive navigation. Text you glance at to orient, which
+     is why it may recede; also the focus ring. */
+  --color-ink-secondary: #bbbbbb;
+  /* Lc 45 · 6.3:1   placeholders and disabled text only. Never a sentence. */
+  --color-ink-faint: #969696;
 
-  /* Status: the only chroma in the interface, always beside words. */
-  --color-ok: #62b77a;
-  --color-danger: #d66b6b;
+  /* Status: the only chroma in the interface, and only ever a mark — a dot or
+     an icon beside words set in ink. Matched at OKLCH L 0.70, C 0.13. */
+  --color-ok: #5cb572;
+  --color-danger: #e47c75;
 
   /* The canvas atmosphere: two white-alpha washes on the one fixed layer. */
   --surface-canvas:
@@ -222,7 +240,7 @@
   body {
     /* Transparent so the fixed canvas layer in App.tsx shows through every route.
        Selection is set once here and never overridden. */
-    @apply bg-transparent text-ink-strong antialiased selection:bg-ink-loud selection:text-canvas font-sans;
+    @apply bg-transparent text-ink antialiased selection:bg-ink selection:text-canvas font-sans;
     /* Only upright faces are loaded; never let the browser fake a bold or italic. */
     font-synthesis: none;
   }
@@ -238,6 +256,14 @@
 
   p {
     text-wrap: pretty;
+  }
+
+  /* Keyboard focus is always drawn, never a brightness shift alone: the ink
+     stops at Lc 90, so there is no brighter state left to move to. Inputs
+     signal focus on their row instead and opt out with focus:outline-none. */
+  :focus-visible {
+    outline: 2px solid var(--color-ink-secondary);
+    outline-offset: 2px;
   }
 
   /* Tailwind 4's reset stopped giving buttons a pointer cursor, unlike Tailwind 3.

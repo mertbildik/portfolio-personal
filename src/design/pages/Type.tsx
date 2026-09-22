@@ -19,7 +19,8 @@ const SAMPLES: Record<string, string> = {
     data: '2026',
 };
 
-const HEADINGS = new Set(['display', 'title', 'heading']);
+/** Roles of 20px and up take the size-corrected ink; everything smaller reads in ink. */
+const LARGE = new Set(['display', 'title', 'lead']);
 
 const SIZES = [...new Set(TYPE_STEPS.map((step) => step.size))];
 const OFF_GRID = TYPE_STEPS.filter((step) => parseFloat(step.lineHeight) % 4 !== 0);
@@ -56,7 +57,7 @@ const Type: React.FC = () => (
                             scanner and would only render by accident, because the site
                             happens to use the same class elsewhere. */}
                         <p
-                            className={HEADINGS.has(step.token) ? 'text-ink-strong' : 'text-ink'}
+                            className={LARGE.has(step.token) ? 'text-ink-large' : 'text-ink'}
                             style={{
                                 fontSize: step.size,
                                 lineHeight: step.lineHeight,
@@ -77,7 +78,7 @@ const Type: React.FC = () => (
             lede="Line heights are whole multiples of 4px, so a stack of text lands on the same grid as everything around it. The grid is a tool, not the goal: where the eye disagrees with it, the eye wins, and the exception is named."
         >
             <p className="text-small text-ink">
-                <span className="font-mono text-data text-ink-strong">
+                <span className="font-mono text-data text-ink">
                     {TYPE_STEPS.length - OFF_GRID.length} of {TYPE_STEPS.length}
                 </span>{' '}
                 roles are on the grid, read from index.css.
@@ -117,7 +118,7 @@ const Type: React.FC = () => (
                     ],
                 ]}
             />
-            <p className="mt-4 max-w-measure text-small text-ink-quiet">
+            <p className="mt-4 max-w-measure text-small text-ink-secondary">
                 The weight lives in the token. A <Mono>font-*</Mono> utility beside a type class is
                 the system being worked around — the source currently has{' '}
                 {uses('font-semibold') + uses('font-medium') + uses('font-bold')} of them.
@@ -133,12 +134,12 @@ const Type: React.FC = () => (
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                     <div>
                         <Label>Key over a word</Label>
-                        <span className="block text-small text-ink-quiet">Role</span>
+                        <span className="block text-small text-ink-secondary">Role</span>
                         <span className="mt-1 block text-small text-ink">Product designer</span>
                     </div>
                     <div>
                         <Label>Key over data</Label>
-                        <span className="block text-small text-ink-quiet">Timeline</span>
+                        <span className="block text-small text-ink-secondary">Timeline</span>
                         <span className="mt-1 block font-mono text-data text-ink">
                             Mar–Apr 2026
                         </span>

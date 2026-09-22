@@ -113,13 +113,13 @@ const Space: React.FC = () => {
                 <Frame>
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                         <div className="rule-t pt-4">
-                            <span className="block text-label text-ink-quiet">rule-t</span>
+                            <span className="block text-label text-ink-secondary">rule-t</span>
                             <span className="mt-1 block text-small text-ink">
                                 A divider. The text below it stays on the grid.
                             </span>
                         </div>
                         <div className="rounded-md border border-edge p-4">
-                            <span className="block text-label text-ink-quiet">border</span>
+                            <span className="block text-label text-ink-secondary">border</span>
                             <span className="mt-1 block text-small text-ink">
                                 An object’s edge. It is part of the object.
                             </span>
@@ -127,7 +127,7 @@ const Space: React.FC = () => {
                     </div>
                 </Frame>
                 <p className="mt-4 text-small text-ink">
-                    <span className="font-mono text-data text-ink-strong">
+                    <span className="font-mono text-data text-ink">
                         {uses('rule-t') + uses('rule-b') + uses('rule-y')}
                     </span>{' '}
                     hairline rules in the site today.
@@ -149,7 +149,7 @@ const Space: React.FC = () => {
                             <Mono>{count}</Mono>,
                         ])}
                 />
-                <p className="mt-4 max-w-measure text-small text-ink-quiet">
+                <p className="mt-4 max-w-measure text-small text-ink-secondary">
                     {offGrid.length === 0
                         ? 'Every spacing class in the source is a whole multiple of 4.'
                         : `Off the 4px grid: ${offGrid.map(({ className }) => className).join(', ')}. Each is an optical correction and should say so where it is used.`}
@@ -168,13 +168,13 @@ const Space: React.FC = () => {
                         <Mono>{width}</Mono>,
                         <Mono>{count}</Mono>,
                         role ?? (
-                            <span className="text-ink-quiet">
+                            <span className="text-ink-secondary">
                                 Undecided — used in a figure layout, never named.
                             </span>
                         ),
                     ])}
                 />
-                <p className="mt-4 max-w-measure text-small text-ink-quiet">
+                <p className="mt-4 max-w-measure text-small text-ink-secondary">
                     Prose never runs wider than <Mono>max-w-measure</Mono>. It is set in em, so
                     smaller type gets a narrower column without a second decision.
                 </p>

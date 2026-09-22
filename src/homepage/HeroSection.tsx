@@ -27,7 +27,7 @@ const HeroSection: React.FC = () => (
                         />
                     </defs>
                     <text
-                        className="fill-current text-ink-quiet"
+                        className="fill-current text-ink-secondary"
                         style={{ fontSize: 8.5, letterSpacing: 0.4 }}
                     >
                         <textPath
@@ -44,16 +44,13 @@ const HeroSection: React.FC = () => (
             {/* A name and what the person does read as one unit, so the two lines
                 sit directly on each other and separate by ink alone. */}
             <div>
-                <span className="block text-heading text-ink-strong">Mert Bildik</span>
-                <span className="block text-small text-ink-quiet">Product designer</span>
+                <span className="block text-heading text-ink">Mert Bildik</span>
+                <span className="block text-small text-ink-secondary">Product designer</span>
             </div>
         </div>
 
-        <h1 className="mt-12 text-display text-ink-strong md:mt-16">
-            <span>I design &amp; build </span>
-            <span className="text-ink-loud">
-                digital products, websites, and visual experiences.
-            </span>
+        <h1 className="mt-12 text-display text-ink-large md:mt-16">
+            I design &amp; build digital products, websites, and visual experiences.
         </h1>
 
         <p className="mt-6 max-w-measure text-body text-ink">
@@ -63,7 +60,7 @@ const HeroSection: React.FC = () => (
                 href="https://www.mckinsey.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border-b border-transparent pb-0.5 text-ink-strong transition-[color,border-color] duration-120 ease-out hover:border-edge-strong hover:text-ink-loud focus-visible:border-edge-strong focus-visible:text-ink-loud focus-visible:outline-none"
+                className="underline decoration-edge-strong underline-offset-4 transition-colors duration-120 ease-out hover:decoration-ink-secondary"
             >
                 McKinsey &amp; Company
             </a>
@@ -76,13 +73,13 @@ const HeroSection: React.FC = () => (
 
         <a
             href="#contact"
-            className="group mt-10 flex w-full cursor-pointer items-center justify-between whitespace-nowrap focus-visible:outline-none"
+            className="group mt-10 flex w-full cursor-pointer items-center justify-between whitespace-nowrap"
         >
             <span className="flex shrink-0 flex-col">
-                <span className="text-heading text-ink-strong transition-colors duration-120 ease-out group-hover:text-ink-loud group-focus-visible:text-ink-loud">
+                <span className="text-heading text-ink transition-colors duration-120 ease-out">
                     Get in touch
                 </span>
-                <span className="mt-1 flex items-center gap-2 text-small text-ink-quiet transition-colors duration-120 ease-out group-hover:text-ink group-focus-visible:text-ink">
+                <span className="mt-1 flex items-center gap-2 text-small text-ink-secondary transition-colors duration-120 ease-out group-hover:text-ink group-focus-visible:text-ink">
                     <span className="h-1.5 w-1.5 rounded-full bg-ok" />
                     Available for new projects
                 </span>

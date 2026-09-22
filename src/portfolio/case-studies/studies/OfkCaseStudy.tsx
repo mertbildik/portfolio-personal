@@ -83,7 +83,7 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                         key={question}
                                         className="flex gap-4 rule-t py-4 text-small text-ink"
                                     >
-                                        <span className="shrink-0 font-mono text-data text-ink-quiet">
+                                        <span className="shrink-0 font-mono text-data text-ink-secondary">
                                             {String(index + 1).padStart(2, '0')}
                                         </span>
                                         {question}

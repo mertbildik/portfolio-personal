@@ -43,8 +43,7 @@ const App: React.FC = () => (
     <MotionConfig reducedMotion="user">
         <BrowserRouter>
             {/* Layout only. Ink, font and selection come from `body` in index.css,
-                so the document default stays ink-strong and white keeps meaning
-                emphasis rather than being the floor. */}
+                so the document default is the reading ink. */}
             <div className="flex flex-col min-h-screen relative">
                 <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 bg-canvas canvas-atmosphere" />
                 <main className="flex-1 w-full relative z-10 flex flex-col">

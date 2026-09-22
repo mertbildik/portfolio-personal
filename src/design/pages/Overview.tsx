@@ -43,7 +43,7 @@ const Overview: React.FC = () => (
             <Table
                 columns={['Principle', 'In practice']}
                 rows={PRINCIPLES.map(([name, practice]) => [
-                    <span className="text-ink-strong">{name}</span>,
+                    <span className="text-ink">{name}</span>,
                     practice,
                 ])}
             />
@@ -57,12 +57,10 @@ const Overview: React.FC = () => (
                         <li key={entry.path}>
                             <Link
                                 to={entry.path}
-                                className="group grid grid-cols-1 gap-1 border-b border-edge py-5 transition-colors duration-120 ease-out focus-visible:outline-none md:grid-cols-[10rem_minmax(0,1fr)] md:gap-6"
+                                className="group grid grid-cols-1 gap-1 border-b border-edge py-5 transition-colors duration-120 ease-out md:grid-cols-[10rem_minmax(0,1fr)] md:gap-6"
                             >
-                                <span className="text-heading text-ink-strong group-hover:text-ink-loud group-focus-visible:text-ink-loud">
-                                    {entry.label}
-                                </span>
-                                <span className="text-small text-ink-quiet group-hover:text-ink group-focus-visible:text-ink">
+                                <span className="text-heading text-ink">{entry.label}</span>
+                                <span className="text-small text-ink-secondary group-hover:text-ink group-focus-visible:text-ink">
                                     {entry.summary}
                                 </span>
                             </Link>
@@ -80,23 +78,27 @@ const Overview: React.FC = () => (
                 columns={['Source', 'Gives', 'Read by']}
                 rows={[
                     [
-                        <span className="text-ink-strong">src/index.css</span>,
+                        <span className="text-ink">src/index.css</span>,
                         <>
                             Authored token values, parsed from the <code>@theme</code> block itself
                             — currently {TYPE_STEPS.length} type steps and{' '}
                             {tokensUnder('--color-').length} colours.
                         </>,
-                        <span className="font-mono text-data text-ink-quiet">design/theme.ts</span>,
+                        <span className="font-mono text-data text-ink-secondary">
+                            design/theme.ts
+                        </span>,
                     ],
                     [
-                        <span className="text-ink-strong">The browser</span>,
+                        <span className="text-ink">The browser</span>,
                         'Painted values: a translucent token composited over the canvas, and the contrast ratio that follows from it.',
-                        <span className="font-mono text-data text-ink-quiet">design/live.ts</span>,
+                        <span className="font-mono text-data text-ink-secondary">
+                            design/live.ts
+                        </span>,
                     ],
                     [
-                        <span className="text-ink-strong">src/**/*.tsx</span>,
+                        <span className="text-ink">src/**/*.tsx</span>,
                         'How often a class is actually used, so the pages can show the system as built rather than as intended.',
-                        <span className="font-mono text-data text-ink-quiet">
+                        <span className="font-mono text-data text-ink-secondary">
                             design/census.ts
                         </span>,
                     ],
@@ -127,15 +129,16 @@ const Overview: React.FC = () => (
             lede="These pages are notes for whoever works on the site, not part of it."
         >
             <p className="max-w-2xl text-small text-ink">
-                The whole <span className="font-mono text-data text-ink-quiet">src/design/</span>{' '}
-                tree sits behind{' '}
-                <span className="font-mono text-data text-ink-quiet">import.meta.env.DEV</span> in{' '}
-                <span className="font-mono text-data text-ink-quiet">src/app/App.tsx</span>, so Vite
-                removes it from the production bundle: no chunk, no route, no entry in{' '}
-                <span className="font-mono text-data text-ink-quiet">sitemap.xml</span>. In a build,{' '}
-                <span className="font-mono text-data text-ink-quiet">/design</span> is a 404 like
-                any other unknown path. It also means these pages can read the source with{' '}
-                <span className="font-mono text-data text-ink-quiet">?raw</span> imports, which
+                The whole{' '}
+                <span className="font-mono text-data text-ink-secondary">src/design/</span> tree
+                sits behind{' '}
+                <span className="font-mono text-data text-ink-secondary">import.meta.env.DEV</span>{' '}
+                in <span className="font-mono text-data text-ink-secondary">src/app/App.tsx</span>,
+                so Vite removes it from the production bundle: no chunk, no route, no entry in{' '}
+                <span className="font-mono text-data text-ink-secondary">sitemap.xml</span>. In a
+                build, <span className="font-mono text-data text-ink-secondary">/design</span> is a
+                404 like any other unknown path. It also means these pages can read the source with{' '}
+                <span className="font-mono text-data text-ink-secondary">?raw</span> imports, which
                 would be dead weight in anything shipped.
             </p>
         </Chapter>

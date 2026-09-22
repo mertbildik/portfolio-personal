@@ -104,17 +104,15 @@ const McKinseyCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
             <div className="flex flex-col gap-6">
                 <div className="flex flex-wrap items-center gap-3">
                     <div className="inline-flex items-center rounded-md bg-raised px-2 py-1">
-                        <span className="text-small text-ink-quiet">
-                            Visual communication specialist
-                        </span>
+                        <span className="text-small text-ink">Visual communication specialist</span>
                     </div>
                     <div className="flex items-center gap-2">
-                        <span className="h-1.5 w-1.5 rounded-full bg-ink-quiet" />
-                        <span className="text-small text-ink-quiet">Status: Confidential</span>
+                        <span className="h-1.5 w-1.5 rounded-full bg-ink-secondary" />
+                        <span className="text-small text-ink-secondary">Status: Confidential</span>
                     </div>
                 </div>
 
-                <h1 className="text-display text-ink-strong">
+                <h1 className="text-display text-ink-large">
                     {project.title.replace(' & Co.', '')}
                     <br />
                     <span>&amp; Company</span>
@@ -125,12 +123,12 @@ const McKinseyCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                 </p>
 
                 <div className="space-y-2">
-                    <span className="block text-small text-ink-quiet">Tools</span>
+                    <span className="block text-small text-ink-secondary">Tools</span>
                     <div className="flex flex-wrap gap-2">
                         {TOOLS.map((tool) => (
                             <span
                                 key={tool}
-                                className="rounded-md bg-raised px-2 py-1 text-small text-ink-quiet text-nowrap"
+                                className="rounded-md bg-raised px-2 py-1 text-small text-ink text-nowrap"
                             >
                                 {tool}
                             </span>
@@ -138,7 +136,7 @@ const McKinseyCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                     </div>
                 </div>
 
-                <p className="max-w-measure whitespace-pre-line text-small text-ink-quiet">
+                <p className="max-w-measure whitespace-pre-line text-small text-ink">
                     {'Work is under strict NDA. \nProcess and outcomes can be shared on a call.'}
                 </p>
             </div>
@@ -148,16 +146,16 @@ const McKinseyCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
 
         <div className="space-y-16 md:space-y-20">
             <CaseStudySectionShell id="impact">
-                <h2 className="mb-8 text-title text-ink-strong">Impact &amp; metrics</h2>
+                <h2 className="mb-8 text-title text-ink-large">Impact &amp; metrics</h2>
 
                 <div className="grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-2">
                     {STATS.map((stat) => (
                         <div key={stat.label} className="flex flex-col items-start text-left">
-                            <span className="block font-mono text-title text-ink-strong">
+                            <span className="block font-mono text-title text-ink-large">
                                 {stat.value}
                             </span>
                             <div className="mt-4 flex flex-col items-start gap-1">
-                                <span className="block text-label text-ink-quiet">
+                                <span className="block text-label text-ink-secondary">
                                     {stat.label}
                                 </span>
                                 <p className="text-small text-ink">{stat.desc}</p>
@@ -168,12 +166,12 @@ const McKinseyCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
             </CaseStudySectionShell>
 
             <CaseStudySectionShell id="capabilities">
-                <h2 className="mb-8 text-title text-ink-strong">Core capabilities</h2>
+                <h2 className="mb-8 text-title text-ink-large">Core capabilities</h2>
 
                 <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2">
                     {CAPABILITIES.map((capability) => (
                         <div key={capability.number} className="flex flex-col gap-3">
-                            <h3 className="text-heading text-ink-strong">
+                            <h3 className="text-heading text-ink">
                                 <span className="font-mono">{capability.number}</span> /{' '}
                                 {capability.title}
                             </h3>
@@ -194,14 +192,12 @@ const McKinseyCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                     <div className="grid grid-cols-1 gap-10 p-6 md:grid-cols-2 md:p-8">
                         <div className="flex flex-col justify-between gap-8">
                             <div className="flex flex-col gap-6">
-                                <div className="flex items-center gap-3 text-ink-quiet">
+                                <div className="flex items-center gap-3 text-ink-secondary">
                                     <Lock size={20} strokeWidth={1.5} />
-                                    <h2 className="text-title text-ink-strong">
-                                        Restricted access
-                                    </h2>
+                                    <h2 className="text-title text-ink-large">Restricted access</h2>
                                 </div>
                                 <div className="flex flex-col gap-2">
-                                    <h3 className="text-heading text-ink-strong">
+                                    <h3 className="text-heading text-ink">
                                         Client work is protected by NDA.
                                     </h3>
                                     <p className="text-body text-ink">
@@ -212,13 +208,13 @@ const McKinseyCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             </div>
 
                             <div className="flex flex-col gap-1">
-                                <span className="text-label text-ink-quiet">Active status</span>
-                                <span className="text-small text-ink-quiet">Confidential</span>
+                                <span className="text-label text-ink-secondary">Active status</span>
+                                <span className="text-small text-ink">Confidential</span>
                             </div>
                         </div>
 
                         <div className="flex flex-col justify-center">
-                            <span className="mb-4 block text-label text-ink-quiet">
+                            <span className="mb-4 block text-label text-ink-secondary">
                                 What I can share on a call:
                             </span>
                             <ul className="flex flex-col gap-3">

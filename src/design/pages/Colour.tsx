@@ -23,14 +23,56 @@ const Swatch: React.FC<{ value: string; round?: boolean }> = ({ value, round = f
  */
 const INK: { token: string; role: string; target: number }[] = [
     {
-        token: 'ink-loud',
-        role: 'Hover, focus and active resolution; the one focal phrase.',
+        token: 'ink',
+        role: 'Everything read at 12–15px: body, block headings, captions, summaries, metadata values, entered values, actions.',
         target: 90,
     },
-    { token: 'ink-strong', role: 'Headings, titles, entered form values.', target: 90 },
-    { token: 'ink', role: 'Prose and anything a visitor came to read.', target: 75 },
-    { token: 'ink-quiet', role: 'Labels, captions, metadata.', target: 45 },
-    { token: 'ink-faint', role: 'Placeholders only. Never a sentence.', target: 30 },
+    {
+        token: 'ink-large',
+        role: 'Text of 20px and up: display, title, lead. The same ink, corrected for size.',
+        target: 80,
+    },
+    {
+        token: 'ink-secondary',
+        role: 'Annotation: keys, group labels, ordinals, years, hints, inactive navigation. Also the focus ring.',
+        target: 60,
+    },
+    {
+        token: 'ink-faint',
+        role: 'Placeholders and disabled text only. Never a sentence.',
+        target: 45,
+    },
+];
+
+/**
+ * What each type role needs, read from APCA's size/weight table and adjusted
+ * for how the text is read, beside the ink it gets. The need is the research;
+ * the ink is the decision. Where the two differ, the row says why.
+ */
+const NEEDS: [string, string, string, string][] = [
+    ['display 28/500', 'Lc 50, max 90', 'ink-large', 'Size and weight carry it.'],
+    ['title 20/500', 'Lc 63', 'ink-large', 'Size and weight carry it.'],
+    ['lead 20/400', 'Lc 72', 'ink-large', 'One sentence, not a column.'],
+    ['heading 15/500', 'Lc 90', 'ink', 'Separates from body by weight, not brightness.'],
+    [
+        'body 15/400',
+        'Lc 90 preferred, 100 in the table',
+        'ink',
+        'Past 90 near-white text blooms on black; Inter’s tall x-height reads larger than the reference font.',
+    ],
+    [
+        'small 13/400, read',
+        'Lc 85',
+        'ink',
+        'The hardest size on the page, so it keeps the reading ink and recedes by size and place.',
+    ],
+    [
+        'small, label, data — glanced at',
+        'Lc 75',
+        'ink-secondary',
+        'Deliberately under APCA: redundant with its context, and at 9.8:1 still past WCAG AAA.',
+    ],
+    ['placeholder', 'WCAG 4.5:1 binds', 'ink-faint', 'Must read as “not a value”.'],
 ];
 
 const SURFACES: { token: string; role: string; utility: string }[] = [
@@ -58,8 +100,8 @@ const Measured: React.FC<{ hex: string; target?: number }> = ({ hex, target }) =
     const met = target === undefined || value >= target;
     return (
         <span className="font-mono text-data">
-            <span className={met ? 'text-ink-strong' : 'text-danger'}>Lc {value}</span>
-            <span className="text-ink-quiet"> · {permits(value)}</span>
+            <span className={met ? 'text-ink' : 'text-danger'}>Lc {value}</span>
+            <span className="text-ink-secondary"> · {permits(value)}</span>
         </span>
     );
 };
@@ -69,7 +111,7 @@ const Colour: React.FC = () => (
         <PageHeader
             crumb="Foundations"
             title="Colour"
-            lede="Achromatic by design: project screenshots are the only colour on the site, and they are judged against a ground with no hue of its own. Each ink is set for its job against APCA, the contrast model that holds up on dark backgrounds."
+            lede="Achromatic by design: project screenshots are the only colour on the site, and they are judged against a ground with no hue of its own. Contrast is set by what text needs to be read, not by how important it is: small text needs more than large text, and on a dark ground more still."
         />
 
         <Chapter
@@ -97,7 +139,7 @@ const Colour: React.FC = () => (
         <Chapter
             id="ink"
             title="Ink"
-            lede="Five steps, named by job. The target is what each job needs; the measured Lc is read from the browser. Hierarchy is carried here before size, so a heading and body text can share a size and still read in order."
+            lede="Four inks, named by job. Brightness is not rank: a heading and its paragraph share an ink, and the type system says which is which. Colour makes two distinctions only — content from annotation, and a value from a placeholder. The measured Lc is read from the browser."
         >
             <Table
                 columns={['Token', 'Hex', 'Needs', 'Measured', 'Role', 'Uses']}
@@ -116,21 +158,32 @@ const Colour: React.FC = () => (
                     ];
                 })}
             />
-            <p className="mt-4 max-w-measure text-small text-ink-quiet">
-                WCAG 2 is still the legal floor, and every ink clears it — ink-quiet measures{' '}
+            <p className="mt-4 max-w-measure text-small text-ink-secondary">
+                WCAG 2 is the binding floor, and every ink clears it — ink-secondary measures{' '}
                 <Mono>
-                    {contrast(painted('var(--color-ink-quiet)'), CANVAS)}:1{' '}
-                    {grade(contrast(painted('var(--color-ink-quiet)'), CANVAS))}
+                    {contrast(painted('var(--color-ink-secondary)'), CANVAS)}:1{' '}
+                    {grade(contrast(painted('var(--color-ink-secondary)'), CANVAS))}
                 </Mono>
-                . It is not the design target, because it overstates contrast near black.
+                . APCA is guidance, not a standard: it was withdrawn from the WCAG 3 drafts in 2023.
+                It is used here because it models what WCAG 2 does not — that size and weight change
+                how much contrast text needs.
             </p>
             <Frame className="mt-6">
-                <p className="text-body text-ink-loud">ink-loud — what a hovered line becomes.</p>
-                <p className="text-body text-ink-strong">ink-strong — headings and titles.</p>
-                <p className="text-body text-ink">ink — everything a visitor came to read.</p>
-                <p className="text-body text-ink-quiet">ink-quiet — labels, captions, metadata.</p>
+                <p className="text-title text-ink-large">ink-large — a title.</p>
+                <p className="text-body text-ink">ink — everything a visitor reads.</p>
+                <p className="text-small text-ink-secondary">ink-secondary — a key or a label.</p>
                 <p className="text-body text-ink-faint">ink-faint — a placeholder.</p>
             </Frame>
+            <div className="mt-6" />
+            <Table
+                columns={['Role', 'Needs', 'Gets', 'Why']}
+                rows={NEEDS.map(([role, need, ink, why]) => [
+                    <Mono bright>{role}</Mono>,
+                    <Mono>{need}</Mono>,
+                    <Mono bright>{ink}</Mono>,
+                    why,
+                ])}
+            />
         </Chapter>
 
         <Chapter
@@ -174,7 +227,7 @@ const Colour: React.FC = () => (
         <Chapter
             id="status"
             title="Status"
-            lede="The only chroma in the interface. Always paired with words or a shape change, never carrying the meaning alone."
+            lede="The only chroma in the interface, and only ever a mark: a dot or an icon beside words set in ink."
         >
             <Table
                 columns={['Token', 'Hex', 'Measured', 'For']}
@@ -192,11 +245,12 @@ const Colour: React.FC = () => (
                 })}
             />
             <Frame className="mt-6">
-                <span className="flex items-center gap-2 text-small text-ink-quiet">
+                <span className="flex items-center gap-2 text-small text-ink-secondary">
                     <span className="h-1.5 w-1.5 rounded-full bg-ok" />
                     Available for new projects
                 </span>
-                <p className="mt-4 text-small text-danger">
+                <p className="mt-4 flex items-center gap-2 text-small text-ink">
+                    <span className="h-1.5 w-1.5 rounded-full bg-danger" />
                     Sending failed. Try again, or email me directly.
                 </p>
             </Frame>
@@ -205,15 +259,15 @@ const Colour: React.FC = () => (
         <Chapter id="rules" title="Rules">
             <Rules
                 items={[
-                    'No new colours. Green and red are status only; everything else is the canvas, lifted.',
-                    'Choose ink by job. A sentence someone should read is ink or brighter; ink-quiet is for labels and data; ink-faint is for placeholders and nothing else.',
-                    'The hover target is ink-loud. It is a state, not an emphasis to borrow for a static element.',
+                    'No new colours. Green and red are status marks only — a dot or an icon beside words set in ink, never the words themselves.',
+                    'Choose ink by how the text is read, never by rank. Read it as a sentence: ink. Glance at it to orient: ink-secondary. 20px and up: ink-large. A placeholder: ink-faint.',
+                    'Nothing is brighter than ink. Hover lifts secondary to ink; a control already at ink changes by something else — an underline, a fill, an arrow.',
                     'A standalone text element declares its own ink. A link, button or grouped control may set one ink on the parent and let text and icons inherit it.',
-                    'Split-tone headings are allowed only where the words carry different meaning. Colour follows meaning, never a line break.',
+                    'A link inside prose shares its ink, so it always carries an underline.',
                     <>
-                        Keyboard focus is an ink lift plus a tonal shift, a revealed icon or a
-                        strong edge. <Mono>focus-visible:outline-none</Mono> is only honest when
-                        something else confirms the focus.
+                        Keyboard focus is the ring set once in index.css. Only an input opts out,
+                        with <Mono>focus:outline-none</Mono>, because its row lifts the label and
+                        reveals a marker instead.
                     </>,
                 ]}
             />

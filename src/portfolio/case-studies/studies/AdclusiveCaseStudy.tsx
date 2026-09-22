@@ -282,18 +282,18 @@ const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
 
                         <div className="grid max-w-2xl grid-cols-1 gap-8 rule-y py-8 md:grid-cols-2">
                             <div>
-                                <span className="block font-mono text-title text-ink-strong">
+                                <span className="block font-mono text-title text-ink-large">
                                     ~20
                                 </span>
-                                <span className="mt-3 block text-label text-ink-quiet">
+                                <span className="mt-3 block text-label text-ink-secondary">
                                     Advertiser accounts
                                 </span>
                             </div>
                             <div>
-                                <span className="block font-mono text-title text-ink-strong">
+                                <span className="block font-mono text-title text-ink-large">
                                     ~50
                                 </span>
-                                <span className="mt-3 block text-label text-ink-quiet">
+                                <span className="mt-3 block text-label text-ink-secondary">
                                     Publisher and influencer accounts
                                 </span>
                             </div>

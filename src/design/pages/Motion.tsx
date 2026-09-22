@@ -52,7 +52,7 @@ const Motion: React.FC = () => {
                 <Table
                     columns={['What', 'How', 'Duration', 'Why']}
                     rows={MOVES.map(([what, how, duration, why]) => [
-                        <span className="text-ink-strong">{what}</span>,
+                        <span className="text-ink">{what}</span>,
                         how,
                         <Mono>{duration}</Mono>,
                         <Mono>{why}</Mono>,
@@ -79,7 +79,7 @@ const Motion: React.FC = () => {
                         ],
                     ]}
                 />
-                <p className="mt-4 max-w-measure text-small text-ink-quiet">
+                <p className="mt-4 max-w-measure text-small text-ink-secondary">
                     The curve exists twice because the two runtimes want different formats: CSS a
                     string, motion four numbers. Change one and change the other.
                 </p>
@@ -94,8 +94,8 @@ const Motion: React.FC = () => {
                     <div className="flex flex-col gap-8">
                         <div>
                             <Label>Press — scale 0.97, 100ms</Label>
-                            <button className="group flex items-center gap-4 focus-visible:outline-none">
-                                <span className="text-label text-ink-strong transition-colors duration-120 ease-out group-hover:text-ink-loud">
+                            <button className="group flex items-center gap-4">
+                                <span className="text-label text-ink transition-colors duration-120 ease-out">
                                     Send inquiry
                                 </span>
                                 <ActionCircle small>
@@ -107,7 +107,7 @@ const Motion: React.FC = () => {
                             <Label>Ink lift — 120ms</Label>
                             <a
                                 href="#feedback"
-                                className="text-body text-ink transition-colors duration-120 ease-out hover:text-ink-loud focus-visible:text-ink-loud focus-visible:outline-none"
+                                className="text-body text-ink transition-colors duration-120 ease-out"
                             >
                                 Hover this line
                             </a>
@@ -116,7 +116,7 @@ const Motion: React.FC = () => {
                             <Label>Arrow reveal — 4px, 150ms</Label>
                             <a
                                 href="#feedback"
-                                className="group inline-flex items-center gap-3 text-body text-ink transition-colors duration-120 ease-out hover:text-ink-loud focus-visible:text-ink-loud focus-visible:outline-none"
+                                className="group inline-flex items-center gap-3 text-body text-ink transition-colors duration-120 ease-out"
                             >
                                 Read the case study
                                 <ArrowUpRight
@@ -129,7 +129,7 @@ const Motion: React.FC = () => {
                             <Label>Rule grow — 150ms</Label>
                             <a
                                 href="#feedback"
-                                className="group inline-flex w-fit items-center gap-3 text-ink transition-colors duration-120 ease-out hover:text-ink-loud focus-visible:text-ink-loud focus-visible:outline-none"
+                                className="group inline-flex w-fit items-center gap-3 text-ink transition-colors duration-120 ease-out"
                             >
                                 <span className="h-px w-8 bg-current transition-[width] duration-150 ease-out group-hover:w-12 group-focus-visible:w-12" />
                                 <span className="text-label">Go back</span>
@@ -147,7 +147,7 @@ const Motion: React.FC = () => {
                 <Frame>
                     <div className="flex items-center gap-3">
                         <span
-                            className={`h-1.5 w-1.5 rounded-full ${reduced ? 'bg-ok' : 'bg-ink-quiet'}`}
+                            className={`h-1.5 w-1.5 rounded-full ${reduced ? 'bg-ok' : 'bg-ink-secondary'}`}
                         />
                         <span className="text-small text-ink">
                             This browser {reduced ? 'is asking for' : 'is not asking for'} reduced

@@ -6,13 +6,10 @@ Personal portfolio. Vite + React 19 + TypeScript + Tailwind 4, static SPA. Deplo
 
 ```bash
 npm install
-cp .env.example .env        # set VITE_FORMSPREE_ID — without it the form says so and points at the email
-npm run dev                 # http://localhost:3000, host 0.0.0.0
-npm run typecheck           # tsc --noEmit
-npm run build               # vite build
-npm run test                # Playwright; builds + serves on :4173, then tests
-npm run format              # prettier --write .
-npm run preview -- --port 4173 --strictPort   # if you want to poke the build manually
+cp .env.example .env    # VITE_FORMSPREE_ID — see .env.example
+npm run dev             # prints the local URL; the design system is /design on it
+npm run format          # prettier --write .
+npm run format:check && npm run typecheck && npm run build && npm run test   # exactly what CI runs
 ```
 
 Prettier formats; there is **no ESLint**, and nothing here wants one. Config matches
@@ -130,8 +127,9 @@ The constraints it holds, in short:
 - Eight type roles on five sizes, two weights (500 names, 400 is read). Size marks the page
   and the section; below that, hierarchy comes from weight and ink. Inter never runs below
   13; Geist Mono sets data at 12.
-- Achromatic. Each ink is chosen by its job (`ink-loud`, `ink-strong`, `ink`, `ink-quiet`,
-  `ink-faint`); green and red are status only.
+- Achromatic. Contrast follows how text is read, not its rank: `ink` for anything read at
+  12–15px, `ink-large` for 20px and up, `ink-secondary` for annotation, `ink-faint` for
+  placeholders. Nothing is brighter than `ink`. Green and red are status marks only.
 - A 4px grid: every distance, and every line height but display's (34px, an optical
   choice), is a multiple of 4. Dividers use `rule-t`, `rule-b` or `rule-y`, which take no
   space; a `border` is only for an object's edge.
