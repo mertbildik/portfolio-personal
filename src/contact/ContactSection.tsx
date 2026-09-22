@@ -4,8 +4,7 @@ import { CheckCircle2, ArrowRight, ArrowUpRight, Check, Copy } from 'lucide-reac
 import ActionCircle from '../shared/ActionCircle';
 import { EASE } from '../shared/motion';
 import SectionIntro from '../shared/SectionIntro';
-
-const CONTACT_EMAIL = 'mert.bildik@gmail.com';
+import { CONTACT_EMAIL, LINKEDIN_URL } from './details';
 
 const formIsReady = (form: HTMLFormElement) => {
     const data = new FormData(form);
@@ -339,7 +338,7 @@ const ContactSection: React.FC = () => {
                             <span className="text-label text-ink-secondary">Networks</span>
                             <div className="flex flex-col gap-2">
                                 <a
-                                    href="https://www.linkedin.com/in/mertbildik/"
+                                    href={LINKEDIN_URL}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex min-h-11 items-center gap-2 text-ink transition-colors duration-150 group w-fit"
