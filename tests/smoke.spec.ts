@@ -264,7 +264,30 @@ for (const project of PROJECTS) {
     });
 }
 
+// Images used to arrive without a size, so each one that loaded pushed the page
+// down and a section link followed early landed short of its section.
+test('case-study layout does not shift as images load', async ({ page }) => {
+    for (const path of CASE_STUDIES) {
+        await page.goto(path, { waitUntil: 'domcontentloaded' });
+        // Measured once the fonts are in, so only the images, still offscreen and
+        // unloaded below the fold, can move anything afterwards.
+        const before = await page.evaluate(async () => {
+            await document.fonts.ready;
+            return document.documentElement.scrollHeight;
+        });
+        await settle(page);
+        const after = await page.evaluate(() => document.documentElement.scrollHeight);
+
+        expect(
+            Math.abs(after - before),
+            `${path} grew from ${before} to ${after}`,
+        ).toBeLessThanOrEqual(1);
+    }
+});
+
 // A figure states its image's own pixel size, so the number cannot be typed wrong.
+// The file served may be a resized copy, so the size is the one the image
+// declares, held to the proportions of what actually loaded.
 test('every case-study figure states the size of its image', async ({ page }) => {
     for (const path of CASE_STUDIES) {
         await page.goto(path);
@@ -273,14 +296,20 @@ test('every case-study figure states the size of its image', async ({ page }) =>
         const figures = await page.locator('main figure').evaluateAll((all) =>
             all.map((figure) => {
                 const image = figure.querySelector('img')!;
+                const width = Number(image.getAttribute('width') ?? image.naturalWidth);
+                const height = Number(image.getAttribute('height') ?? image.naturalHeight);
                 return {
-                    size: `${image.naturalWidth}×${image.naturalHeight}`,
+                    size: `${width}×${height}`,
+                    // The loaded image's height against what the declared shape
+                    // gives at its width, in pixels, allowing for rounding.
+                    skew: Math.abs((image.naturalWidth * height) / width - image.naturalHeight),
                     caption: figure.querySelector('figcaption')?.textContent ?? '',
                 };
             }),
         );
-        for (const { size, caption } of figures) {
+        for (const { size, skew, caption } of figures) {
             expect(caption, `${path}: "${caption}"`).toContain(size);
+            expect(skew, `${path}: ${size} is not the loaded image's shape`).toBeLessThanOrEqual(1);
         }
     }
 });

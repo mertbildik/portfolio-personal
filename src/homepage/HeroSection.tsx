@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import ActionCircle from '../shared/ActionCircle';
+import Image from 'next/image';
 import mertPhoto from './mert.webp';
 
 const HeroSection: React.FC = () => (
@@ -8,9 +9,12 @@ const HeroSection: React.FC = () => (
         <div className="flex items-center gap-8">
             <div className="relative ml-4 shrink-0 md:ml-5">
                 <div className="relative z-10 h-24 w-24 overflow-hidden rounded-full border border-edge md:h-28 md:w-28">
-                    <img
-                        src={mertPhoto.src}
+                    <Image
+                        src={mertPhoto}
                         alt="Mert Bildik"
+                        // Above the fold on every visit, so it is not left to lazy loading.
+                        loading="eager"
+                        sizes="112px"
                         className="h-full w-full scale-[1.2] object-cover object-[center_22%]"
                     />
                 </div>

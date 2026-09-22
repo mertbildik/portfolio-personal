@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StaticImageData } from 'next/image';
+import Image, { type StaticImageData } from 'next/image';
 import BackLink from './BackLink';
 
 interface CaseStudyHeaderProps {
@@ -185,13 +185,7 @@ export const CaseStudyImage: React.FC<CaseStudyImageProps> = ({
     <figure className={`figure w-full ${className}`}>
         <div className="figure-marks relative overflow-hidden rounded-md border border-edge bg-canvas">
             <span className="figure-marks-bottom" aria-hidden="true" />
-            <img
-                src={src.src}
-                alt={alt}
-                className="block h-auto w-full"
-                loading="lazy"
-                decoding="async"
-            />
+            <Image src={src} alt={alt} sizes="100vw" className="block h-auto w-full" />
         </div>
         <figcaption className="mt-3 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
             <span className="max-w-measure text-small text-ink">{caption}</span>

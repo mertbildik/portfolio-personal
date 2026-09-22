@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowUpRight, Lock } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import SectionIntro from '../shared/SectionIntro';
 import { COVERS } from './assets/covers';
@@ -14,10 +15,10 @@ export const WorkCard: React.FC<{ project: Project }> = ({ project }) => (
             className="work-card group block cursor-pointer rounded-md"
         >
             <div className="work-card-media overflow-hidden rounded-md border border-edge bg-transparent transition-colors duration-120 ease-out group-focus-visible:border-edge-strong">
-                <img
-                    src={COVERS[project.id].src}
+                <Image
+                    src={COVERS[project.id]}
                     alt={project.coverAlt}
-                    loading="lazy"
+                    sizes="100vw"
                     className="work-card-image h-full w-full object-cover object-center"
                 />
                 {project.confidential && (
