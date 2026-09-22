@@ -6,7 +6,13 @@ import productFeatures from '../../assets/dog-and-ride/product-features.webp';
 import testimonials from '../../assets/dog-and-ride/testimonials.webp';
 import type { Project } from '../../content/projects';
 import Button from '../../../shared/Button';
-import { CaseStudyDecision, CaseStudyHeader, CaseStudyImage, CaseStudyProse, CaseStudySection } from '../CaseStudyElements';
+import {
+    CaseStudyDecision,
+    CaseStudyHeader,
+    CaseStudyImage,
+    CaseStudyProse,
+    CaseStudySection,
+} from '../CaseStudyElements';
 import CaseStudySectionNavigator from '../CaseStudySectionNavigator';
 
 const SECTIONS = [
@@ -42,10 +48,12 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
             <CaseStudySection id="problem" number="01" title="Problem" rhythm="tight">
                 <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
-                        Every dog and motorcycle needs a different setup. Riders needed clear answers about fit, safety, and daily use before trusting the product.
+                        Every dog and motorcycle needs a different setup. Riders needed clear
+                        answers about fit, safety, and daily use before trusting the product.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        A standard product page and checkout would hide that complexity. The website needed to explain the product and lead each rider to a consultation.
+                        A standard product page and checkout would hide that complexity. The website
+                        needed to explain the product and lead each rider to a consultation.
                     </p>
                 </CaseStudyProse>
             </CaseStudySection>
@@ -53,18 +61,25 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
             <CaseStudySection id="approach" number="02" title="Approach">
                 <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
-                        I gathered feedback from existing customers and people who tested the product. I asked what they liked, what they disliked, and what they needed before trusting it.
+                        I gathered feedback from existing customers and people who tested the
+                        product. I asked what they liked, what they disliked, and what they needed
+                        before trusting it.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        I also asked what created confidence and which images drew the strongest response. Their answers set the content, page order, photography direction, and website decisions.
+                        I also asked what created confidence and which images drew the strongest
+                        response. Their answers set the content, page order, photography direction,
+                        and website decisions.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        I developed the wireframes and components directly in Framer. One focused landing page covered the full path from product introduction to contact.
+                        I developed the wireframes and components directly in Framer. One focused
+                        landing page covered the full path from product introduction to contact.
                     </p>
                 </CaseStudyProse>
 
                 <div className="mx-auto w-full max-w-page rounded-md bg-fill p-6 md:p-8">
-                    <span className="block text-eyebrow text-ink-low">Reconstructed from project notes</span>
+                    <span className="block text-eyebrow text-ink-low">
+                        Reconstructed from project notes
+                    </span>
                     <ol className="mt-6 grid grid-cols-1 gap-x-8 md:grid-cols-2">
                         {[
                             'What did people like or dislike?',
@@ -72,8 +87,13 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             'What created confidence?',
                             'Which images created the strongest response?',
                         ].map((question, index) => (
-                            <li key={question} className="flex gap-4 border-t border-line py-5 text-body-sm text-ink-body">
-                                <span className="shrink-0 font-mono text-caption text-ink-low">0{index + 1}</span>
+                            <li
+                                key={question}
+                                className="flex gap-4 border-t border-line py-5 text-body-sm text-ink-body"
+                            >
+                                <span className="shrink-0 font-mono text-caption text-ink-low">
+                                    0{index + 1}
+                                </span>
                                 {question}
                             </li>
                         ))}
@@ -85,7 +105,9 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                 <div className="space-y-10 md:space-y-14">
                     <CaseStudyDecision number="01" title="Show the ride, not just the carrier">
                         <p className="max-w-2xl text-body text-ink-body">
-                            I used the image feedback to direct and edit photographs of dogs, riders, and the carrier in use. The images show both the carrier and the ride it enables.
+                            I used the image feedback to direct and edit photographs of dogs,
+                            riders, and the carrier in use. The images show both the carrier and the
+                            ride it enables.
                         </p>
                     </CaseStudyDecision>
                     <CaseStudyImage
@@ -99,7 +121,9 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                 <div className="space-y-10 md:space-y-14">
                     <CaseStudyDecision number="02" title="Let buyer questions set the order">
                         <p className="max-w-2xl text-body text-ink-body">
-                            The page moves from riding together to product features, safety, customer experiences, common questions, and contact. Each section answers a question that could stop a rider from getting in touch.
+                            The page moves from riding together to product features, safety,
+                            customer experiences, common questions, and contact. Each section
+                            answers a question that could stop a rider from getting in touch.
                         </p>
                     </CaseStudyDecision>
                     <CaseStudyImage
@@ -113,7 +137,8 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                 <div className="space-y-10 md:space-y-14">
                     <CaseStudyDecision number="03" title="End with consultation">
                         <p className="max-w-2xl text-body text-ink-body">
-                            Dog & Ride does not have one setup for every rider. The page ends with direct contact instead of a standard checkout.
+                            Dog & Ride does not have one setup for every rider. The page ends with
+                            direct contact instead of a standard checkout.
                         </p>
                     </CaseStudyDecision>
                     <CaseStudyImage
@@ -128,10 +153,13 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
             <CaseStudySection id="output" number="04" title="Output">
                 <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
-                        I delivered the brand identity, research, photography direction and editing, website design and Framer build, social media system, and pitch presentation.
+                        I delivered the brand identity, research, photography direction and editing,
+                        website design and Framer build, social media system, and pitch
+                        presentation.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        The website explains the product. Social media shows it in use. The pitch deck presents the same idea to potential partners.
+                        The website explains the product. Social media shows it in use. The pitch
+                        deck presents the same idea to potential partners.
                     </p>
                 </CaseStudyProse>
 
@@ -151,23 +179,28 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
 
             <CaseStudySection id="impact" number="05" title="Impact" rhythm="tight">
                 <div className="mx-auto max-w-page space-y-10">
-
                     <div className="space-y-6">
                         <p className="max-w-2xl text-body text-ink-body">
-                            Dog & Ride moved from a logo and video content to one identity and message across its website, social media, and pitch materials.
+                            Dog & Ride moved from a logo and video content to one identity and
+                            message across its website, social media, and pitch materials.
                         </p>
                         <p className="max-w-2xl text-body text-ink-body">
-                            The website now explains the product, answers fit and safety questions, and gives riders a clear consultation path.
+                            The website now explains the product, answers fit and safety questions,
+                            and gives riders a clear consultation path.
                         </p>
                     </div>
 
                     <div>
-                        <span className="block text-eyebrow text-ink-low">First five months after launch</span>
+                        <span className="block text-eyebrow text-ink-low">
+                            First five months after launch
+                        </span>
                         <dl className="mt-6 grid grid-cols-2 gap-x-6 md:grid-cols-5">
                             {METRICS.map((metric) => (
                                 <div key={metric.label} className="border-t border-line py-5">
                                     <dt className="text-caption text-ink-low">{metric.label}</dt>
-                                    <dd className="mt-3 font-mono text-card-title text-ink-high">{metric.value}</dd>
+                                    <dd className="mt-3 font-mono text-card-title text-ink-high">
+                                        {metric.value}
+                                    </dd>
                                 </div>
                             ))}
                         </dl>

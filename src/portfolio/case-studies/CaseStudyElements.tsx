@@ -27,7 +27,9 @@ export const CaseStudyHeader: React.FC<CaseStudyHeaderProps> = ({
         className="mx-auto mb-24 w-full max-w-page md:mb-32"
     >
         <div className="mb-16 md:mb-24">
-            <BackLink to="/#portfolio" ariaLabel="Back to portfolio">Go back</BackLink>
+            <BackLink to="/#portfolio" ariaLabel="Back to portfolio">
+                Go back
+            </BackLink>
         </div>
 
         <h1 className="text-display-lg text-ink-high text-balance">{title}</h1>
@@ -52,7 +54,10 @@ export const CaseStudyHeader: React.FC<CaseStudyHeaderProps> = ({
             <span className="block text-eyebrow text-ink-low">Tools</span>
             <div className="flex flex-wrap gap-2">
                 {tools.map((tool) => (
-                    <span key={tool} className="surface rounded-md px-2 py-1 text-caption text-ink-low">
+                    <span
+                        key={tool}
+                        className="surface rounded-md px-2 py-1 text-caption text-ink-low"
+                    >
                         {tool}
                     </span>
                 ))}
@@ -138,10 +143,21 @@ interface CaseStudyImageProps {
     className?: string;
 }
 
-export const CaseStudyImage: React.FC<CaseStudyImageProps> = ({ src, alt, caption, className = '' }) => (
+export const CaseStudyImage: React.FC<CaseStudyImageProps> = ({
+    src,
+    alt,
+    caption,
+    className = '',
+}) => (
     <figure className={`w-full ${className}`}>
         <div className="overflow-hidden rounded-md border border-line bg-canvas">
-            <img src={src} alt={alt} className="block h-auto w-full" loading="lazy" decoding="async" />
+            <img
+                src={src}
+                alt={alt}
+                className="block h-auto w-full"
+                loading="lazy"
+                decoding="async"
+            />
         </div>
         <figcaption className="mt-4 max-w-2xl text-caption text-ink-low">{caption}</figcaption>
     </figure>

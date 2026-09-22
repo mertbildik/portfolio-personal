@@ -33,8 +33,15 @@ const HeroSection: React.FC = () => (
                             fill="none"
                         />
                     </defs>
-                    <text className="fill-current text-ink-low" style={{ fontSize: 8.5, letterSpacing: 0.4 }}>
-                        <textPath href="#warsaw-ring-path" textLength={Math.PI * 90} lengthAdjust="spacing">
+                    <text
+                        className="fill-current text-ink-low"
+                        style={{ fontSize: 8.5, letterSpacing: 0.4 }}
+                    >
+                        <textPath
+                            href="#warsaw-ring-path"
+                            textLength={Math.PI * 90}
+                            lengthAdjust="spacing"
+                        >
                             {'Based in Warsaw • Based in Warsaw • Based in Warsaw •\u00A0'}
                         </textPath>
                     </text>
@@ -47,14 +54,19 @@ const HeroSection: React.FC = () => (
             </div>
         </motion.div>
 
-        <motion.h1 variants={itemVariants} className="mt-16 text-hero text-ink-high md:mt-20 md:text-hero-lg">
+        <motion.h1
+            variants={itemVariants}
+            className="mt-16 text-hero text-ink-high md:mt-20 md:text-hero-lg"
+        >
             <span>I design &amp; build </span>
-            <span className="text-ink-max">digital products, websites, and visual experiences.</span>
+            <span className="text-ink-max">
+                digital products, websites, and visual experiences.
+            </span>
         </motion.h1>
 
         <motion.p variants={itemVariants} className="mt-8 max-w-xl text-body text-ink-body">
-            Today, I run my own company, taking B2B products from idea to shipped site. Previously, I was a visual
-            communication specialist at{' '}
+            Today, I run my own company, taking B2B products from idea to shipped site. Previously,
+            I was a visual communication specialist at{' '}
             <a
                 href="https://www.mckinsey.com/"
                 target="_blank"
@@ -66,7 +78,10 @@ const HeroSection: React.FC = () => (
             .
         </motion.p>
 
-        <motion.blockquote variants={itemVariants} className="mt-12 max-w-lg text-headline text-ink-high">
+        <motion.blockquote
+            variants={itemVariants}
+            className="mt-12 max-w-lg text-headline text-ink-high"
+        >
             “Helping people spend less time clicking and more time living.”
         </motion.blockquote>
 

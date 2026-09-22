@@ -1,0 +1,10 @@
+# Left alone until the design system replaces them.
+docs
+
+node_modules
+dist
+playwright-report
+test-results
+package-lock.json
+public/fonts
+public/_redirects

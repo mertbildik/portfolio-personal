@@ -12,9 +12,18 @@ type StudyComponent = React.LazyExoticComponent<React.ComponentType<{ project: P
  */
 const STUDIES: Record<string, { component: StudyComponent; width: 'page' | 'shell' }> = {
     ofk: { component: React.lazy(() => import('./studies/OfkCaseStudy')), width: 'shell' },
-    sinerjik: { component: React.lazy(() => import('./studies/SinerjikCaseStudy')), width: 'shell' },
-    'dog-and-ride': { component: React.lazy(() => import('./studies/DogAndRideCaseStudy')), width: 'shell' },
-    adclusive: { component: React.lazy(() => import('./studies/AdclusiveCaseStudy')), width: 'shell' },
+    sinerjik: {
+        component: React.lazy(() => import('./studies/SinerjikCaseStudy')),
+        width: 'shell',
+    },
+    'dog-and-ride': {
+        component: React.lazy(() => import('./studies/DogAndRideCaseStudy')),
+        width: 'shell',
+    },
+    adclusive: {
+        component: React.lazy(() => import('./studies/AdclusiveCaseStudy')),
+        width: 'shell',
+    },
     mckinsey: { component: React.lazy(() => import('./studies/McKinseyCaseStudy')), width: 'page' },
 };
 

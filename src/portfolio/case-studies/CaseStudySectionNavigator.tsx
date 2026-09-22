@@ -22,7 +22,8 @@ const CaseStudySectionNavigator: React.FC<{ sections: readonly Section[]; pageKe
                 let current = sections[0].id;
                 for (const section of sections) {
                     const element = document.getElementById(section.id);
-                    if (element && element.getBoundingClientRect().top <= threshold) current = section.id;
+                    if (element && element.getBoundingClientRect().top <= threshold)
+                        current = section.id;
                 }
                 setActiveSection(current);
             });
@@ -76,7 +77,9 @@ const CaseStudySectionNavigator: React.FC<{ sections: readonly Section[]; pageKe
                         />
                         <span>
                             <span className="block text-button">{section.label}</span>
-                            <span className="mt-1 block text-caption text-ink-low">{section.description}</span>
+                            <span className="mt-1 block text-caption text-ink-low">
+                                {section.description}
+                            </span>
                         </span>
                     </a>
                 ))}

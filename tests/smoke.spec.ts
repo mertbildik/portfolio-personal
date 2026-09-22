@@ -42,7 +42,10 @@ for (const path of ALL) {
         await expect(page.locator('h1').first()).toBeVisible();
 
         const broken = await page.evaluate(
-            () => [...document.querySelectorAll('img')].filter((i) => i.complete && i.naturalWidth === 0).length,
+            () =>
+                [...document.querySelectorAll('img')].filter(
+                    (i) => i.complete && i.naturalWidth === 0,
+                ).length,
         );
         expect(broken, `broken images on ${path}`).toBe(0);
     });
@@ -69,7 +72,10 @@ test('contact details stay reachable on a short screen', async ({ page }) => {
     // would pass here even when the content sits in an unscrollable overflow-hidden box.
     await settle(page);
 
-    for (const target of [page.getByText('mert.bildik@gmail.com'), page.getByRole('link', { name: 'LinkedIn' })]) {
+    for (const target of [
+        page.getByText('mert.bildik@gmail.com'),
+        page.getByRole('link', { name: 'LinkedIn' }),
+    ]) {
         await expect(target).toBeInViewport();
     }
 });
@@ -90,8 +96,18 @@ test('homepage presents five work modules in two groups', async ({ page }) => {
     await expect(portfolio.getByRole('heading', { name: 'Client work' })).toBeVisible();
     await expect(portfolio.getByRole('heading', { name: 'Experience' })).toBeVisible();
 
-    for (const project of ['OFK Construction', 'Sinerjik', 'Dog & Ride', 'Adclusive', 'McKinsey & Co.']) {
-        await expect(portfolio.getByRole('link', { name: new RegExp(project.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) })).toBeVisible();
+    for (const project of [
+        'OFK Construction',
+        'Sinerjik',
+        'Dog & Ride',
+        'Adclusive',
+        'McKinsey & Co.',
+    ]) {
+        await expect(
+            portfolio.getByRole('link', {
+                name: new RegExp(project.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')),
+            }),
+        ).toBeVisible();
     }
 });
 
@@ -100,9 +116,17 @@ test('homepage card outcomes remain visible on narrow screens', async ({ page })
     await page.goto('/');
     await settle(page);
 
-    await expect(page.getByText('A bilingual brand and website that makes an established construction record')).toBeVisible();
+    await expect(
+        page.getByText(
+            'A bilingual brand and website that makes an established construction record',
+        ),
+    ).toBeVisible();
     await expect(page.getByText('A sales website used in four pitches')).toBeVisible();
-    await expect(page.getByText('High-stakes visual communication shaped from complex models, under strict NDA.')).toBeVisible();
+    await expect(
+        page.getByText(
+            'High-stakes visual communication shaped from complex models, under strict NDA.',
+        ),
+    ).toBeVisible();
 });
 
 test('old case-study links still redirect', async ({ page }) => {
@@ -162,7 +186,10 @@ for (const study of [
         for (const section of ['Problem', 'Approach', 'Solution', 'Output', 'Impact']) {
             await expect(page.getByRole('heading', { name: section, exact: true })).toBeVisible();
         }
-        await expect(page.getByRole('link', { name: study.link })).toHaveAttribute('href', study.href);
+        await expect(page.getByRole('link', { name: study.link })).toHaveAttribute(
+            'href',
+            study.href,
+        );
     });
 }
 
@@ -172,8 +199,12 @@ test('Sinerjik presents the website as a sales tool', async ({ page }) => {
 
     await expect(page.getByText('Signed client', { exact: true })).toBeVisible();
     await expect(page.getByText('Pitches using the website', { exact: true })).toBeVisible();
-    await expect(page.getByText('One of those pitches led to a signed client.', { exact: false })).toBeVisible();
-    await expect(page.getByText('without exposing its production interface', { exact: false })).toBeVisible();
+    await expect(
+        page.getByText('One of those pitches led to a signed client.', { exact: false }),
+    ).toBeVisible();
+    await expect(
+        page.getByText('without exposing its production interface', { exact: false }),
+    ).toBeVisible();
 });
 
 test('Dog & Ride presents supporting metrics for the first five months', async ({ page }) => {
@@ -209,13 +240,17 @@ test('McKinsey keeps the narrow frame, its NDA header and section navigation', a
     for (const tool of ['Slack', 'Microsoft 365', 'Affinity', 'think-cell']) {
         await expect(page.getByText(tool, { exact: true })).toBeVisible();
     }
-    await expect(page.getByText('Work is under strict NDA. Process and outcomes can be shared on a call.')).toBeVisible();
+    await expect(
+        page.getByText('Work is under strict NDA. Process and outcomes can be shared on a call.'),
+    ).toBeVisible();
 
     // This study asks CaseStudyLayout for the narrow `page` frame. Read the token
     // rather than its value, so retuning the scale in index.css is not a test failure.
-    const frameWidth = await page.locator('main > div').evaluate((element) => element.getBoundingClientRect().width);
-    const pageColumn = await page.evaluate(
-        () => getComputedStyle(document.documentElement).getPropertyValue('--container-page'),
+    const frameWidth = await page
+        .locator('main > div')
+        .evaluate((element) => element.getBoundingClientRect().width);
+    const pageColumn = await page.evaluate(() =>
+        getComputedStyle(document.documentElement).getPropertyValue('--container-page'),
     );
     expect(pageColumn.trim()).not.toBe('');
     expect(frameWidth).toBe(parseFloat(pageColumn));
@@ -230,7 +265,9 @@ test('reduced motion disables smooth scrolling', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/portfolio/ofk');
 
-    expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('auto');
+    expect(
+        await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior),
+    ).toBe('auto');
 });
 
 test('reduced motion stops homepage ambient and hover movement', async ({ page }) => {
@@ -242,17 +279,29 @@ test('reduced motion stops homepage ambient and hover movement', async ({ page }
     const card = page.locator('a[href="/portfolio/ofk"]');
     await card.hover();
 
-    expect(await card.locator('.work-card-image').evaluate((image) => getComputedStyle(image).transform)).toBe('none');
-    expect(await page.locator('.animate-ring-spin').evaluate((ring) => getComputedStyle(ring).animationName)).toBe('none');
+    expect(
+        await card
+            .locator('.work-card-image')
+            .evaluate((image) => getComputedStyle(image).transform),
+    ).toBe('none');
+    expect(
+        await page
+            .locator('.animate-ring-spin')
+            .evaluate((ring) => getComputedStyle(ring).animationName),
+    ).toBe('none');
 });
 
-test('case-study section navigation changes at the layout breakpoint without overflow', async ({ page }) => {
+test('case-study section navigation changes at the layout breakpoint without overflow', async ({
+    page,
+}) => {
     for (const width of [767, 768, 1023, 1024]) {
         await page.setViewportSize({ width, height: 800 });
         await page.goto('/portfolio/ofk');
         await page.locator('h1').waitFor();
 
-        const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+        const overflow = await page.evaluate(
+            () => document.documentElement.scrollWidth - window.innerWidth,
+        );
         expect(overflow, `case study overflows at ${width}px`).toBeLessThanOrEqual(1);
         await expect(page.getByRole('navigation')).toBeVisible({ visible: width >= 1024 });
     }

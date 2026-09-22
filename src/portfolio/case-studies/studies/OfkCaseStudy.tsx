@@ -14,7 +14,13 @@ import solutionProjects from '../../assets/ofk/solution-projects.webp';
 import solutionReferences from '../../assets/ofk/solution-references.webp';
 import type { Project } from '../../content/projects';
 import Button from '../../../shared/Button';
-import { CaseStudyDecision, CaseStudyHeader, CaseStudyImage, CaseStudyProse, CaseStudySection } from '../CaseStudyElements';
+import {
+    CaseStudyDecision,
+    CaseStudyHeader,
+    CaseStudyImage,
+    CaseStudyProse,
+    CaseStudySection,
+} from '../CaseStudyElements';
 import CaseStudySectionNavigator from '../CaseStudySectionNavigator';
 
 const SECTIONS = [
@@ -42,13 +48,17 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
             <CaseStudySection id="problem" number="01" title="Problem">
                 <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
-                        OFK’s reputation lived in completed projects, client relationships, photographs, and signed references. Online, the company had little more than a logo.
+                        OFK’s reputation lived in completed projects, client relationships,
+                        photographs, and signed references. Online, the company had little more than
+                        a logo.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        A buyer could not assess OFK in one place. They had to piece the story together from files and conversations.
+                        A buyer could not assess OFK in one place. They had to piece the story
+                        together from files and conversations.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        The website also needed to support pitches, meetings, and early project discussions.
+                        The website also needed to support pitches, meetings, and early project
+                        discussions.
                     </p>
                 </CaseStudyProse>
 
@@ -63,7 +73,8 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
             <CaseStudySection id="approach" number="02" title="Approach">
                 <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
-                        I reviewed company documents, project records, photographs, service information, and three signed references.
+                        I reviewed company documents, project records, photographs, service
+                        information, and three signed references.
                     </p>
 
                     <ol className="grid grid-cols-1 gap-x-8 md:grid-cols-2">
@@ -73,21 +84,29 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             'Who can verify that experience?',
                             'How can a buyer start a conversation?',
                         ].map((question, index) => (
-                            <li key={question} className="flex gap-4 border-t border-line py-5 text-body-sm text-ink-body">
-                                <span className="shrink-0 font-mono text-caption text-ink-low">0{index + 1}</span>
+                            <li
+                                key={question}
+                                className="flex gap-4 border-t border-line py-5 text-body-sm text-ink-body"
+                            >
+                                <span className="shrink-0 font-mono text-caption text-ink-low">
+                                    0{index + 1}
+                                </span>
                                 {question}
                             </li>
                         ))}
                     </ol>
 
                     <p className="max-w-2xl text-body text-ink-body">
-                        Projects, technical scopes, and references gave the strongest answers. Broad company claims carried less weight without evidence.
+                        Projects, technical scopes, and references gave the strongest answers. Broad
+                        company claims carried less weight without evidence.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        That set the hierarchy. Company information stayed brief, while project evidence had room for closer review.
+                        That set the hierarchy. Company information stayed brief, while project
+                        evidence had room for closer review.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        The client wanted to avoid platform fees and dependence on a website builder. I chose React so OFK could own and extend the website.
+                        The client wanted to avoid platform fees and dependence on a website
+                        builder. I chose React so OFK could own and extend the website.
                     </p>
                 </CaseStudyProse>
 
@@ -121,18 +140,22 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
 
             <CaseStudySection id="solution" number="03" title="Solution" rhythm="wide">
                 <CaseStudyProse>
-                        <p className="max-w-2xl text-body text-ink-body">
-                            I extended OFK’s logo into a digital identity. One blue accent, blue-gray neutrals, clear type, and firm spacing gave the website a technical voice.
-                        </p>
-                        <p className="max-w-2xl text-body text-ink-body">
-                        The website follows one rule: state the point, show the proof, then offer more detail.
+                    <p className="max-w-2xl text-body text-ink-body">
+                        I extended OFK’s logo into a digital identity. One blue accent, blue-gray
+                        neutrals, clear type, and firm spacing gave the website a technical voice.
+                    </p>
+                    <p className="max-w-2xl text-body text-ink-body">
+                        The website follows one rule: state the point, show the proof, then offer
+                        more detail.
                     </p>
                 </CaseStudyProse>
 
                 <div className="space-y-10 md:space-y-14">
                     <CaseStudyDecision number="01" title="Projects became the proof">
                         <p className="max-w-2xl text-body text-ink-body">
-                            A service list says what OFK offers. A named project shows that the company has delivered it. Each project connects its location, photography, technical scope, and execution details in one place.
+                            A service list says what OFK offers. A named project shows that the
+                            company has delivered it. Each project connects its location,
+                            photography, technical scope, and execution details in one place.
                         </p>
                     </CaseStudyDecision>
                     <CaseStudyImage
@@ -146,7 +169,9 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                 <div className="space-y-10 md:space-y-14">
                     <CaseStudyDecision number="02" title="References stayed verifiable">
                         <p className="max-w-2xl text-body text-ink-body">
-                            A company name suggests credibility. A signed document lets a buyer inspect the claim. Each reference connects to its company, project, scope, and original file.
+                            A company name suggests credibility. A signed document lets a buyer
+                            inspect the claim. Each reference connects to its company, project,
+                            scope, and original file.
                         </p>
                     </CaseStudyDecision>
                     <CaseStudyImage
@@ -160,7 +185,9 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                 <div className="space-y-10 md:space-y-14">
                     <CaseStudyDecision number="03" title="Two languages shared one system">
                         <p className="max-w-2xl text-body text-ink-body">
-                            Separate sites would double the work and invite mismatched content. English and Polish share one structure, persistent language choice, and stable navigation.
+                            Separate sites would double the work and invite mismatched content.
+                            English and Polish share one structure, persistent language choice, and
+                            stable navigation.
                         </p>
                     </CaseStudyDecision>
                     <CaseStudyImage
@@ -178,10 +205,12 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                         I led product strategy, identity, UX/UI, and the front-end build.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        I shipped a company overview, services, named projects, technical scopes, responsive galleries, downloadable references, and direct contact paths.
+                        I shipped a company overview, services, named projects, technical scopes,
+                        responsive galleries, downloadable references, and direct contact paths.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        The same website can introduce OFK online, guide a meeting, or support a project discussion with evidence.
+                        The same website can introduce OFK online, guide a meeting, or support a
+                        project discussion with evidence.
                     </p>
                 </CaseStudyProse>
 
@@ -228,13 +257,16 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             OFK moved from a logo and scattered files to a live bilingual website.
                         </p>
                         <p className="max-w-2xl text-body text-ink-body">
-                            Buyers can now inspect projects, review technical scope, download signed references, and make contact in one place.
+                            Buyers can now inspect projects, review technical scope, download signed
+                            references, and make contact in one place.
                         </p>
                         <p className="max-w-2xl text-body text-ink-body">
-                            The website also gives OFK one presentation tool for pitches and meetings.
+                            The website also gives OFK one presentation tool for pitches and
+                            meetings.
                         </p>
                         <p className="max-w-2xl text-body text-ink-body">
-                            No before-and-after analytics were available. The verified change is that OFK’s work is now public and easier to inspect.
+                            No before-and-after analytics were available. The verified change is
+                            that OFK’s work is now public and easier to inspect.
                         </p>
                     </div>
 

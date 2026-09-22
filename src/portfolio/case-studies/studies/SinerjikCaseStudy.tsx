@@ -8,7 +8,13 @@ import solutionSectorMap from '../../assets/sinerjik/solution-sector-map.webp';
 import solutionWmsDemo from '../../assets/sinerjik/solution-wms-demo.webp';
 import type { Project } from '../../content/projects';
 import Button from '../../../shared/Button';
-import { CaseStudyDecision, CaseStudyHeader, CaseStudyImage, CaseStudyProse, CaseStudySection } from '../CaseStudyElements';
+import {
+    CaseStudyDecision,
+    CaseStudyHeader,
+    CaseStudyImage,
+    CaseStudyProse,
+    CaseStudySection,
+} from '../CaseStudyElements';
 import CaseStudySectionNavigator from '../CaseStudySectionNavigator';
 
 const SECTIONS = [
@@ -46,16 +52,21 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                         Sinerjik's website had to explain two sides of the business.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        The company provides management consulting. It also develops MoBI Plus+, a suite for warehouses, sales, customer management, and reporting.
+                        The company provides management consulting. It also develops MoBI Plus+, a
+                        suite for warehouses, sales, customer management, and reporting.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        The old website did not explain either side clearly. It was also difficult to use during client meetings.
+                        The old website did not explain either side clearly. It was also difficult
+                        to use during client meetings.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        MoBI Plus+ added another constraint. It is mature software with a dense interface. The client did not want to show those screens on the new site.
+                        MoBI Plus+ added another constraint. It is mature software with a dense
+                        interface. The client did not want to show those screens on the new site.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        I needed to show what the software did without showing its actual interface. The result also had to work for people browsing alone and for the team presenting in a meeting.
+                        I needed to show what the software did without showing its actual interface.
+                        The result also had to work for people browsing alone and for the team
+                        presenting in a meeting.
                     </p>
                 </CaseStudyProse>
             </CaseStudySection>
@@ -63,29 +74,40 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
             <CaseStudySection id="approach" number="02" title="Approach">
                 <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
-                        I started with the company documents, product details, services, customer references, and existing brand material.
+                        I started with the company documents, product details, services, customer
+                        references, and existing brand material.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        I used my visual communication background to turn that material into a presentation. Each section made one point and showed the proof behind it.
+                        I used my visual communication background to turn that material into a
+                        presentation. Each section made one point and showed the proof behind it.
                     </p>
 
                     <ol className="grid grid-cols-1 gap-x-8 md:grid-cols-2">
                         {QUESTIONS.map((question, index) => (
-                            <li key={question} className="flex gap-4 border-t border-line py-5 text-body-sm text-ink-body">
-                                <span className="shrink-0 font-mono text-caption text-ink-low">0{index + 1}</span>
+                            <li
+                                key={question}
+                                className="flex gap-4 border-t border-line py-5 text-body-sm text-ink-body"
+                            >
+                                <span className="shrink-0 font-mono text-caption text-ink-low">
+                                    0{index + 1}
+                                </span>
                                 {question}
                             </li>
                         ))}
                     </ol>
 
                     <p className="max-w-2xl text-body text-ink-body">
-                        The answers set the page order: promise, proof, business areas, sector fit, and contact.
+                        The answers set the page order: promise, proof, business areas, sector fit,
+                        and contact.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        The client checked the content throughout the project. Their feedback corrected company figures, contact details, and the link between sectors and services.
+                        The client checked the content throughout the project. Their feedback
+                        corrected company figures, contact details, and the link between sectors and
+                        services.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        I did not conduct formal user research. The decisions came from the client's product knowledge and sales needs.
+                        I did not conduct formal user research. The decisions came from the client's
+                        product knowledge and sales needs.
                     </p>
                 </CaseStudyProse>
 
@@ -101,10 +123,14 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                 <div className="space-y-10 md:space-y-14">
                     <CaseStudyDecision number="01" title="Put proof near the top">
                         <p className="max-w-2xl text-body text-ink-body">
-                            Sinerjik had strong facts to support its offer. These included more than 20 years of software experience, long client relationships, and large volumes of operational data.
+                            Sinerjik had strong facts to support its offer. These included more than
+                            20 years of software experience, long client relationships, and large
+                            volumes of operational data.
                         </p>
                         <p className="max-w-2xl text-body text-ink-body">
-                            The homepage shows this evidence before explaining every service. A visitor can judge the company early, while the team can point to the same facts during a pitch.
+                            The homepage shows this evidence before explaining every service. A
+                            visitor can judge the company early, while the team can point to the
+                            same facts during a pitch.
                         </p>
                     </CaseStudyDecision>
                     <CaseStudyImage
@@ -116,15 +142,22 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                 </div>
 
                 <div className="space-y-10 md:space-y-14">
-                    <CaseStudyDecision number="02" title="Show the software through a working example">
+                    <CaseStudyDecision
+                        number="02"
+                        title="Show the software through a working example"
+                    >
                         <p className="max-w-2xl text-body text-ink-body">
-                            Product screenshots were not available. A feature list alone would leave MoBI Plus+ hard to understand.
+                            Product screenshots were not available. A feature list alone would leave
+                            MoBI Plus+ hard to understand.
                         </p>
                         <p className="max-w-2xl text-body text-ink-body">
-                            I built a warehouse demonstration from the product's real behavior. A delivery arrives, receives a rack, moves through picking, reaches low stock, and triggers a new order.
+                            I built a warehouse demonstration from the product's real behavior. A
+                            delivery arrives, receives a rack, moves through picking, reaches low
+                            stock, and triggers a new order.
                         </p>
                         <p className="max-w-2xl text-body text-ink-body">
-                            The labels and steps come from MoBI Plus+. The visual design is new, but the workflow is based on the real product.
+                            The labels and steps come from MoBI Plus+. The visual design is new, but
+                            the workflow is based on the real product.
                         </p>
                     </CaseStudyDecision>
                     <CaseStudyImage
@@ -138,10 +171,13 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                 <div className="space-y-10 md:space-y-14">
                     <CaseStudyDecision number="03" title="Show how the products connect">
                         <p className="max-w-2xl text-body text-ink-body">
-                            MoBI Plus+ includes four products. Listing them separately would make the suite harder to understand.
+                            MoBI Plus+ includes four products. Listing them separately would make
+                            the suite harder to understand.
                         </p>
                         <p className="max-w-2xl text-body text-ink-body">
-                            I presented them as one flow. Mobile records field activity, WMS manages the warehouse, CRM handles customers, and Analytic connects the data to the customer's ERP.
+                            I presented them as one flow. Mobile records field activity, WMS manages
+                            the warehouse, CRM handles customers, and Analytic connects the data to
+                            the customer's ERP.
                         </p>
                         <p className="max-w-2xl text-body text-ink-body">
                             This gives the sales team one diagram for explaining the full suite.
@@ -158,13 +194,17 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                 <div className="space-y-10 md:space-y-14">
                     <CaseStudyDecision number="04" title="Match sectors with the right offer">
                         <p className="max-w-2xl text-body text-ink-body">
-                            Sinerjik works across manufacturing, food, energy, construction, automotive, retail, and education.
+                            Sinerjik works across manufacturing, food, energy, construction,
+                            automotive, retail, and education.
                         </p>
                         <p className="max-w-2xl text-body text-ink-body">
-                            A long capability list would make every sector look the same. I designed an interactive section that changes the standards, services, and products shown for each sector.
+                            A long capability list would make every sector look the same. I designed
+                            an interactive section that changes the standards, services, and
+                            products shown for each sector.
                         </p>
                         <p className="max-w-2xl text-body text-ink-body">
-                            This helps visitors find relevant information. It also lets the team adjust a pitch without changing pages.
+                            This helps visitors find relevant information. It also lets the team
+                            adjust a pitch without changing pages.
                         </p>
                     </CaseStudyDecision>
                     <CaseStudyImage
@@ -179,16 +219,20 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
             <CaseStudySection id="output" number="04" title="Output">
                 <CaseStudyProse>
                     <p className="max-w-2xl text-body text-ink-body">
-                        I designed the site structure, interface, visual system, and motion. I also directed the front-end build with Claude Code.
+                        I designed the site structure, interface, visual system, and motion. I also
+                        directed the front-end build with Claude Code.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        I delivered a responsive Turkish website with five public pages: homepage, company, consulting, products, and contact.
+                        I delivered a responsive Turkish website with five public pages: homepage,
+                        company, consulting, products, and contact.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        The website also includes coded product demonstrations, responsive diagrams, a contact form, and a documented design system.
+                        The website also includes coded product demonstrations, responsive diagrams,
+                        a contact form, and a documented design system.
                     </p>
                     <p className="max-w-2xl text-body text-ink-body">
-                        The same site can introduce Sinerjik, support a sales conversation, or explain a product flow.
+                        The same site can introduce Sinerjik, support a sales conversation, or
+                        explain a product flow.
                     </p>
                 </CaseStudyProse>
 
@@ -208,30 +252,39 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
 
             <CaseStudySection id="impact" number="05" title="Impact" rhythm="tight">
                 <div className="mx-auto max-w-page space-y-10">
-
                     <div className="grid grid-cols-1 gap-8 border-y border-line py-8 md:grid-cols-2">
                         <div>
                             <span className="block font-mono text-display-md text-ink-high">1</span>
-                            <span className="mt-3 block text-eyebrow text-ink-low">Signed client</span>
+                            <span className="mt-3 block text-eyebrow text-ink-low">
+                                Signed client
+                            </span>
                         </div>
                         <div>
                             <span className="block font-mono text-display-md text-ink-high">4</span>
-                            <span className="mt-3 block text-eyebrow text-ink-low">Pitches using the website</span>
+                            <span className="mt-3 block text-eyebrow text-ink-low">
+                                Pitches using the website
+                            </span>
                         </div>
                     </div>
 
                     <div className="space-y-6">
                         <p className="max-w-2xl text-body text-ink-body">
-                            The client used the website in four pitches after launch. One of those pitches led to a signed client.
+                            The client used the website in four pitches after launch. One of those
+                            pitches led to a signed client.
                         </p>
                         <p className="max-w-2xl text-body text-ink-body">
-                            During those meetings, the team could present the company, show how MoBI Plus+ works, and explain which services fit the potential client.
+                            During those meetings, the team could present the company, show how MoBI
+                            Plus+ works, and explain which services fit the potential client.
                         </p>
                         <p className="max-w-2xl text-body text-ink-body">
-                            The website also removed a product marketing blocker. Sinerjik could demonstrate MoBI Plus+ without exposing its production interface or waiting for a full product redesign.
+                            The website also removed a product marketing blocker. Sinerjik could
+                            demonstrate MoBI Plus+ without exposing its production interface or
+                            waiting for a full product redesign.
                         </p>
                         <p className="max-w-2xl text-body text-ink-body">
-                            The coded demonstrations gave the software a clear visual layer while the production product stayed unchanged. The client later thanked me for making the business and software easier to explain.
+                            The coded demonstrations gave the software a clear visual layer while
+                            the production product stayed unchanged. The client later thanked me for
+                            making the business and software easier to explain.
                         </p>
                     </div>
 

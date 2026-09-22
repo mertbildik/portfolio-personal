@@ -30,7 +30,9 @@ const WorkCard: React.FC<{ project: Project }> = ({ project }) => (
                 {project.confidential && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-canvas/80 opacity-0 transition-opacity duration-200 ease-entrance group-hover:opacity-100 group-focus-visible:opacity-100">
                         <Lock size={20} strokeWidth={1.5} className="text-ink-low" />
-                        <span className="font-mono text-caption text-ink-body">Confidential · ask on a call</span>
+                        <span className="font-mono text-caption text-ink-body">
+                            Confidential · ask on a call
+                        </span>
                     </div>
                 )}
             </div>

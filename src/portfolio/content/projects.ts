@@ -29,7 +29,8 @@ export const PROJECTS: Project[] = [
         group: 'Client work',
         relationship: 'Client project · Product designer',
         yearOrStatus: '2026',
-        summary: 'A bilingual brand and website that makes an established construction record verifiable in one visit.',
+        summary:
+            'A bilingual brand and website that makes an established construction record verifiable in one visit.',
         coverAlt: 'OFK Construction homepage',
     },
     {
@@ -56,7 +57,8 @@ export const PROJECTS: Project[] = [
         group: 'Experience',
         relationship: 'Long-term engagement · Product designer',
         yearOrStatus: '2021 – 2024',
-        summary: 'A multi-role platform bringing campaigns, tracking, performance, and finance into one system.',
+        summary:
+            'A multi-role platform bringing campaigns, tracking, performance, and finance into one system.',
         coverAlt: 'Adclusive platform cover',
     },
     {
