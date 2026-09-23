@@ -27,7 +27,7 @@ redirected in `next.config.ts`. On another host, use its Next.js adapter.
 | `/design`                                                                | The design system, live. Run `npm run dev` and open it — local only. |
 | [`docs/content/case-study-system.md`](docs/content/case-study-system.md) | The frame every case study follows                                   |
 | [`docs/content/writing.md`](docs/content/writing.md)                     | How to write inside that frame                                       |
-| [`CLAUDE.md`](CLAUDE.md)                                                 | The working rules, including how to add a project                    |
+| [`CLAUDE.md`](CLAUDE.md)                                                 | The working rules for Claude Code                                    |
 | `src/index.css`                                                          | Every design value, in one `@theme` block                            |
 
 The design system is a set of pages under `src/design/`, not a document. It reads the

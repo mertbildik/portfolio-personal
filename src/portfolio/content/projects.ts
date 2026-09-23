@@ -1,3 +1,11 @@
+/**
+ * The project index: metadata only, no prose.
+ *
+ * The Playwright suite imports this file in plain Node, which cannot resolve
+ * images, so it must stay free of asset imports. Covers are bound in
+ * assets/covers.ts instead.
+ */
+
 /** The two headings the homepage groups work under, in display order. */
 export const GROUPS = ['Client work', 'Experience'] as const;
 export type Group = (typeof GROUPS)[number];
