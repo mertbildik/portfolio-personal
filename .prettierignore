@@ -1,0 +1,9 @@
+# Prose, kept with the line breaks it was written with.
+docs
+
+node_modules
+.next
+next-env.d.ts
+playwright-report
+test-results
+package-lock.json

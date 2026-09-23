@@ -8,8 +8,6 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
-dist-ssr
 *.local
 .env
 
@@ -23,3 +21,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Playwright scratch output
+.playwright
+.playwright-cli
+.playwright-mcp
+test-results
+playwright-report
+
+# Next.js
+/.next/
+next-env.d.ts
+*.tsbuildinfo

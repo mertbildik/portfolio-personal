@@ -1,16 +1,35 @@
-# Run and deploy your AI Studio app
+# Mert Bildik — Portfolio
 
-This contains everything you need to run your app locally.
+Personal portfolio site. Next.js (App Router) + React + TypeScript + Tailwind, deployed on Vercel.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1iual8KbW5BTlce7HWPSMXI2jmTQ7wz-Z
+## Run it
 
-## Run Locally
+```bash
+npm install
+cp .env.example .env    # then fill in NEXT_PUBLIC_FORMSPREE_ID, or the contact form cannot send
+npm run dev             # prints the local URL
+```
 
-**Prerequisites:**  Node.js
+Scripts are in `package.json`. `npm run format:check`, `npm run typecheck`, `npm run build`
+and `npm run test` are the full check, and CI runs all four on every pull request and
+every push to `main`. Prettier formats; there is no ESLint.
 
+## Deploying
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Vercel detects Next.js and needs no configuration. Set `NEXT_PUBLIC_FORMSPREE_ID` in the
+project's environment variables. Every page is pre-rendered at build time; old URLs are
+redirected in `next.config.ts`. On another host, use its Next.js adapter.
+
+## Docs
+
+| Where                                                                    | What                                                                 |
+| ------------------------------------------------------------------------ | -------------------------------------------------------------------- |
+| `/design`                                                                | The design system, live. Run `npm run dev` and open it — local only. |
+| [`docs/content/case-study-system.md`](docs/content/case-study-system.md) | The frame every case study follows                                   |
+| [`docs/content/writing.md`](docs/content/writing.md)                     | How to write inside that frame                                       |
+| [`CLAUDE.md`](CLAUDE.md)                                                 | The working rules, including how to add a project                    |
+| `src/index.css`                                                          | Every design value, in one `@theme` block                            |
+
+The design system is a set of pages under `src/design/`, not a document. It reads the
+`@theme` block, the browser and the site's own source, so it cannot fall out of date. It
+exists only under `npm run dev` and never reaches a build.

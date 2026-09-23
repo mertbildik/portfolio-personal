@@ -1,28 +1,417 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+/* The design system at /design is local only and styles itself with
+   src/design/design.css, so its classes stay out of the site's stylesheet. */
+@source not './design';
+
+/* ============================================================================
+   DESIGN TOKENS
+
+   This block is the only place a design value is defined. If a value needs to
+   change, it changes here and nowhere else.
+
+   What each name means and when to reach for it is at /design, the living design
+   system in src/design/ — run `npm run dev` and open it. Those pages parse this
+   block rather than describing it, so they answer for whatever is written below
+   and cannot drift from it.
+
+   Names say what a token is FOR, never what it looks like: `ink-secondary`,
+   not `ink-low`; `title`, not `display-lg`.
+
+   Tailwind reads the PREFIX of each variable to decide which classes to build:
+     --color-*      -> bg-*, text-*, border-*
+     --text-*       -> text-* (size, and its own leading/tracking/weight)
+     --font-*       -> font-*
+     --ease-*       -> ease-*
+     --container-*  -> max-w-*
+   ========================================================================= */
+
+@theme {
+  /* ---- type family ---------------------------------------------------- */
+  /* Inter and Geist Mono, loaded by next/font in src/app/layout.tsx. */
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* ---- responsive ----------------------------------------------------- */
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+
+  /* ---- type ------------------------------------------------------------
+     Eight roles on five sizes: 12 · 13 · 15 · 20 · 28. Two weights: text that
+     names something is 500, text that is read is 400. Size makes the page and
+     section levels; below that, hierarchy comes from weight and ink.
+
+     Inter never runs below 13. Geist Mono is about a fifth wider than Inter, so
+     at 12 it sits optically level with 13px Inter beside it: `data` is the mono
+     role, and the one reason 12 exists.
+
+     Tracking is mostly left to Inter's optical-size axis, which already tightens
+     large text. The two large steps take a light touch on top; small text stays
+     at 0, because tightening it on a dark canvas smears it.
+
+     Line heights sit on the 4px grid except display. A statement that wraps to
+     two or three lines needs leading near 1.2 to hold together: 32 lets the
+     lines collide, 36 pulls them apart. That one value is optical, on purpose. */
+
+  --text-display: 28px; /* the top of every page: the statement, a study's title */
+  --text-display--line-height: 34px;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 500;
+
+  --text-title: 20px; /* section titles */
+  --text-title--line-height: 28px;
+  --text-title--letter-spacing: -0.01em;
+  --text-title--font-weight: 500;
+
+  --text-lead: 20px; /* a voice line under a statement; the size of a title, the weight of prose */
+  --text-lead--line-height: 28px;
+  --text-lead--letter-spacing: -0.01em;
+  --text-lead--font-weight: 400;
+
+  --text-heading: 15px; /* block, card, group and decision headings */
+  --text-heading--line-height: 24px;
+  --text-heading--letter-spacing: 0;
+  --text-heading--font-weight: 500;
+
+  --text-body: 15px; /* prose, lead sentences, entered form values */
+  --text-body--line-height: 24px;
+  --text-body--letter-spacing: 0;
+  --text-body--font-weight: 400;
+
+  --text-small: 13px; /* secondary sentences, captions, metadata keys and values, chips */
+  --text-small--line-height: 20px;
+  --text-small--letter-spacing: 0;
+  --text-small--font-weight: 400;
+
+  --text-label: 13px; /* group and field labels, actions */
+  --text-label--line-height: 20px;
+  --text-label--letter-spacing: 0;
+  --text-label--font-weight: 500;
+
+  --text-data: 12px; /* Geist Mono only: years, dates, ordinals, counts, times */
+  --text-data--line-height: 16px;
+  --text-data--letter-spacing: 0;
+  --text-data--font-weight: 400;
+
+  /* ---- colour ----------------------------------------------------------
+     Achromatic on purpose: project screenshots are the only colour on the
+     site, and they are judged against a ground with no hue of its own.
+
+     Contrast is set by what text needs to be read, not by how important it
+     is. Readability depends on size and weight: small text needs more
+     contrast than large text (APCA's size/weight table), and on a dark ground
+     the penalty for dim small text grows as the text gets smaller. So the
+     smallest reading text carries the most contrast, and large type carries
+     less. Hierarchy between page, section, block and body comes from the type
+     system; colour makes only two distinctions: content from annotation, and
+     a value from a placeholder.
+
+     Lc is APCA on this canvas, the ratio is WCAG 2, which is the binding
+     floor. Every ink clears WCAG AAA except ink-faint, which clears AA. */
+  --color-canvas: #111111; /* the one ground, and the backing in every image frame */
+  --color-raised: #191919; /* static grouped content: chips, the panel */
+  --color-hover: #1f1f1f; /* interaction feedback: a focused row or control */
+  --color-edge: #292929; /* object edges and hairline rules */
+  --color-edge-strong: #404040; /* the edge of a hovered control; an inline link's underline */
+
+  /* Lc 90 · 14.9:1  everything read at 12-15px: body, block headings,
+     captions, summaries, metadata values, entered values, actions. APCA's
+     preferred body level; brighter only adds bloom on a dark ground. */
+  --color-ink: #e5e5e5;
+  /* Lc 84 · 13.6:1  text of 20px and up: display, title, lead. The same ink,
+     corrected for size: a large stroke reads brighter than a small one at one
+     value, so this sits just under ink to look equal to it, not dimmer. */
+  --color-ink-large: #dcdcdc;
+  /* Lc 65 · 9.8:1   annotation: keys, group labels, ordinals, years, figure
+     numbers, hints, inactive navigation. Text you glance at to orient, which
+     is why it may recede; also the focus ring. */
+  --color-ink-secondary: #bbbbbb;
+  /* Lc 45 · 6.3:1   placeholders and disabled text only. Never a sentence. */
+  --color-ink-faint: #969696;
+
+  /* Status: the only chroma in the interface, and only ever a mark — a dot or
+     an icon beside words set in ink. Matched at OKLCH L 0.70, C 0.13. */
+  --color-ok: #5cb572;
+  --color-danger: #e47c75;
+
+  /* The canvas atmosphere: two white-alpha washes on the one fixed layer. */
+  --surface-canvas:
+    radial-gradient(ellipse 80% 55% at 50% -10%, rgb(255 255 255 / 0.04), transparent 70%),
+    radial-gradient(ellipse 55% 45% at 100% 100%, rgb(255 255 255 / 0.015), transparent 70%);
+
+  /* ---- shape -----------------------------------------------------------
+     One minimal radius on boxes, full circle on pills, dots, buttons and the
+     portrait. rounded-full and rounded-none are built in. */
+  --radius-sm: 6px;
+  --radius-md: 6px;
+  --radius-lg: 6px;
+  --radius-xl: 6px;
+
+  /* ---- motion ----------------------------------------------------------
+     Motion exists for feedback and causality only: a press, a hover, a change
+     of state. Nothing animates on arrival.
+
+     One curve, a strong ease-out, replacing Tailwind's own `ease-out` so the
+     familiar class name means the right thing. motion needs it as four numbers,
+     so src/shared/motion.ts keeps the same curve as EASE: change one, change
+     the other. Durations: 100 a press, 120 a state change, 150 a reveal. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --default-transition-duration: 120ms;
+  --default-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+
+  /* The one deliberate ambient loop on content: the portrait ring on the
+     hero turns slowly. Constant motion runs linear. */
+  --animate-ring-spin: ring-spin 36s linear infinite;
+  @keyframes ring-spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  /* ---- measure ----------------------------------------------------------
+     Widths are set by what they hold. The measure is in em, so it follows the
+     type it holds: about 66 characters a line at any size. It is not named
+     `prose` because Tailwind's own `max-w-prose` (65ch) outranks a theme value
+     of that name. The frames hold everything else. */
+  --container-shell: 1600px; /* case studies and their full-width visuals */
+  --container-page: 692px; /* homepage sections and the case-study column */
+  --container-measure: 32em; /* running text: 480px at 15px, about 66 characters */
+}
+
+@utility canvas-atmosphere {
+  background-image: var(--surface-canvas);
+}
+
+/* A raised surface that holds a larger grouped layout. The 1px top light is
+   material, not elevation: it is the edge catching light, and it never casts. */
+@utility panel {
+  background-color: var(--color-raised);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.045);
+}
+
+/* Hairline rules that take no layout space. A 1px border adds a pixel to the
+   box and pushes everything under it off the 4px grid; an inset line draws the
+   same rule without moving anything. Use these for dividers, a border for the
+   edge of an object. */
+@utility rule-t {
+  box-shadow: inset 0 1px 0 var(--color-edge);
+}
+
+@utility rule-b {
+  box-shadow: inset 0 -1px 0 var(--color-edge);
+}
+
+@utility rule-y {
+  box-shadow:
+    inset 0 1px 0 var(--color-edge),
+    inset 0 -1px 0 var(--color-edge);
+}
 
 @layer base {
-
   html,
   body {
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
-    overflow-y: auto;
+  }
+
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-transparent text-neutral-200 antialiased selection:bg-white selection:text-black font-sans;
+    /* Transparent so the fixed canvas layer in app/layout.tsx shows through every route.
+       Selection is set once here and never overridden. */
+    @apply bg-transparent text-ink antialiased selection:bg-ink selection:text-canvas font-sans;
+    /* Only upright faces are loaded; never let the browser fake a bold or italic. */
+    font-synthesis: none;
   }
 
-  /* Precision Image Rendering */
-  img {
-    @apply grayscale transition-all duration-500;
+  /* Headings balance their lines; running text avoids a lone last word. */
+  h1,
+  h2,
+  h3,
+  h4,
+  blockquote {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Keyboard focus is always drawn, never a brightness shift alone: the ink
+     stops at Lc 90, so there is no brighter state left to move to. Inputs
+     signal focus on their row instead and opt out with focus:outline-none. */
+  :focus-visible {
+    outline: 2px solid var(--color-ink-secondary);
+    outline-offset: 2px;
+  }
+
+  /* Tailwind 4's reset stopped giving buttons a pointer cursor, unlike Tailwind 3.
+     Put it back so a control still reads as clickable. `:not(:disabled)` leaves the
+     submit button's `disabled:cursor-not-allowed` alone. */
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
   }
 }
 
-@layer utilities {
-  /* Utilities cleared for new global background system */
+@layer components {
+  .work-card-media {
+    position: relative;
+    aspect-ratio: 8 / 5;
+  }
+
+  .work-card-image,
+  .work-card-rest,
+  .work-card-reveal,
+  .work-card-arrow {
+    transition-duration: 150ms;
+    transition-timing-function: var(--ease-out);
+  }
+
+  .work-card-image {
+    transition-property: transform;
+  }
+
+  .work-card-rest,
+  .work-card-reveal,
+  .work-card-arrow {
+    transition-property: opacity, transform;
+  }
+
+  .work-card-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .work-card-arrow {
+    opacity: 0;
+    transform: translateX(-4px);
+  }
+
+  @media (min-width: 48rem) and (hover: hover) and (pointer: fine) {
+    .work-card-copy {
+      display: grid;
+    }
+
+    .work-card-copy > * {
+      grid-area: 1 / 1;
+    }
+
+    .work-card-reveal {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+
+    .work-card:hover .work-card-image {
+      transform: scale(1.015);
+    }
+
+    .work-card:hover .work-card-rest,
+    .work-card:focus-visible .work-card-rest {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+
+    .work-card:hover .work-card-reveal,
+    .work-card:focus-visible .work-card-reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .work-card:hover .work-card-arrow,
+    .work-card:focus-visible .work-card-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* A case-study figure states what it is: its number in the study, counted by
+     CSS in document order, and its corner marks. Marks carry information or
+     they do not exist. */
+  .case-study {
+    counter-reset: figure;
+  }
+
+  .figure {
+    counter-increment: figure;
+  }
+
+  .figure-number::before {
+    content: 'Fig ' counter(figure, decimal-leading-zero);
+  }
+
+  .figure-marks::before,
+  .figure-marks::after,
+  .figure-marks > .figure-marks-bottom::before,
+  .figure-marks > .figure-marks-bottom::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    width: 7px;
+    height: 7px;
+    pointer-events: none;
+    border-color: var(--color-edge-strong);
+    border-style: solid;
+    border-width: 0;
+  }
+
+  .figure-marks::before {
+    top: 6px;
+    left: 6px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+  }
+
+  .figure-marks::after {
+    top: 6px;
+    right: 6px;
+    border-top-width: 1px;
+    border-right-width: 1px;
+  }
+
+  .figure-marks > .figure-marks-bottom::before {
+    bottom: 6px;
+    left: 6px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+  }
+
+  .figure-marks > .figure-marks-bottom::after {
+    bottom: 6px;
+    right: 6px;
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+  }
+}
+
+/* motion handles its own animations via MotionConfig reducedMotion="user".
+   The portrait ring is CSS-driven, so it is stopped here. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-pulse {
+    animation: none;
+  }
+
+  .animate-ring-spin {
+    animation: none;
+  }
+
+  .work-card:hover .work-card-image,
+  .work-card:hover .work-card-rest,
+  .work-card:focus-visible .work-card-rest,
+  .work-card:hover .work-card-reveal,
+  .work-card:focus-visible .work-card-reveal,
+  .work-card:hover .work-card-arrow,
+  .work-card:focus-visible .work-card-arrow {
+    transform: none;
+  }
 }
