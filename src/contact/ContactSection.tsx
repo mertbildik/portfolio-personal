@@ -20,6 +20,9 @@ const LiveClock: React.FC = () => {
     const [date, setDate] = useState(new Date());
 
     useEffect(() => {
+        // The page was rendered when the site was built, so the time it arrived
+        // with is stale; replace it the moment the page comes alive.
+        setDate(new Date());
         const timer = setInterval(() => setDate(new Date()), 1000);
         return () => clearInterval(timer);
     }, []);
@@ -35,7 +38,11 @@ const LiveClock: React.FC = () => {
 
     return (
         <div className="flex items-baseline gap-2">
-            <span className="text-data font-mono text-ink">{timeString}</span>
+            {/* The built page and the visitor's clock never agree, which React
+                would otherwise report as a hydration mismatch. */}
+            <span suppressHydrationWarning className="text-data font-mono text-ink">
+                {timeString}
+            </span>
             <span className="text-small text-ink-secondary">
                 Warsaw, <span className="font-mono text-data">PL</span>
             </span>

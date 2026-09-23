@@ -60,6 +60,11 @@ for (const path of ALL) {
         const problems: string[] = [];
         page.on('console', (m) => m.type() === 'error' && problems.push(m.text()));
         page.on('pageerror', (e) => problems.push(e.message));
+        // Pages are rendered when the site is built and hydrated when they are
+        // visited, so anything that reads the clock while rendering differs
+        // between the two. A visit on another day makes that certain, where a
+        // test run minutes after the build would usually miss it.
+        await page.clock.setFixedTime(new Date('2001-02-03T04:05:06Z'));
 
         await page.goto(path);
         await settle(page);
