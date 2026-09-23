@@ -50,7 +50,7 @@ const STATES: [string, string][] = [
         'Secondary lifts to ink. Text already at ink changes by an underline, a fill or a revealed icon, never by brightness.',
     ],
     ['Focus', 'An ink lift plus the hover fill, a revealed icon or the strong edge.'],
-    ['Pressed', 'A circle control scales to 0.97 for 100ms.'],
+    ['Pressed', `A circle control scales to 0.97 for ${authored('--duration-press')}.`],
     ['Selected', 'ink on a hover fill, with an ink marker.'],
     ['Loading', 'The label changes and the whole control takes the disabled treatment.'],
     ['Disabled', 'Half opacity on the whole control and a not-allowed cursor.'],
@@ -105,7 +105,7 @@ const Surfaces: React.FC = () => (
                 light — the edge of a surface catching light, which is material rather than depth.
             </p>
             <Frame className="mt-6">
-                <div className="panel max-w-sm rounded-md p-4">
+                <div className="panel max-w-96 rounded-md p-4">
                     <span className="flex items-center gap-3 text-label text-ink-secondary">
                         <Lock size={16} strokeWidth={1.5} />
                         Restricted access

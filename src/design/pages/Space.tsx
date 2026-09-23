@@ -5,31 +5,36 @@ import { computed, variable } from '../live';
 import { family, uses } from '../census';
 
 /**
- * The three widths the system names, and what each is for. Anything else the
- * census finds is shown as undecided — mostly figure layouts inside case
- * studies, which are composition and have not been given names.
+ * The widths the system names, and what each is for. Anything else the census
+ * finds is shown as undecided, so a width nobody named stays visible.
  */
 const MEASURE: Record<string, string> = {
     'max-w-measure': 'Running text. 32em: about 66 characters at any size.',
     'max-w-page': 'The homepage section, and the case-study column.',
     'max-w-shell': 'The wide case-study frame.',
+    'max-w-figure-wide': 'A wide screenshot, or a grid of figures.',
+    'max-w-figure': 'A single figure.',
+    'max-w-figure-narrow': 'A pair of mobile screens, or a narrower figure.',
+    'max-w-figure-inset': 'One small screen: a dialog, a phone.',
+    'max-w-list': 'A two-column list or row of figures inside the page column.',
 };
 
 /**
  * The fixed relationships. Dense but breathable: things that belong together
- * sit close, and the gap between groups does the separating.
+ * sit close, and the gap between groups does the separating. Distances are
+ * worked out from the classes, so this table cannot disagree with them.
  */
-const RHYTHM: [string, string, string][] = [
-    ['Name → role, a stacked pair', '0', 'they read as one unit; ink separates them'],
-    ['Label → value', 'mt-1', '4px'],
-    ['Ordinal → title', 'mt-2', '8px'],
-    ['Title → lead sentence', 'mt-4', '16px'],
-    ['Paragraph → paragraph', 'space-y-4', '16px'],
-    ['Rule → what it heads', 'pt-4', '16px'],
-    ['Heading → the list under it', 'mb-6 / mb-8', '24–32px'],
-    ['Lead → metadata rule', 'mt-8', '32px'],
-    ['Back link → page title', 'mb-10', '40px'],
-    ['Section → section', 'space-y-16 md:space-y-20', '64 / 80px'],
+const RHYTHM: [string, string][] = [
+    ['Name → role, a stacked pair', '0'],
+    ['Label → value', 'mt-1'],
+    ['Ordinal → title', 'mt-2'],
+    ['Title → lead sentence', 'mt-4'],
+    ['Paragraph → paragraph', 'space-y-4'],
+    ['Rule → what it heads', 'pt-4'],
+    ['Heading → the list under it', 'mb-6 / mb-8'],
+    ['Lead → metadata rule', 'mt-8'],
+    ['Back link → page title', 'mb-10'],
+    ['Section → section', 'space-y-16 md:space-y-20'],
 ];
 
 /** The spacing families that carry the site's vertical rhythm. */
@@ -41,6 +46,15 @@ const step = (className: string): string => {
     const multiplier = Number(raw);
     return Number.isFinite(multiplier) ? `${multiplier * base}px` : '—';
 };
+
+/** Every step in a rhythm entry, variants dropped: 'mb-6 / mb-8' → '24px / 32px'. */
+const distance = (classes: string): string =>
+    classes === '0'
+        ? 'none: they read as one unit; ink separates them'
+        : classes
+              .split(/\s+\/?\s*/)
+              .map((className) => step(className.split(':').pop() ?? ''))
+              .join(' / ');
 
 const useActiveBreakpoints = (): Set<string> => {
     const [active, setActive] = React.useState<Set<string>>(new Set());
@@ -97,10 +111,10 @@ const Space: React.FC = () => {
             >
                 <Table
                     columns={['Pair', 'Class', 'Distance']}
-                    rows={RHYTHM.map(([pair, className, distance]) => [
+                    rows={RHYTHM.map(([pair, className]) => [
                         pair,
                         <Mono bright>{className}</Mono>,
-                        <Mono>{distance}</Mono>,
+                        <Mono>{distance(className)}</Mono>,
                     ])}
                 />
             </Chapter>
@@ -159,7 +173,7 @@ const Space: React.FC = () => {
             <Chapter
                 id="measure"
                 title="Measure"
-                lede="Widths are set by what they hold. Three are named. The others in the source are figure layouts inside case studies, marked so they stay visible until they are decided."
+                lede="Widths are set by what they hold, and every one is named: three frames for text and pages, five for figures. A width in the source without a name shows here as undecided."
             >
                 <Table
                     columns={['Class', 'Width', 'Uses', 'Role']}

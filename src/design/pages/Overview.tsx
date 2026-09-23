@@ -57,7 +57,7 @@ const Overview: React.FC = () => (
                         <li key={entry.path}>
                             <Link
                                 href={entry.path}
-                                className="group grid grid-cols-1 gap-1 border-b border-edge py-5 transition-colors duration-120 ease-out md:grid-cols-[10rem_minmax(0,1fr)] md:gap-6"
+                                className="group grid grid-cols-1 gap-1 border-b border-edge py-5 transition-colors duration-state ease-out md:grid-cols-[10rem_minmax(0,1fr)] md:gap-6"
                             >
                                 <span className="text-heading text-ink">{entry.label}</span>
                                 <span className="text-small text-ink-secondary group-hover:text-ink group-focus-visible:text-ink">
@@ -128,7 +128,7 @@ const Overview: React.FC = () => (
             title="Why this is local only"
             lede="These pages are notes for whoever works on the site, not part of it."
         >
-            <p className="max-w-2xl text-small text-ink">
+            <p className="max-w-measure text-small text-ink">
                 The route to this tree is a{' '}
                 <span className="font-mono text-data text-ink-secondary">page.dev.tsx</span> file,
                 and only <span className="font-mono text-data text-ink-secondary">next dev</span>{' '}

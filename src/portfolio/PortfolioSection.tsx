@@ -14,7 +14,7 @@ export const WorkCard: React.FC<{ project: Project }> = ({ project }) => (
             href={`/portfolio/${project.id}`}
             className="work-card group block cursor-pointer rounded-md"
         >
-            <div className="work-card-media overflow-hidden rounded-md border border-edge bg-transparent transition-colors duration-120 ease-out group-focus-visible:border-edge-strong">
+            <div className="work-card-media overflow-hidden rounded-md border border-edge bg-transparent transition-colors duration-state ease-out group-focus-visible:border-edge-strong">
                 <Image
                     src={COVERS[project.id]}
                     alt={project.coverAlt}
@@ -22,7 +22,7 @@ export const WorkCard: React.FC<{ project: Project }> = ({ project }) => (
                     className="work-card-image h-full w-full object-cover object-center"
                 />
                 {project.confidential && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-canvas/80 opacity-0 transition-opacity duration-120 ease-out group-hover:opacity-100 group-focus-visible:opacity-100">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-canvas/80 opacity-0 transition-opacity duration-state ease-out group-hover:opacity-100 group-focus-visible:opacity-100">
                         <Lock size={20} strokeWidth={1.5} className="text-ink-secondary" />
                         <span className="font-mono text-data text-ink">
                             Confidential · ask on a call
@@ -35,7 +35,7 @@ export const WorkCard: React.FC<{ project: Project }> = ({ project }) => (
                 they stay aligned whatever the two type sizes become. */}
             <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-6">
                 <div className="min-w-0">
-                    <h4 className="text-heading text-ink transition-colors duration-120 ease-out">
+                    <h4 className="text-heading text-ink transition-colors duration-state ease-out">
                         {project.title}
                     </h4>
                     <div className="work-card-copy text-small">
@@ -45,7 +45,7 @@ export const WorkCard: React.FC<{ project: Project }> = ({ project }) => (
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <span className="font-mono text-data text-ink-secondary transition-colors duration-120 ease-out group-hover:text-ink group-focus-visible:text-ink">
+                    <span className="font-mono text-data text-ink-secondary transition-colors duration-state ease-out group-hover:text-ink group-focus-visible:text-ink">
                         {project.yearOrStatus}
                     </span>
                     <ArrowUpRight size={16} className="work-card-arrow shrink-0 text-ink" />

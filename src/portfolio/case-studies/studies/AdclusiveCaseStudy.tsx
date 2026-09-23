@@ -82,7 +82,7 @@ const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             src={sitemap}
                             alt="Adclusive sitemap separating advertiser and publisher workspaces"
                             caption="The shared entry split into separate advertiser and publisher workspaces."
-                            className="mx-auto max-w-6xl"
+                            className="mx-auto max-w-figure-wide"
                         />
 
                         <CaseStudyProse>
@@ -93,7 +93,7 @@ const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             </CaseStudyParagraph>
                         </CaseStudyProse>
 
-                        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 md:grid-cols-2 md:items-start">
+                        <div className="mx-auto grid w-full max-w-figure-wide grid-cols-1 gap-8 md:grid-cols-2 md:items-start">
                             <CaseStudyImage
                                 src={wireframeDashboard}
                                 alt="Low-fidelity Adclusive publisher dashboard"
@@ -141,7 +141,7 @@ const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                 src={createAccount}
                                 alt="Adclusive account creation with publisher and advertiser roles"
                                 caption="The account type determined which workspace and tools appeared next."
-                                className="mx-auto max-w-sm"
+                                className="mx-auto max-w-figure-inset"
                             />
                         </div>
 
@@ -157,7 +157,7 @@ const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                     scan and complete.
                                 </CaseStudyParagraph>
                             </CaseStudyDecision>
-                            <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 md:grid-cols-2 md:items-start">
+                            <div className="mx-auto grid w-full max-w-figure-wide grid-cols-1 gap-8 md:grid-cols-2 md:items-start">
                                 <CaseStudyImage
                                     src={wireframeCampaign}
                                     alt="Low-fidelity Adclusive campaign creation form"
@@ -183,7 +183,7 @@ const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                     action.
                                 </CaseStudyParagraph>
                             </CaseStudyDecision>
-                            <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 md:grid-cols-2 md:items-start">
+                            <div className="mx-auto grid w-full max-w-figure-wide grid-cols-1 gap-8 md:grid-cols-2 md:items-start">
                                 <CaseStudyImage
                                     src={search}
                                     alt="Adclusive advertiser search organized by campaign category"
@@ -199,7 +199,7 @@ const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                 src={trackingLinks}
                                 alt="Adclusive modal with three customized tracking link formats"
                                 caption="Each tracking format could be copied from one place."
-                                className="mx-auto max-w-5xl"
+                                className="mx-auto max-w-figure"
                             />
                         </div>
 
@@ -219,7 +219,7 @@ const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                 src={advertiserDashboard}
                                 alt="Adclusive advertiser dashboard with sales, commissions, transactions, and invoices"
                                 caption="Advertisers could review sales, commissions, publisher activity, and invoice status together."
-                                className="mx-auto max-w-6xl"
+                                className="mx-auto max-w-figure-wide"
                             />
                         </div>
                     </>
@@ -236,7 +236,7 @@ const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                 small number of coded components.
                             </CaseStudyParagraph>
                             <CaseStudyParagraph>The shipped MVP included:</CaseStudyParagraph>
-                            <ul className="grid max-w-2xl grid-cols-1 gap-x-8 md:grid-cols-2">
+                            <ul className="grid max-w-list grid-cols-1 gap-x-8 md:grid-cols-2">
                                 {SHIPPED.map((item) => (
                                     <li key={item} className="rule-t py-4 text-small text-ink">
                                         {item}
@@ -245,7 +245,7 @@ const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             </ul>
                         </CaseStudyProse>
 
-                        <div className="mx-auto grid w-full max-w-4xl grid-cols-1 gap-8 md:grid-cols-2 md:items-start">
+                        <div className="mx-auto grid w-full max-w-figure-narrow grid-cols-1 gap-8 md:grid-cols-2 md:items-start">
                             <CaseStudyImage
                                 src={mobileLogin}
                                 alt="Adclusive mobile login"
@@ -262,7 +262,7 @@ const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             src={generalAccountSettings}
                             alt="Adclusive account settings for profile, notifications, payment, and password"
                             caption="Account settings kept profile, notification, payment, and password details together."
-                            className="mx-auto max-w-6xl"
+                            className="mx-auto max-w-figure-wide"
                         />
                     </>
                 ),
@@ -280,7 +280,7 @@ const AdclusiveCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             </CaseStudyParagraph>
                         </div>
 
-                        <div className="grid max-w-2xl grid-cols-1 gap-8 rule-y py-8 md:grid-cols-2">
+                        <div className="grid max-w-list grid-cols-1 gap-8 rule-y py-8 md:grid-cols-2">
                             <div>
                                 <span className="block font-mono text-title text-ink-large">
                                     ~20

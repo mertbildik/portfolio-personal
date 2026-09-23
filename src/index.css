@@ -24,13 +24,28 @@
      --font-*       -> font-*
      --ease-*       -> ease-*
      --container-*  -> max-w-*
+     --duration-*   -> duration-* (through the @utility below the block)
+
+   Tailwind's own theme is switched off, so these are the only values its
+   classes can take: `max-w-6xl` or `text-red-500` build nothing. A value that
+   is missing gets a token here first.
    ========================================================================= */
 
 @theme {
+  /* Only the tokens below build classes. */
+  --*: initial;
+
+  /* The spacing step behind p-*, m-*, gap-*, w-*: every distance is a whole
+     multiple of it. Tailwind's own value, kept when its theme was switched off. */
+  --spacing: 0.25rem;
+
   /* ---- type family ---------------------------------------------------- */
   /* Inter and Geist Mono, loaded by next/font in src/app/layout.tsx. */
   --font-sans: var(--font-inter), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  /* Tailwind's base styles read these for html, form controls and code. */
+  --default-font-family: var(--font-sans);
+  --default-mono-font-family: var(--font-mono);
 
   /* ---- responsive ----------------------------------------------------- */
   --breakpoint-md: 48rem;
@@ -143,10 +158,7 @@
   /* ---- shape -----------------------------------------------------------
      One minimal radius on boxes, full circle on pills, dots, buttons and the
      portrait. rounded-full and rounded-none are built in. */
-  --radius-sm: 6px;
   --radius-md: 6px;
-  --radius-lg: 6px;
-  --radius-xl: 6px;
 
   /* ---- motion ----------------------------------------------------------
      Motion exists for feedback and causality only: a press, a hover, a change
@@ -155,10 +167,17 @@
      One curve, a strong ease-out, replacing Tailwind's own `ease-out` so the
      familiar class name means the right thing. motion needs it as four numbers,
      so src/shared/motion.ts keeps the same curve as EASE: change one, change
-     the other. Durations: 100 a press, 120 a state change, 150 a reveal. */
+     the other.
+
+     Three durations, named for what moves. A transition takes one of them as
+     duration-press, duration-state or duration-reveal; a bare transition gets
+     the state one. */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-  --default-transition-duration: 120ms;
-  --default-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+  --duration-press: 100ms; /* a control pressed */
+  --duration-state: 120ms; /* hover, focus, a change of ink or fill */
+  --duration-reveal: 150ms; /* something appears or grows: an arrow, a rule, card copy */
+  --default-transition-duration: var(--duration-state);
+  --default-transition-timing-function: var(--ease-out);
 
   /* The one deliberate ambient loop on content: the portrait ring on the
      hero turns slowly. Constant motion runs linear. */
@@ -177,6 +196,21 @@
   --container-shell: 1600px; /* case studies and their full-width visuals */
   --container-page: 692px; /* homepage sections and the case-study column */
   --container-measure: 32em; /* running text: 480px at 15px, about 66 characters */
+
+  /* Figures inside the case-study shell, widest first. */
+  --container-figure-wide: 72rem; /* a wide screenshot, or a grid of figures */
+  --container-figure: 64rem; /* a single figure */
+  --container-figure-narrow: 56rem; /* a pair of mobile screens, or a narrower figure */
+  --container-figure-inset: 24rem; /* one small screen: a dialog, a phone */
+  --container-list: 42rem; /* a two-column list or row of figures inside the page column */
+}
+
+/* duration-press, duration-state, duration-reveal: one class per --duration-*
+   token. Setting --tw-duration lets it pair with transition-colors and the
+   other transition-* classes, as Tailwind's own duration-* does. */
+@utility duration-* {
+  --tw-duration: --value(--duration-*);
+  transition-duration: --value(--duration-*);
 }
 
 @utility canvas-atmosphere {
@@ -269,7 +303,7 @@
   .work-card-rest,
   .work-card-reveal,
   .work-card-arrow {
-    transition-duration: 150ms;
+    transition-duration: var(--duration-reveal);
     transition-timing-function: var(--ease-out);
   }
 
@@ -294,40 +328,43 @@
     transform: translateX(-4px);
   }
 
-  @media (min-width: 48rem) and (hover: hover) and (pointer: fine) {
-    .work-card-copy {
-      display: grid;
-    }
+  /* Only where hover is a real affordance, and only from md up. */
+  @variant md {
+    @media (hover: hover) and (pointer: fine) {
+      .work-card-copy {
+        display: grid;
+      }
 
-    .work-card-copy > * {
-      grid-area: 1 / 1;
-    }
+      .work-card-copy > * {
+        grid-area: 1 / 1;
+      }
 
-    .work-card-reveal {
-      opacity: 0;
-      transform: translateY(4px);
-    }
+      .work-card-reveal {
+        opacity: 0;
+        transform: translateY(4px);
+      }
 
-    .work-card:hover .work-card-image {
-      transform: scale(1.015);
-    }
+      .work-card:hover .work-card-image {
+        transform: scale(1.015);
+      }
 
-    .work-card:hover .work-card-rest,
-    .work-card:focus-visible .work-card-rest {
-      opacity: 0;
-      transform: translateY(-4px);
-    }
+      .work-card:hover .work-card-rest,
+      .work-card:focus-visible .work-card-rest {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
 
-    .work-card:hover .work-card-reveal,
-    .work-card:focus-visible .work-card-reveal {
-      opacity: 1;
-      transform: translateY(0);
-    }
+      .work-card:hover .work-card-reveal,
+      .work-card:focus-visible .work-card-reveal {
+        opacity: 1;
+        transform: translateY(0);
+      }
 
-    .work-card:hover .work-card-arrow,
-    .work-card:focus-visible .work-card-arrow {
-      opacity: 1;
-      transform: translateX(0);
+      .work-card:hover .work-card-arrow,
+      .work-card:focus-visible .work-card-arrow {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
   }
 
@@ -395,10 +432,6 @@
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  .animate-pulse {
-    animation: none;
   }
 
   .animate-ring-spin {

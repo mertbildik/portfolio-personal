@@ -64,7 +64,7 @@ const HeroSection: React.FC = () => (
                 href="https://www.mckinsey.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline decoration-edge-strong underline-offset-4 transition-colors duration-120 ease-out hover:decoration-ink-secondary"
+                className="underline decoration-edge-strong underline-offset-4 transition-colors duration-state ease-out hover:decoration-ink-secondary"
             >
                 McKinsey &amp; Company
             </a>
@@ -80,10 +80,10 @@ const HeroSection: React.FC = () => (
             className="group mt-10 flex w-full cursor-pointer items-center justify-between whitespace-nowrap"
         >
             <span className="flex shrink-0 flex-col">
-                <span className="text-heading text-ink transition-colors duration-120 ease-out">
+                <span className="text-heading text-ink transition-colors duration-state ease-out">
                     Get in touch
                 </span>
-                <span className="mt-1 flex items-center gap-2 text-small text-ink-secondary transition-colors duration-120 ease-out group-hover:text-ink group-focus-visible:text-ink">
+                <span className="mt-1 flex items-center gap-2 text-small text-ink-secondary transition-colors duration-state ease-out group-hover:text-ink group-focus-visible:text-ink">
                     <span className="h-1.5 w-1.5 rounded-full bg-ok" />
                     Available for new projects
                 </span>

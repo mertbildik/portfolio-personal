@@ -109,7 +109,7 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             src={approachSourceMaterial}
                             alt="Sinerjik source document covering the company, products, services, and site structure"
                             caption="Company facts, services, and product details were organised before they became page content."
-                            className="mx-auto max-w-5xl"
+                            className="mx-auto max-w-figure"
                         />
                     </>
                 ),
@@ -136,7 +136,7 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                 src={solutionProof}
                                 alt="Sinerjik company figures beside a particle helix and customer logos"
                                 caption="Company figures and customer references appear before the detailed service content."
-                                className="mx-auto max-w-6xl"
+                                className="mx-auto max-w-figure-wide"
                             />
                         </div>
 
@@ -163,7 +163,7 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                 src={solutionWmsDemo}
                                 alt="Sinerjik homepage with an interactive MoBI Plus+ warehouse flow"
                                 caption="The warehouse example shows how MoBI Plus+ responds to a stock problem."
-                                className="mx-auto max-w-6xl"
+                                className="mx-auto max-w-figure-wide"
                             />
                         </div>
 
@@ -187,7 +187,7 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                 src={solutionProductFlow}
                                 alt="MoBI Plus+ diagram connecting field, warehouse, customer, analytics, and ERP"
                                 caption="The diagram follows data from field activity to the customer's existing ERP."
-                                className="mx-auto max-w-6xl"
+                                className="mx-auto max-w-figure-wide"
                             />
                         </div>
 
@@ -214,7 +214,7 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                 src={solutionSectorMap}
                                 alt="Sinerjik sector map connecting manufacturing to standards, services, and products"
                                 caption="Each sector reveals the services and products most relevant to it."
-                                className="mx-auto max-w-6xl"
+                                className="mx-auto max-w-figure-wide"
                             />
                         </div>
                     </>
@@ -243,7 +243,7 @@ const SinerjikCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             </CaseStudyParagraph>
                         </CaseStudyProse>
 
-                        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 md:grid-cols-2 md:items-start">
+                        <div className="mx-auto grid w-full max-w-figure-wide grid-cols-1 gap-8 md:grid-cols-2 md:items-start">
                             <CaseStudyImage
                                 src={outputAbout}
                                 alt="Sinerjik company page with experience and operating figures"

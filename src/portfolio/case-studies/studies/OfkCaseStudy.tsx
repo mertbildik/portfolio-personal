@@ -105,7 +105,7 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             </CaseStudyParagraph>
                         </CaseStudyProse>
 
-                        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 md:grid-cols-12 md:items-start">
+                        <div className="mx-auto grid w-full max-w-figure-wide grid-cols-1 gap-8 md:grid-cols-12 md:items-start">
                             <CaseStudyImage
                                 src={approachImage1}
                                 alt="OFK source hierarchy for resolving conflicting company information"
@@ -164,7 +164,7 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                 src={solutionProjects}
                                 alt="OFK completed projects overview with locations, dates, and scope"
                                 caption="Project summaries make comparable experience visible before a buyer opens the technical detail."
-                                className="mx-auto max-w-5xl"
+                                className="mx-auto max-w-figure"
                             />
                         </div>
 
@@ -180,7 +180,7 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                 src={solutionReferences}
                                 alt="OFK references page with three companies and PDF downloads"
                                 caption="Each reference stays attached to its company, project, scope, and original document."
-                                className="mx-auto max-w-5xl"
+                                className="mx-auto max-w-figure"
                             />
                         </div>
 
@@ -196,7 +196,7 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                 src={solutionLanguages}
                                 alt="OFK navigation with English and Polish language controls"
                                 caption="Both languages change inside the same stable navigation."
-                                className="ml-auto max-w-4xl"
+                                className="ml-auto max-w-figure-narrow"
                             />
                         </div>
                     </>
@@ -221,7 +221,7 @@ const OfkCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             </CaseStudyParagraph>
                         </CaseStudyProse>
 
-                        <div className="mx-auto w-full max-w-6xl space-y-8">
+                        <div className="mx-auto w-full max-w-figure-wide space-y-8">
                             <CaseStudyImage
                                 src={outputHome}
                                 alt="OFK Construction homepage presented in its visual system"

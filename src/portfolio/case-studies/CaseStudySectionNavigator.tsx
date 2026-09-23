@@ -53,7 +53,7 @@ const CaseStudySectionNavigator: React.FC<{ sections: readonly Section[]; pageKe
         >
             <div
                 aria-hidden="true"
-                className="absolute right-0 top-1/2 flex -translate-y-1/2 flex-col items-end gap-3 pr-2 transition-opacity duration-120 ease-out group-hover:opacity-0 group-focus-within:opacity-0"
+                className="absolute right-0 top-1/2 flex -translate-y-1/2 flex-col items-end gap-3 pr-2 transition-opacity duration-state ease-out group-hover:opacity-0 group-focus-within:opacity-0"
             >
                 {sections.map((section) => (
                     <span
@@ -63,7 +63,7 @@ const CaseStudySectionNavigator: React.FC<{ sections: readonly Section[]; pageKe
                 ))}
             </div>
 
-            <div className="pointer-events-none absolute right-0 top-1/2 w-40 -translate-y-1/2 translate-x-2 rounded-l-md border-y border-l border-edge bg-canvas p-3 opacity-0 transition-[opacity,transform] duration-120 ease-out group-hover:pointer-events-auto group-hover:translate-x-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-x-0 group-focus-within:opacity-100 xl:w-56">
+            <div className="pointer-events-none absolute right-0 top-1/2 w-40 -translate-y-1/2 translate-x-2 rounded-l-md border-y border-l border-edge bg-canvas p-3 opacity-0 transition-[opacity,transform] duration-state ease-out group-hover:pointer-events-auto group-hover:translate-x-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-x-0 group-focus-within:opacity-100 xl:w-56">
                 <span className="block px-3 pb-2 text-label text-ink-secondary">Sections</span>
                 {sections.map((section) => (
                     <a
@@ -71,7 +71,7 @@ const CaseStudySectionNavigator: React.FC<{ sections: readonly Section[]; pageKe
                         href={`#${section.id}`}
                         aria-label={section.label}
                         aria-current={activeSection === section.id ? 'location' : undefined}
-                        className={`flex gap-3 rounded-md px-3 py-2 focus-visible:bg-hover transition-[color,background-color] duration-120 ease-out ${
+                        className={`flex gap-3 rounded-md px-3 py-2 focus-visible:bg-hover transition-[color,background-color] duration-state ease-out ${
                             activeSection === section.id
                                 ? 'bg-hover text-ink'
                                 : 'text-ink-secondary hover:text-ink focus-visible:text-ink'

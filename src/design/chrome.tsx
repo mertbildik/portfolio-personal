@@ -18,7 +18,7 @@ const NavLink: React.FC<{ entry: Entry }> = ({ entry }) => (
     <Link
         href={entry.path}
         aria-current={usePathname() === entry.path ? 'page' : undefined}
-        className="block text-small text-ink transition-colors duration-120 ease-out focus-visible:outline-none"
+        className="block text-small text-ink transition-colors duration-state ease-out focus-visible:outline-none"
     >
         {entry.label}
     </Link>
@@ -32,7 +32,7 @@ export const Shell: React.FC<{ children: React.ReactNode }> = ({ children }) => 
             <div className="px-6 py-10 lg:sticky lg:top-0 lg:max-h-screen lg:overflow-y-auto lg:px-8">
                 <Link
                     href="/design"
-                    className="block text-heading text-ink transition-colors duration-120 ease-out"
+                    className="block text-heading text-ink transition-colors duration-state ease-out"
                 >
                     Design system
                 </Link>
@@ -59,7 +59,7 @@ export const Shell: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 
                 <Link
                     href="/"
-                    className="mt-12 inline-block text-small text-ink-secondary transition-colors duration-120 ease-out hover:text-ink focus-visible:text-ink"
+                    className="mt-12 inline-block text-small text-ink-secondary transition-colors duration-state ease-out hover:text-ink focus-visible:text-ink"
                 >
                     ← Back to the site
                 </Link>
@@ -67,7 +67,7 @@ export const Shell: React.FC<{ children: React.ReactNode }> = ({ children }) => 
         </aside>
 
         <main className="min-w-0 flex-1 px-6 pt-12 pb-24 lg:px-16 lg:pt-16">
-            <div className="max-w-4xl">{children}</div>
+            <div className="max-w-224">{children}</div>
         </main>
     </div>
 );
@@ -128,13 +128,13 @@ export const Table: React.FC<{
     rows: React.ReactNode[][];
 }> = ({ columns, rows }) => (
     <div className="overflow-x-auto">
-        <table className="w-full min-w-xl border-collapse text-left">
+        <table className="w-full min-w-144 border-collapse text-left">
             <thead>
                 <tr>
                     {columns.map((column) => (
                         <th
                             key={column}
-                            className="border-b border-edge pr-6 pb-3 text-label font-normal text-ink-secondary"
+                            className="border-b border-edge pr-6 pb-3 text-small text-ink-secondary"
                         >
                             {column}
                         </th>
@@ -170,7 +170,7 @@ export const Rules: React.FC<{ items: React.ReactNode[] }> = ({ items }) => (
 
 export const PageFoot: React.FC<{ path: string }> = ({ path }) => {
     const { previous, next } = neighbours(path);
-    const link = 'group flex flex-col gap-1 text-ink transition-colors duration-120 ease-out';
+    const link = 'group flex flex-col gap-1 text-ink transition-colors duration-state ease-out';
 
     return (
         <nav

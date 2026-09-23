@@ -184,10 +184,10 @@ const ContactSection: React.FC = () => {
                                 }}
                                 className="rule-y"
                             >
-                                <div className="group relative grid grid-cols-1 gap-2 rule-b px-4 py-4 transition-colors duration-120 ease-out focus-within:bg-hover md:grid-cols-[9rem_minmax(0,1fr)] md:gap-6 md:px-6">
+                                <div className="group relative grid grid-cols-1 gap-2 rule-b px-4 py-4 transition-colors duration-state ease-out focus-within:bg-hover md:grid-cols-[9rem_minmax(0,1fr)] md:gap-6 md:px-6">
                                     <label
                                         htmlFor="contact-name"
-                                        className="text-label text-ink-secondary group-focus-within:text-ink transition-colors duration-120 ease-out md:pt-3"
+                                        className="text-label text-ink-secondary group-focus-within:text-ink transition-colors duration-state ease-out md:pt-3"
                                     >
                                         Your name
                                     </label>
@@ -202,17 +202,17 @@ const ContactSection: React.FC = () => {
                                         placeholder="How should I address you?"
                                     />
                                     <span
-                                        className="absolute top-6 right-6 opacity-0 group-focus-within:opacity-100 transition-opacity duration-120 ease-out text-ink text-data font-mono"
+                                        className="absolute top-6 right-6 opacity-0 group-focus-within:opacity-100 transition-opacity duration-state ease-out text-ink text-data font-mono"
                                         aria-hidden="true"
                                     >
                                         +
                                     </span>
                                 </div>
 
-                                <div className="group relative grid grid-cols-1 gap-2 rule-b px-4 py-4 transition-colors duration-120 ease-out focus-within:bg-hover md:grid-cols-[9rem_minmax(0,1fr)] md:gap-6 md:px-6">
+                                <div className="group relative grid grid-cols-1 gap-2 rule-b px-4 py-4 transition-colors duration-state ease-out focus-within:bg-hover md:grid-cols-[9rem_minmax(0,1fr)] md:gap-6 md:px-6">
                                     <label
                                         htmlFor="contact-email"
-                                        className="text-label text-ink-secondary group-focus-within:text-ink transition-colors duration-120 ease-out md:pt-3"
+                                        className="text-label text-ink-secondary group-focus-within:text-ink transition-colors duration-state ease-out md:pt-3"
                                     >
                                         Email address
                                     </label>
@@ -227,17 +227,17 @@ const ContactSection: React.FC = () => {
                                         placeholder="you@company.com"
                                     />
                                     <span
-                                        className="absolute top-6 right-6 opacity-0 group-focus-within:opacity-100 transition-opacity duration-120 ease-out text-ink text-data font-mono"
+                                        className="absolute top-6 right-6 opacity-0 group-focus-within:opacity-100 transition-opacity duration-state ease-out text-ink text-data font-mono"
                                         aria-hidden="true"
                                     >
                                         +
                                     </span>
                                 </div>
 
-                                <div className="group relative grid grid-cols-1 gap-2 rule-b px-4 py-4 transition-colors duration-120 ease-out focus-within:bg-hover md:grid-cols-[9rem_minmax(0,1fr)] md:gap-6 md:px-6">
+                                <div className="group relative grid grid-cols-1 gap-2 rule-b px-4 py-4 transition-colors duration-state ease-out focus-within:bg-hover md:grid-cols-[9rem_minmax(0,1fr)] md:gap-6 md:px-6">
                                     <label
                                         htmlFor="contact-message"
-                                        className="text-label text-ink-secondary group-focus-within:text-ink transition-colors duration-120 ease-out md:pt-1"
+                                        className="text-label text-ink-secondary group-focus-within:text-ink transition-colors duration-state ease-out md:pt-1"
                                     >
                                         Project details
                                     </label>
@@ -257,7 +257,7 @@ const ContactSection: React.FC = () => {
                                         }}
                                     />
                                     <span
-                                        className="absolute top-6 right-6 opacity-0 group-focus-within:opacity-100 transition-opacity duration-120 ease-out text-ink text-data font-mono"
+                                        className="absolute top-6 right-6 opacity-0 group-focus-within:opacity-100 transition-opacity duration-state ease-out text-ink text-data font-mono"
                                         aria-hidden="true"
                                     >
                                         +
@@ -267,7 +267,7 @@ const ContactSection: React.FC = () => {
                                 <button
                                     type="submit"
                                     disabled={formState === 'submitting'}
-                                    className="group grid w-full cursor-pointer grid-cols-[1fr_auto] items-center gap-6 px-4 py-4 transition-colors duration-120 ease-out focus-visible:bg-hover disabled:cursor-not-allowed disabled:opacity-50 md:grid-cols-[9rem_minmax(0,1fr)_auto] md:px-6"
+                                    className="group grid w-full cursor-pointer grid-cols-[1fr_auto] items-center gap-6 px-4 py-4 transition-colors duration-state ease-out focus-visible:bg-hover disabled:cursor-not-allowed disabled:opacity-50 md:grid-cols-[9rem_minmax(0,1fr)_auto] md:px-6"
                                 >
                                     <div className="md:col-start-2 flex flex-col shrink-0 text-left">
                                         <span className="text-label text-ink">
@@ -277,7 +277,7 @@ const ContactSection: React.FC = () => {
                                         </span>
                                         <span
                                             aria-live="polite"
-                                            className="text-small text-ink-secondary mt-1 group-hover:text-ink group-focus-visible:text-ink group-disabled:text-ink-secondary transition-colors duration-150"
+                                            className="text-small text-ink-secondary mt-1 group-hover:text-ink group-focus-visible:text-ink group-disabled:text-ink-secondary transition-colors duration-state"
                                         >
                                             {isFormReady
                                                 ? 'Ready to send.'
@@ -309,7 +309,7 @@ const ContactSection: React.FC = () => {
                                                 : 'Sending failed. Try again, or email me directly at '}
                                             <a
                                                 href={`mailto:${CONTACT_EMAIL}`}
-                                                className="underline decoration-edge-strong underline-offset-4 transition-colors duration-120 ease-out hover:decoration-ink-secondary"
+                                                className="underline decoration-edge-strong underline-offset-4 transition-colors duration-state ease-out hover:decoration-ink-secondary"
                                             >
                                                 {CONTACT_EMAIL}
                                             </a>
@@ -338,7 +338,7 @@ const ContactSection: React.FC = () => {
                                 ) : (
                                     <Copy
                                         size={12}
-                                        className="opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-150 text-ink-secondary"
+                                        className="opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-reveal text-ink-secondary"
                                     />
                                 )}
                             </button>
@@ -352,12 +352,12 @@ const ContactSection: React.FC = () => {
                                     href={LINKEDIN_URL}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex min-h-11 items-center gap-2 text-ink transition-colors duration-150 group w-fit"
+                                    className="flex min-h-11 items-center gap-2 text-ink transition-colors duration-state group w-fit"
                                 >
                                     <span className="text-label">LinkedIn</span>
                                     <ArrowUpRight
                                         size={10}
-                                        className="opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-150"
+                                        className="opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-reveal"
                                     />
                                 </a>
                             </div>

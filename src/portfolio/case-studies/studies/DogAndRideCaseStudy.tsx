@@ -118,7 +118,7 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                 src={home}
                                 alt="Dog & Ride landing page with a rider, dog, and brand message"
                                 caption="The opening pairs the product with the experience of travelling together."
-                                className="mx-auto max-w-6xl"
+                                className="mx-auto max-w-figure-wide"
                             />
                         </div>
 
@@ -138,7 +138,7 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                 src={productFeatures}
                                 alt="Dog & Ride product features beside photographs of riders and dogs"
                                 caption="Product details follow the opening promise, when riders are ready to inspect how it works."
-                                className="mx-auto max-w-6xl"
+                                className="mx-auto max-w-figure-wide"
                             />
                         </div>
 
@@ -153,7 +153,7 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                                 src={contactAndFaq}
                                 alt="Dog & Ride contact form and common product questions"
                                 caption="The FAQ handles practical questions before the rider starts a consultation."
-                                className="mx-auto max-w-6xl"
+                                className="mx-auto max-w-figure-wide"
                             />
                         </div>
                     </>
@@ -175,7 +175,7 @@ const DogAndRideCaseStudy: React.FC<{ project: Project }> = ({ project }) => (
                             </CaseStudyParagraph>
                         </CaseStudyProse>
 
-                        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 md:grid-cols-2 md:items-start">
+                        <div className="mx-auto grid w-full max-w-figure-wide grid-cols-1 gap-8 md:grid-cols-2 md:items-start">
                             <CaseStudyImage
                                 src={testimonials}
                                 alt="Dog & Ride customer quotes above a red scooter and carrier"

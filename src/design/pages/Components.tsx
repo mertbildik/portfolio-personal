@@ -62,13 +62,13 @@ const Components: React.FC = () => (
                 <div className="flex flex-col gap-8">
                     <a
                         href="#action-circle"
-                        className="group flex w-full max-w-sm items-center justify-between"
+                        className="group flex w-full max-w-96 items-center justify-between"
                     >
                         <span className="flex flex-col">
-                            <span className="text-heading text-ink transition-colors duration-120 ease-out">
+                            <span className="text-heading text-ink transition-colors duration-state ease-out">
                                 Get in touch
                             </span>
-                            <span className="mt-1 flex items-center gap-2 text-small text-ink-secondary transition-colors duration-120 ease-out group-hover:text-ink">
+                            <span className="mt-1 flex items-center gap-2 text-small text-ink-secondary transition-colors duration-state ease-out group-hover:text-ink">
                                 <span className="h-1.5 w-1.5 rounded-full bg-ok" />
                                 Available for new projects
                             </span>
@@ -81,7 +81,7 @@ const Components: React.FC = () => (
                     <div>
                         <Label>small — the contact form’s submit</Label>
                         <button className="group flex items-center gap-4">
-                            <span className="text-label text-ink transition-colors duration-120 ease-out">
+                            <span className="text-label text-ink transition-colors duration-state ease-out">
                                 Send inquiry
                             </span>
                             <ActionCircle small>
@@ -128,7 +128,7 @@ const Components: React.FC = () => (
             >
                 <Home path="src/portfolio/PortfolioSection.tsx · .work-card-* in src/index.css" />
                 <Frame>
-                    <div className="max-w-md">
+                    <div className="max-w-112">
                         <WorkCard project={OFK} />
                     </div>
                 </Frame>
@@ -181,7 +181,7 @@ const Components: React.FC = () => (
                         </CaseStudyParagraph>
                     </CaseStudyDecision>
                 </div>
-                <div className="mt-12 max-w-md">
+                <div className="mt-12 max-w-112">
                     <CaseStudyImage
                         src={COVERS.ofk}
                         alt="OFK Construction homepage"

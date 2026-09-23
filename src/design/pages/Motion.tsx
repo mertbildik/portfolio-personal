@@ -1,20 +1,23 @@
 import React from 'react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Chapter, Frame, Label, Mono, PageFoot, PageHeader, Rules, Table } from '../chrome';
-import { authored } from '../theme';
+import { authored, tokensUnder } from '../theme';
 import { EASE } from '../../shared/motion';
 import ActionCircle from '../../shared/ActionCircle';
+
+/** A duration token's authored value, e.g. `duration('press')` → '100ms'. */
+const duration = (name: string) => authored(`--duration-${name}`);
 
 /**
  * Everything on the site that moves, and why it is allowed to. The list is the
  * rule: a thing not on it does not move.
  */
 const MOVES: [string, string, string, string][] = [
-    ['Press', 'Circle control scales to 0.97', '100ms', 'feedback'],
-    ['Hover, focus', 'Ink lifts; a fill or strong edge appears', '120ms', 'feedback'],
-    ['Reveal', 'Arrow enters 4px; work card copy swaps', '150ms', 'feedback'],
-    ['Back control', 'Its rule grows from 32 to 48px', '150ms', 'feedback'],
-    ['Section navigator', 'Panel slides 8px in on hover or focus', '120ms', 'spatial'],
+    ['Press', 'Circle control scales to 0.97', duration('press'), 'feedback'],
+    ['Hover, focus', 'Ink lifts; a fill or strong edge appears', duration('state'), 'feedback'],
+    ['Reveal', 'Arrow enters 4px; work card copy swaps', duration('reveal'), 'feedback'],
+    ['Back control', 'Its rule grows from 32 to 48px', duration('reveal'), 'feedback'],
+    ['Section navigator', 'Panel slides 8px in on hover or focus', duration('state'), 'spatial'],
     ['Form → sent', 'Crossfade, opacity only', '160 in · 100 out', 'causality'],
     ['Portrait ring', 'Turns once every 36s, linear', 'ambient', 'the one exception'],
 ];
@@ -69,6 +72,10 @@ const Motion: React.FC = () => {
                     columns={['Where', 'Value']}
                     rows={[
                         [<Mono bright>--ease-out</Mono>, <Mono>{authored('--ease-out')}</Mono>],
+                        ...tokensUnder('--duration-').map((token) => [
+                            <Mono bright>{token}</Mono>,
+                            <Mono>{authored(token)}</Mono>,
+                        ]),
                         [
                             <Mono bright>--default-transition-duration</Mono>,
                             <Mono>{authored('--default-transition-duration')}</Mono>,
@@ -93,9 +100,9 @@ const Motion: React.FC = () => {
                 <Frame>
                     <div className="flex flex-col gap-8">
                         <div>
-                            <Label>Press — scale 0.97, 100ms</Label>
+                            <Label>Press — scale 0.97, {duration('press')}</Label>
                             <button className="group flex items-center gap-4">
-                                <span className="text-label text-ink transition-colors duration-120 ease-out">
+                                <span className="text-label text-ink transition-colors duration-state ease-out">
                                     Send inquiry
                                 </span>
                                 <ActionCircle small>
@@ -104,34 +111,34 @@ const Motion: React.FC = () => {
                             </button>
                         </div>
                         <div>
-                            <Label>Ink lift — 120ms</Label>
+                            <Label>Ink lift — {duration('state')}</Label>
                             <a
                                 href="#feedback"
-                                className="text-body text-ink transition-colors duration-120 ease-out"
+                                className="text-body text-ink transition-colors duration-state ease-out"
                             >
                                 Hover this line
                             </a>
                         </div>
                         <div>
-                            <Label>Arrow reveal — 4px, 150ms</Label>
+                            <Label>Arrow reveal — 4px, {duration('reveal')}</Label>
                             <a
                                 href="#feedback"
-                                className="group inline-flex items-center gap-3 text-body text-ink transition-colors duration-120 ease-out"
+                                className="group inline-flex items-center gap-3 text-body text-ink transition-colors duration-state ease-out"
                             >
                                 Read the case study
                                 <ArrowUpRight
                                     size={16}
-                                    className="-translate-x-1 opacity-0 transition-[opacity,transform] duration-150 ease-out group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100"
+                                    className="-translate-x-1 opacity-0 transition-[opacity,transform] duration-reveal ease-out group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100"
                                 />
                             </a>
                         </div>
                         <div>
-                            <Label>Rule grow — 150ms</Label>
+                            <Label>Rule grow — {duration('reveal')}</Label>
                             <a
                                 href="#feedback"
-                                className="group inline-flex w-fit items-center gap-3 text-ink transition-colors duration-120 ease-out"
+                                className="group inline-flex w-fit items-center gap-3 text-ink transition-colors duration-state ease-out"
                             >
-                                <span className="h-px w-8 bg-current transition-[width] duration-150 ease-out group-hover:w-12 group-focus-visible:w-12" />
+                                <span className="h-px w-8 bg-current transition-[width] duration-reveal ease-out group-hover:w-12 group-focus-visible:w-12" />
                                 <span className="text-label">Go back</span>
                             </a>
                         </div>
@@ -169,7 +176,7 @@ const Motion: React.FC = () => {
                 <Rules
                     items={[
                         'The more often something happens, the less it should move. Nothing moves on arrival.',
-                        'Under 300ms, always. A press is 100, a state change 120, a reveal 150.',
+                        `Under 300ms, always. A press is ${duration('press')}, a state change ${duration('state')}, a reveal ${duration('reveal')}.`,
                         <>
                             Animate <Mono>transform</Mono> and <Mono>opacity</Mono>. The back
                             control’s rule is the one width that animates.
