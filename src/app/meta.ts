@@ -9,7 +9,7 @@ import { PROJECTS, type Project, type ProjectId } from '../portfolio/content/pro
  * suite imports this file too, in plain Node, so it must stay free of asset
  * imports for the same reason content/projects.ts must.
  */
-export const SITE_URL = 'https://mertbildik.com';
+export const SITE_URL = 'https://www.mertbildik.com';
 
 export interface PageMetadata {
     path: string;

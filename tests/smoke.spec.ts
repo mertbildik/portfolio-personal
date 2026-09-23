@@ -460,7 +460,7 @@ for (const meta of PAGES) {
 
         const head = page.locator('head');
         const content = (selector: string) => head.locator(selector).getAttribute('content');
-        // Compared as URLs: https://mertbildik.com and https://mertbildik.com/ are one address.
+        // Compared as URLs: https://www.mertbildik.com and https://www.mertbildik.com/ are one address.
         const url = new URL(meta.path, SITE_URL).href;
         const absolute = (value: string | null) => value && new URL(value).href;
 
