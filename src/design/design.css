@@ -1,0 +1,18 @@
+/* The catalogue's utilities.
+
+   src/index.css leaves src/design/ out of the site's stylesheet, so a class used
+   only here would never be generated. This sheet generates every utility the
+   site and the catalogue use, against the same theme, in one ordered set: it
+   loads after index.css, and a sheet holding only the catalogue's classes would
+   let its plain `grid-cols-1` beat the site's `md:grid-cols-3` on the real
+   components shown here. Only the dev-only /design route loads it, so it never
+   reaches a build.
+
+   The catalogue's own files are named by glob on purpose: @reference brings
+   index.css's `@source not './design'` along, which a folder source would not
+   override. */
+@import 'tailwindcss/utilities' source(none);
+@reference '../index.css';
+@source '../';
+@source './*.tsx';
+@source './pages/*.tsx';

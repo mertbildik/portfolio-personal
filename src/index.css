@@ -1,25 +1,8 @@
 @import 'tailwindcss';
 
-/* Inter variable, self-hosted from public/fonts so the site makes no third-party
-   requests. One file covers weights 100-900 and carries Inter 4's optical-size
-   axis, which the browser applies by font size on its own. */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url('/fonts/InterVariable.woff2') format('woff2');
-}
-
-/* Geist Mono variable, self-hosted for the same reason. One file covers
-   weights 100-900. Data — timestamps, coordinates, counts, values — uses this. */
-@font-face {
-  font-family: 'Geist Mono';
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url('/fonts/GeistMonoVariable.woff2') format('woff2');
-}
+/* The design system at /design is local only and styles itself with
+   src/design/design.css, so its classes stay out of the site's stylesheet. */
+@source not './design';
 
 /* ============================================================================
    DESIGN TOKENS
@@ -45,8 +28,9 @@
 
 @theme {
   /* ---- type family ---------------------------------------------------- */
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  /* Inter and Geist Mono, loaded by next/font in src/app/layout.tsx. */
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
   /* ---- responsive ----------------------------------------------------- */
   --breakpoint-md: 48rem;
@@ -238,7 +222,7 @@
   }
 
   body {
-    /* Transparent so the fixed canvas layer in App.tsx shows through every route.
+    /* Transparent so the fixed canvas layer in app/layout.tsx shows through every route.
        Selection is set once here and never overridden. */
     @apply bg-transparent text-ink antialiased selection:bg-ink selection:text-canvas font-sans;
     /* Only upright faces are loaded; never let the browser fake a bold or italic. */

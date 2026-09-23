@@ -1,20 +1,38 @@
 import { test, expect, Page } from '@playwright/test';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { PROJECTS } from '../src/portfolio/content/projects';
+import { PAGES, SITE_URL, projectMeta } from '../src/app/meta';
+import { CONTACT_EMAIL, LINKEDIN_URL } from '../src/contact/details';
+import { GROUPS, PROJECTS } from '../src/portfolio/content/projects';
+
+/**
+ * These tests protect behaviour, structure and real invariants, not copy. Every
+ * fact they check is read from the module that owns it — the project index, the
+ * page metadata, the contact details, the design tokens — so rewriting a
+ * sentence never fails a test, and changing a fact changes what is expected.
+ */
 
 const CASE_STUDIES = PROJECTS.map((p) => `/portfolio/${p.id}`);
 const ALL = ['/', ...CASE_STUDIES];
 
-const SITE_URL = 'https://mertbildik.com';
 const MOBILE = { width: 390, height: 844 };
 const SHORT_LAPTOP = { width: 1366, height: 625 };
+const DESKTOP = { width: 1280, height: 800 };
 const ASSET_ROOT = fileURLToPath(new URL('../src/portfolio/assets/', import.meta.url));
 
+/** A breakpoint from the @theme block, in px. Tailwind compiles it into media queries without emitting the variable, so it is read from the source. */
+const breakpoint = (name: string) => {
+    const css = readFileSync(new URL('../src/index.css', import.meta.url), 'utf8');
+    const rem = css.match(new RegExp(`--breakpoint-${name}:\\s*([\\d.]+)rem`))?.[1];
+    if (!rem) throw new Error(`--breakpoint-${name} is not defined in src/index.css`);
+    return parseFloat(rem) * 16;
+};
+
 /**
- * Wait for the lazy page chunk, then scroll to the bottom so lazy images and
- * whileInView sections resolve. Scrolling before the chunk renders is a no-op,
- * because the document is still one screen tall at that point.
+ * Wait for the page's content, then scroll to the bottom so lazy images and
+ * in-view sections resolve, and wait for every image to finish. Scrolling before
+ * the content renders is a no-op, because the document is still one screen tall
+ * at that point.
  */
 async function settle(page: Page) {
     await page.locator('h1').first().waitFor();
@@ -23,6 +41,14 @@ async function settle(page: Page) {
         for (let y = 0; y < document.documentElement.scrollHeight; y += window.innerHeight * 0.75) {
             window.scrollTo(0, y);
             await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        }
+        // A fast pass can outrun lazy loading, and each image that lands moves the
+        // ones below it. Visit whatever is still pending until nothing is.
+        for (let pending = 0; pending < 100; pending += 1) {
+            const image = [...document.images].find((candidate) => !candidate.complete);
+            if (!image) break;
+            image.scrollIntoView({ block: 'center', behavior: 'instant' });
+            await image.decode().catch(() => undefined);
         }
         window.scrollTo(0, document.documentElement.scrollHeight);
     });
@@ -40,7 +66,8 @@ for (const path of ALL) {
 
         expect(problems, `console errors on ${path}`).toEqual([]);
         await expect(page).toHaveURL(path);
-        await expect(page.locator('h1').first()).toBeVisible();
+        await expect(page.locator('h1')).toHaveCount(1);
+        await expect(page.locator('h1')).toBeVisible();
 
         const broken = await page.evaluate(
             () =>
@@ -63,6 +90,46 @@ for (const path of ALL) {
     });
 }
 
+// ---- homepage -----------------------------------------------------------------
+
+test('homepage groups every project under its heading, in index order', async ({ page }) => {
+    await page.goto('/');
+    await settle(page);
+
+    for (const group of GROUPS) {
+        const region = page.getByRole('region', { name: group });
+        await expect(region).toBeVisible();
+
+        const expected = PROJECTS.filter((p) => p.group === group);
+        const cards = region.locator('a[href^="/portfolio/"]');
+        await expect(cards).toHaveCount(expected.length);
+        for (const [index, project] of expected.entries()) {
+            await expect(cards.nth(index)).toHaveAttribute('href', `/portfolio/${project.id}`);
+            await expect(cards.nth(index)).toContainText(project.title);
+        }
+    }
+});
+
+test('homepage card outcomes remain visible on narrow screens', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto('/');
+    await settle(page);
+
+    for (const project of PROJECTS) {
+        await expect(
+            page.locator(`a[href="/portfolio/${project.id}"]`).getByText(project.summary),
+        ).toBeVisible();
+    }
+});
+
+test('homepage call to action scrolls to contact', async ({ page }) => {
+    await page.goto('/');
+    await page.locator('#home a[href="#contact"]').click();
+
+    await expect(page).toHaveURL('/#contact');
+    await expect(page.locator('#contact')).toBeInViewport();
+});
+
 // The whole page used to be locked to one screen with scrolling off, which put
 // the contact details permanently out of reach on a short laptop.
 test('contact details stay reachable on a short screen', async ({ page }) => {
@@ -73,13 +140,11 @@ test('contact details stay reachable on a short screen', async ({ page }) => {
     // would pass here even when the content sits in an unscrollable overflow-hidden box.
     await settle(page);
 
-    for (const target of [
-        page.getByText('mert.bildik@gmail.com'),
-        page.getByRole('link', { name: 'LinkedIn' }),
-    ]) {
-        await expect(target).toBeInViewport();
-    }
+    await expect(page.locator('#contact').getByText(CONTACT_EMAIL)).toBeInViewport();
+    await expect(page.locator(`#contact a[href="${LINKEDIN_URL}"]`)).toBeInViewport();
 });
+
+// ---- contact form ---------------------------------------------------------------
 
 /**
  * The contact form is the only way the site converts, and it posts to a third
@@ -87,123 +152,74 @@ test('contact details stay reachable on a short screen', async ({ page }) => {
  * exercised without sending anything.
  */
 const FORMSPREE = 'https://formspree.io/**';
+const SENDER = 'sender@example.com';
+
+const contactForm = (page: Page) => page.locator('#contact form');
 
 async function fillInquiry(page: Page) {
     await page.goto('/#contact');
-    // By role, not by label: the "Copy email address" button's aria-label
-    // contains "Email address" too.
-    await page.getByRole('textbox', { name: 'Your name' }).fill('Test Sender');
-    await page.getByRole('textbox', { name: 'Email address' }).fill('sender@example.com');
-    await page
-        .getByRole('textbox', { name: 'Project details' })
-        .fill('A short brief about a project.');
+    const form = contactForm(page);
+    await form.locator('[name="name"]').fill('Test Sender');
+    await form.locator('[name="email"]').fill(SENDER);
+    await form.locator('[name="message"]').fill('A short brief about a project.');
 }
 
-test('a successful inquiry confirms back to the sender', async ({ page }) => {
+const submit = (page: Page) => contactForm(page).locator('button[type="submit"]').click();
+
+test('every contact form control has an accessible name', async ({ page }) => {
+    await page.goto('/#contact');
+    await contactForm(page).waitFor();
+    const controls = contactForm(page).locator('input, textarea, button');
+
+    expect(await controls.count()).toBeGreaterThan(0);
+    for (const control of await controls.all()) {
+        await expect(control).toHaveAccessibleName(/\S/);
+    }
+});
+
+test('a successful inquiry replaces the form and confirms back to the sender', async ({ page }) => {
     await page.route(FORMSPREE, (route) =>
         route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' }),
     );
 
     await fillInquiry(page);
-    await page.getByRole('button', { name: 'Send inquiry' }).click();
+    await submit(page);
 
-    await expect(page.getByRole('heading', { name: 'Request initiated.' })).toBeVisible();
-    await expect(page.getByText('sender@example.com')).toBeVisible();
+    await expect(contactForm(page)).toHaveCount(0);
+    await expect(page.locator('#contact').getByText(SENDER)).toBeVisible();
+    await expect(page.locator('#contact').getByRole('alert')).toHaveCount(0);
 });
 
 test('a failed inquiry offers the email address rather than only a retry', async ({ page }) => {
     await page.route(FORMSPREE, (route) => route.fulfill({ status: 500, body: 'nope' }));
 
     await fillInquiry(page);
-    await page.getByRole('button', { name: 'Send inquiry' }).click();
+    await submit(page);
 
-    const alert = page.getByRole('alert');
-    await expect(alert).toContainText('Sending failed');
-    await expect(alert.getByRole('link', { name: 'mert.bildik@gmail.com' })).toHaveAttribute(
-        'href',
-        'mailto:mert.bildik@gmail.com',
-    );
+    const alert = page.locator('#contact').getByRole('alert');
+    await expect(alert).toBeVisible();
+    await expect(alert.locator('a')).toHaveAttribute('href', `mailto:${CONTACT_EMAIL}`);
+    // The brief is still there to retry with.
+    await expect(contactForm(page).locator('[name="message"]')).not.toHaveValue('');
+    await expect(contactForm(page).locator('button[type="submit"]')).toBeEnabled();
 });
 
-// The failure message used to survive every later edit, so "Ready to send."
-// could never come back once a send had failed.
+// The failure message used to survive every later edit, so the form could never
+// return to a ready state once a send had failed.
 test('editing the form clears a previous failure', async ({ page }) => {
     await page.route(FORMSPREE, (route) => route.fulfill({ status: 500, body: 'nope' }));
 
     await fillInquiry(page);
-    await page.getByRole('button', { name: 'Send inquiry' }).click();
-    await expect(page.getByRole('alert')).toBeVisible();
+    await submit(page);
+    await expect(page.locator('#contact').getByRole('alert')).toBeVisible();
 
-    await page.getByRole('textbox', { name: 'Project details' }).fill('A revised brief.');
+    await contactForm(page).locator('[name="message"]').fill('A revised brief.');
 
-    await expect(page.getByRole('alert')).toHaveCount(0);
-    await expect(page.getByText('Ready to send.')).toBeVisible();
+    await expect(page.locator('#contact').getByRole('alert')).toHaveCount(0);
 });
 
-test('homepage call to action scrolls to contact', async ({ page }) => {
-    await page.goto('/');
-    await page.getByRole('link', { name: 'Get in touch' }).click();
+// ---- case studies -----------------------------------------------------------------
 
-    await expect(page).toHaveURL('/#contact');
-    await expect(page.locator('#contact')).toBeInViewport();
-});
-
-test('homepage presents five work modules in two groups', async ({ page }) => {
-    await page.goto('/');
-    await settle(page);
-
-    const portfolio = page.locator('#portfolio');
-    await expect(portfolio.getByRole('heading', { name: 'Client work' })).toBeVisible();
-    await expect(portfolio.getByRole('heading', { name: 'Experience' })).toBeVisible();
-
-    for (const project of [
-        'OFK Construction',
-        'Sinerjik',
-        'Dog & Ride',
-        'Adclusive',
-        'McKinsey & Co.',
-    ]) {
-        await expect(
-            portfolio.getByRole('link', {
-                name: new RegExp(project.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')),
-            }),
-        ).toBeVisible();
-    }
-});
-
-test('homepage card outcomes remain visible on narrow screens', async ({ page }) => {
-    await page.setViewportSize(MOBILE);
-    await page.goto('/');
-    await settle(page);
-
-    await expect(
-        page.getByText(
-            'A bilingual brand and website that makes an established construction record',
-        ),
-    ).toBeVisible();
-    await expect(page.getByText('A sales website used in four pitches')).toBeVisible();
-    await expect(
-        page.getByText(
-            'High-stakes visual communication shaped from complex models, under strict NDA.',
-        ),
-    ).toBeVisible();
-});
-
-test('old case-study links still redirect', async ({ page }) => {
-    await page.goto('/case-study/ofk');
-    await expect(page).toHaveURL('/portfolio/ofk');
-});
-
-for (const section of ['portfolio', 'contact']) {
-    test(`old /${section} link redirects to its homepage section`, async ({ page }) => {
-        await page.goto(`/${section}`);
-        await expect(page).toHaveURL(`/#${section}`);
-        await expect(page.locator(`#${section}`)).toBeInViewport();
-    });
-}
-
-// Covers are wired up by hand in assets/covers.ts, so a new project can reach the
-// homepage with no image behind it. Vite cannot catch that; this can.
 test('every project has a cover image on disk', () => {
     for (const project of PROJECTS) {
         expect(
@@ -214,239 +230,211 @@ test('every project has a cover image on disk', () => {
 });
 
 test('direct case-study back navigation returns to portfolio', async ({ page }) => {
-    await page.goto('/portfolio/ofk');
-    await page.getByRole('link', { name: 'Back to portfolio' }).click();
+    await page.goto(CASE_STUDIES[0]);
+    const back = page.locator('header a[href="/#portfolio"]');
+    await expect(back).toHaveAccessibleName(/\S/);
+    await back.click();
 
     await expect(page).toHaveURL('/#portfolio');
     await expect(page.locator('#portfolio')).toBeInViewport();
 });
 
-test('case-study section navigation uses addressable native anchors', async ({ page }) => {
-    await page.setViewportSize({ width: 1280, height: 800 });
-    await page.goto('/portfolio/ofk');
-    await page.getByRole('navigation', { name: 'Case study sections' }).hover();
-    await page.getByRole('link', { name: 'Approach', exact: true }).click();
-
-    await expect(page).toHaveURL('/portfolio/ofk#approach');
-    await expect(page.locator('#approach')).toBeInViewport();
-});
-
-for (const study of [
-    { id: 'ofk', link: 'Visit OFK Construction', href: 'https://ofkconstruction.com' },
-    { id: 'sinerjik', link: 'Visit Sinerjik', href: 'https://www.sinerjik.com.tr' },
-    { id: 'dog-and-ride', link: 'Visit Dog & Ride', href: 'https://www.dogandride.com/' },
-]) {
-    test(`${study.id} presents the final case-study frame and live site`, async ({ page }) => {
-        await page.goto(`/portfolio/${study.id}`);
+// The navigator and the sections are built from one list per study, so every
+// anchor it offers has to land on a section that exists, headed as the anchor says.
+for (const project of PROJECTS) {
+    test(`${project.id} section navigation lands on every section it lists`, async ({ page }) => {
+        await page.setViewportSize(DESKTOP);
+        await page.goto(`/portfolio/${project.id}`);
         await settle(page);
 
-        for (const label of ['Role', 'Timeline', 'Scope', 'Tools']) {
-            await expect(page.getByText(label, { exact: true }).first()).toBeVisible();
+        const nav = page.getByRole('navigation');
+        const links = nav.locator('a[href^="#"]');
+        expect(await links.count()).toBeGreaterThan(0);
+
+        for (const link of await links.all()) {
+            const id = (await link.getAttribute('href'))!.slice(1);
+            const target = page.locator(`[id="${id}"]`);
+            await expect(target, `#${id} is listed but not on the page`).toHaveCount(1);
+
+            await nav.hover();
+            await link.click();
+            await expect(page).toHaveURL(`/portfolio/${project.id}#${id}`);
+            await expect(target).toBeInViewport();
         }
-        for (const section of ['Problem', 'Approach', 'Solution', 'Output', 'Impact']) {
-            await expect(page.getByRole('heading', { name: section, exact: true })).toBeVisible();
-        }
-        await expect(page.getByRole('link', { name: study.link })).toHaveAttribute(
-            'href',
-            study.href,
-        );
     });
 }
 
-test('Sinerjik presents the website as a sales tool', async ({ page }) => {
-    await page.goto('/portfolio/sinerjik');
-    await settle(page);
+// Images used to arrive without a size, so each one that loaded pushed the page
+// down and a section link followed early landed short of its section.
+test('case-study layout does not shift as images load', async ({ page }) => {
+    for (const path of CASE_STUDIES) {
+        await page.goto(path, { waitUntil: 'domcontentloaded' });
+        // Measured once the fonts are in, so only the images, still offscreen and
+        // unloaded below the fold, can move anything afterwards.
+        const before = await page.evaluate(async () => {
+            await document.fonts.ready;
+            return document.documentElement.scrollHeight;
+        });
+        await settle(page);
+        const after = await page.evaluate(() => document.documentElement.scrollHeight);
 
-    await expect(page.getByText('Signed client', { exact: true })).toBeVisible();
-    await expect(page.getByText('Pitches using the website', { exact: true })).toBeVisible();
-    await expect(
-        page.getByText('One of those pitches led to a signed client.', { exact: false }),
-    ).toBeVisible();
-    await expect(
-        page.getByText('without exposing its production interface', { exact: false }),
-    ).toBeVisible();
-});
-
-test('Dog & Ride presents supporting metrics for the first five months', async ({ page }) => {
-    await page.goto('/portfolio/dog-and-ride');
-    await settle(page);
-
-    await expect(page.getByText('First five months after launch', { exact: true })).toBeVisible();
-    for (const metric of ['56s', 'Instagram', '700+', '10K+', '100K+']) {
-        await expect(page.getByText(metric, { exact: true })).toBeVisible();
+        expect(
+            Math.abs(after - before),
+            `${path} grew from ${before} to ${after}`,
+        ).toBeLessThanOrEqual(1);
     }
 });
 
-test('Adclusive presents the shipped two-sided product and honest outcome', async ({ page }) => {
-    await page.goto('/portfolio/adclusive');
-    await settle(page);
+// A figure states its image's own pixel size, so the number cannot be typed wrong.
+// The file served may be a resized copy, so the size is the one the image
+// declares, held to the proportions of what actually loaded.
+test('every case-study figure states the size of its image', async ({ page }) => {
+    for (const path of CASE_STUDIES) {
+        await page.goto(path);
+        await settle(page);
 
-    for (const label of ['Role', 'Timeline', 'Scope', 'Tools']) {
-        await expect(page.getByText(label, { exact: true }).first()).toBeVisible();
+        const figures = await page.locator('main figure').evaluateAll((all) =>
+            all.map((figure) => {
+                const image = figure.querySelector('img')!;
+                const width = Number(image.getAttribute('width') ?? image.naturalWidth);
+                const height = Number(image.getAttribute('height') ?? image.naturalHeight);
+                return {
+                    size: `${width}×${height}`,
+                    // The loaded image's height against what the declared shape
+                    // gives at its width, in pixels, allowing for rounding.
+                    skew: Math.abs((image.naturalWidth * height) / width - image.naturalHeight),
+                    caption: figure.querySelector('figcaption')?.textContent ?? '',
+                };
+            }),
+        );
+        for (const { size, skew, caption } of figures) {
+            expect(caption, `${path}: "${caption}"`).toContain(size);
+            expect(skew, `${path}: ${size} is not the loaded image's shape`).toBeLessThanOrEqual(1);
+        }
     }
-    for (const section of ['Problem', 'Approach', 'Solution', 'Output', 'Impact']) {
-        await expect(page.getByRole('heading', { name: section, exact: true })).toBeVisible();
-    }
-    await expect(page.getByText('The MVP launched in June 2022.', { exact: false })).toBeVisible();
-    await expect(page.getByText('~20', { exact: true })).toBeVisible();
-    await expect(page.getByText('~50', { exact: true })).toBeVisible();
 });
 
-test('McKinsey keeps the narrow frame, its NDA header and section navigation', async ({ page }) => {
-    await page.setViewportSize({ width: 1280, height: 800 });
-    await page.goto('/portfolio/mckinsey');
+/**
+ * A study picks one of two frames: the wide shell, or the narrow page column.
+ * Read the tokens rather than their values, so retuning the scale in index.css
+ * is not a test failure.
+ */
+test('every case study sits in one of the two frames', async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    for (const path of CASE_STUDIES) {
+        await page.goto(path);
+        await page.locator('h1').waitFor();
 
-    await expect(page.getByText('Status: Confidential', { exact: true })).toBeVisible();
-    for (const tool of ['Slack', 'Microsoft 365', 'Affinity', 'think-cell']) {
-        await expect(page.getByText(tool, { exact: true })).toBeVisible();
+        const { frame, allowed } = await page.evaluate(() => {
+            const style = getComputedStyle(document.documentElement);
+            const token = (name: string) => parseFloat(style.getPropertyValue(name));
+            const clamp = (width: number) => Math.min(width, document.documentElement.clientWidth);
+            return {
+                frame: document.querySelector('main > div')!.getBoundingClientRect().width,
+                allowed: [token('--container-page'), token('--container-shell')]
+                    .filter((width) => !Number.isNaN(width))
+                    .map(clamp),
+            };
+        });
+        expect(allowed, 'frame tokens are missing').toHaveLength(2);
+        expect(allowed, `${path} frame is ${frame}px`).toContain(frame);
     }
-    await expect(
-        page.getByText('Work is under strict NDA. Process and outcomes can be shared on a call.'),
-    ).toBeVisible();
-
-    // This study asks CaseStudyLayout for the narrow `page` frame. Read the token
-    // rather than its value, so retuning the scale in index.css is not a test failure.
-    const frameWidth = await page
-        .locator('main > div')
-        .evaluate((element) => element.getBoundingClientRect().width);
-    const pageColumn = await page.evaluate(() =>
-        getComputedStyle(document.documentElement).getPropertyValue('--container-page'),
-    );
-    expect(pageColumn.trim()).not.toBe('');
-    expect(frameWidth).toBe(parseFloat(pageColumn));
-
-    await page.getByRole('navigation', { name: 'Case study sections' }).hover();
-    await page.getByRole('link', { name: 'Capabilities', exact: true }).click();
-    await expect(page).toHaveURL('/portfolio/mckinsey#capabilities');
-    await expect(page.locator('#capabilities')).toBeInViewport();
-});
-
-test('reduced motion disables smooth scrolling', async ({ page }) => {
-    await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.goto('/portfolio/ofk');
-
-    expect(
-        await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior),
-    ).toBe('auto');
-});
-
-test('reduced motion stops homepage ambient and hover movement', async ({ page }) => {
-    await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.setViewportSize({ width: 1280, height: 800 });
-    await page.goto('/');
-    await settle(page);
-
-    const card = page.locator('a[href="/portfolio/ofk"]');
-    await card.hover();
-
-    expect(
-        await card
-            .locator('.work-card-image')
-            .evaluate((image) => getComputedStyle(image).transform),
-    ).toBe('none');
-    expect(
-        await page
-            .locator('.animate-ring-spin')
-            .evaluate((ring) => getComputedStyle(ring).animationName),
-    ).toBe('none');
 });
 
 test('case-study section navigation changes at the layout breakpoint without overflow', async ({
     page,
 }) => {
-    for (const width of [767, 768, 1023, 1024]) {
+    const md = breakpoint('md');
+    const lg = breakpoint('lg');
+
+    for (const width of [md - 1, md, lg - 1, lg]) {
         await page.setViewportSize({ width, height: 800 });
-        await page.goto('/portfolio/ofk');
+        await page.goto(CASE_STUDIES[0]);
         await page.locator('h1').waitFor();
 
         const overflow = await page.evaluate(
             () => document.documentElement.scrollWidth - window.innerWidth,
         );
         expect(overflow, `case study overflows at ${width}px`).toBeLessThanOrEqual(1);
-        await expect(page.getByRole('navigation')).toBeVisible({ visible: width >= 1024 });
+        await expect(page.getByRole('navigation')).toBeVisible({ visible: width >= lg });
     }
 });
 
-// An unknown path used to redirect to the homepage, which erased the URL the
-// visitor actually asked for and left them to guess what happened.
-test('an unknown path says the page does not exist', async ({ page }) => {
-    await page.goto('/does-not-exist');
+// ---- motion -----------------------------------------------------------------
 
-    await expect(page).toHaveURL('/does-not-exist');
-    await expect(page.getByRole('heading', { name: 'This page does not exist.' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Go to the homepage' })).toBeVisible();
+test('reduced motion disables smooth scrolling', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto(CASE_STUDIES[0]);
+
+    expect(
+        await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior),
+    ).toBe('auto');
 });
 
-/**
- * Every case study used to unfurl as the homepage, because the tags React
- * injects never reach a link unfurler: Slack, LinkedIn and WhatsApp read the
- * HTML and do not run the JavaScript.
- *
- * These assertions therefore read the raw HTML rather than the rendered page,
- * because that is the only thing those crawlers see.
- */
-// "McKinsey & Co." and "Dog & Ride" reach the document as "&amp;".
-const escapeHtml = (value: string) =>
-    value
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
+test('reduced motion stops ambient and hover movement on the homepage', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.setViewportSize(DESKTOP);
+    await page.goto('/');
+    await settle(page);
+
+    const card = page.locator(`a[href="/portfolio/${PROJECTS[0].id}"]`);
+    await card.hover();
+
+    const transforms = await card
+        .locator('img')
+        .evaluateAll((images) => images.map((image) => getComputedStyle(image).transform));
+    expect(transforms.length).toBeGreaterThan(0);
+    expect(transforms.every((transform) => transform === 'none')).toBe(true);
+
+    const endless = await page.evaluate(
+        () =>
+            document
+                .getAnimations()
+                .filter(
+                    (animation) =>
+                        animation.playState === 'running' &&
+                        animation.effect?.getComputedTiming().iterations === Infinity,
+                ).length,
+    );
+    expect(endless, 'endless animations still running').toBe(0);
+});
+
+// ---- routing ----------------------------------------------------------------
 
 for (const project of PROJECTS) {
-    test(`${project.id} unfurls as itself, not as the homepage`, async ({ request }) => {
-        const html = await (await request.get(`/portfolio/${project.id}`)).text();
-        const meta = (property: string) =>
-            html.match(new RegExp(`<meta property="${property}" content="([^"]*)"`))?.[1];
-
-        expect(html).toContain(`<title>${escapeHtml(project.title)} | Mert Bildik</title>`);
-        expect(html).toContain(
-            `<link rel="canonical" href="${SITE_URL}/portfolio/${project.id}" />`,
-        );
-        expect(meta('og:title')).toBe(`${escapeHtml(project.title)} | Mert Bildik`);
-        expect(meta('og:description')).toBe(escapeHtml(project.summary));
-        expect(meta('og:url')).toBe(`${SITE_URL}/portfolio/${project.id}`);
-
-        // Exactly one of each: the marker is replaced, not appended to.
-        expect(html.match(/<meta name="description"/g)).toHaveLength(1);
-        expect(html.match(/<title>/g)).toHaveLength(1);
-
-        if (project.confidential) {
-            // Confidential work blurs its cover on the homepage, so it does not
-            // get one in a link preview either.
-            expect(meta('og:image')).toBeUndefined();
-        } else {
-            expect(meta('og:image')).toMatch(new RegExp(`^${SITE_URL}/.+\\.webp$`));
-        }
+    test(`old /case-study/${project.id} link redirects to its case study`, async ({ page }) => {
+        await page.goto(`/case-study/${project.id}`);
+        await expect(page).toHaveURL(`/portfolio/${project.id}`);
     });
 }
 
-test('the homepage still unfurls as the homepage', async ({ request }) => {
-    const html = await (await request.get('/')).text();
+for (const section of ['portfolio', 'contact']) {
+    test(`old /${section} link redirects to its homepage section`, async ({ page }) => {
+        await page.goto(`/${section}`);
+        await expect(page).toHaveURL(`/#${section}`);
+        await expect(page.locator(`#${section}`)).toBeInViewport();
+    });
+}
 
-    expect(html).toContain('<title>Mert Bildik | Product designer</title>');
-    expect(html).toContain(`<link rel="canonical" href="${SITE_URL}/" />`);
-    expect(html).not.toContain('<!--seo-->');
+// An unknown path used to redirect to the homepage, which erased the URL the
+// visitor actually asked for and left them to guess what happened.
+test('an unknown path keeps its URL and offers the way home', async ({ page }) => {
+    await page.goto('/does-not-exist');
+
+    await expect(page).toHaveURL('/does-not-exist');
+    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('main a[href="/"]')).toBeVisible();
 });
 
-// The title is the one tag React still owns, so that client-side navigation
-// updates the browser tab.
-test('navigating to a case study updates the browser tab', async ({ page }) => {
-    await page.goto('/');
-    await page.getByRole('link', { name: 'OFK Construction' }).click();
+// The design system is a development tool. In a build, /design is an unknown
+// path like any other.
+test('/design does not ship', async ({ page }) => {
+    await page.goto('/does-not-exist');
+    const notFound = await page.locator('h1').textContent();
 
-    await expect(page).toHaveTitle('OFK Construction | Mert Bildik');
-});
-
-test('the sitemap lists the homepage and every project', async ({ request }) => {
-    const body = await (await request.get('/sitemap.xml')).text();
-
-    expect(body).toContain(`<loc>${SITE_URL}/</loc>`);
-    for (const project of PROJECTS) {
-        expect(body, `sitemap is missing ${project.id}`).toContain(
-            `<loc>${SITE_URL}/portfolio/${project.id}</loc>`,
-        );
-    }
+    await page.goto('/design');
+    await expect(page).toHaveURL('/design');
+    await expect(page.locator('h1')).toHaveText(notFound!);
 });
 
 // Retired projects keep their URLs public on old CVs and profiles, so a case study
@@ -455,4 +443,87 @@ test('an unknown case study falls back to the portfolio', async ({ page }) => {
     await page.goto('/portfolio/not-a-project');
     await expect(page).toHaveURL('/#portfolio');
     await expect(page.locator('#portfolio')).toBeInViewport();
+});
+
+// ---- metadata -----------------------------------------------------------------
+
+/**
+ * Link unfurlers — Slack, LinkedIn, WhatsApp — read the HTML as served and never
+ * run the JavaScript. These load each page with JavaScript switched off, so they
+ * see exactly what those crawlers see.
+ */
+for (const meta of PAGES) {
+    test(`${meta.path} serves its own metadata to crawlers`, async ({ browser, request }) => {
+        const context = await browser.newContext({ javaScriptEnabled: false });
+        const page = await context.newPage();
+        await page.goto(meta.path);
+
+        const head = page.locator('head');
+        const content = (selector: string) => head.locator(selector).getAttribute('content');
+        // Compared as URLs: https://www.mertbildik.com and https://www.mertbildik.com/ are one address.
+        const url = new URL(meta.path, SITE_URL).href;
+        const absolute = (value: string | null) => value && new URL(value).href;
+
+        // Exactly one of each: a second description would leave Google to pick one.
+        for (const selector of [
+            'title',
+            'meta[name="description"]',
+            'link[rel="canonical"]',
+            'meta[property="og:title"]',
+            'meta[property="og:description"]',
+            'meta[property="og:url"]',
+        ]) {
+            await expect(head.locator(selector), selector).toHaveCount(1);
+        }
+
+        await expect(page).toHaveTitle(meta.title);
+        expect(await content('meta[name="description"]')).toBe(meta.description);
+        expect(absolute(await head.locator('link[rel="canonical"]').getAttribute('href'))).toBe(
+            url,
+        );
+        expect(await content('meta[property="og:title"]')).toBe(meta.title);
+        expect(await content('meta[property="og:description"]')).toBe(meta.description);
+        expect(absolute(await content('meta[property="og:url"]'))).toBe(url);
+
+        const image = head.locator('meta[property="og:image"]');
+        if (meta.cover) {
+            const src = await image.getAttribute('content');
+            expect(src).toMatch(new RegExp(`^${SITE_URL}/`));
+            // The preview image has to exist on this deployment, not only be named.
+            const response = await request.get(src!.slice(SITE_URL.length));
+            expect(response.status()).toBe(200);
+            expect(response.headers()['content-type']).toMatch(/^image\//);
+        } else {
+            // Confidential work blurs its cover on the homepage, so it does not
+            // get one in a link preview either.
+            await expect(image).toHaveCount(0);
+        }
+
+        await context.close();
+    });
+}
+
+// The title is the one tag that has to follow client-side navigation, so the
+// browser tab names the page the visitor is on.
+test('navigating to a case study updates the browser tab', async ({ page }) => {
+    const project = PROJECTS[0];
+    await page.goto('/');
+    await page.locator(`a[href="/portfolio/${project.id}"]`).click();
+
+    await expect(page).toHaveTitle(projectMeta(project).title);
+});
+
+test('the sitemap lists exactly the pages that have metadata', async ({ request }) => {
+    const body = await (await request.get('/sitemap.xml')).text();
+    const listed = [...body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+
+    expect(listed.sort()).toEqual(PAGES.map((page) => `${SITE_URL}${page.path}`).sort());
+});
+
+test('robots.txt allows crawling and points at the sitemap', async ({ request }) => {
+    const body = await (await request.get('/robots.txt')).text();
+
+    expect(body).toMatch(/^Allow: \/$/m);
+    expect(body).not.toMatch(/^Disallow: \/\s*$/m);
+    expect(body).toContain(`Sitemap: ${SITE_URL}/sitemap.xml`);
 });

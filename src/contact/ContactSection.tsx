@@ -1,11 +1,12 @@
+'use client';
+
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, MotionConfig } from 'motion/react';
 import { CheckCircle2, ArrowRight, ArrowUpRight, Check, Copy } from 'lucide-react';
 import ActionCircle from '../shared/ActionCircle';
 import { EASE } from '../shared/motion';
 import SectionIntro from '../shared/SectionIntro';
-
-const CONTACT_EMAIL = 'mert.bildik@gmail.com';
+import { CONTACT_EMAIL, LINKEDIN_URL } from './details';
 
 const formIsReady = (form: HTMLFormElement) => {
     const data = new FormData(form);
@@ -68,11 +69,11 @@ const ContactSection: React.FC = () => {
         if (!formIsReady(e.currentTarget as HTMLFormElement)) return;
         setFormState('submitting');
 
-        const formSpreeId = import.meta.env.VITE_FORMSPREE_ID;
+        const formSpreeId = process.env.NEXT_PUBLIC_FORMSPREE_ID;
         const endpoint = formSpreeId ? `https://formspree.io/f/${formSpreeId}` : null;
 
         if (!endpoint) {
-            console.error('VITE_FORMSPREE_ID is not set, so the contact form cannot send.');
+            console.error('NEXT_PUBLIC_FORMSPREE_ID is not set, so the contact form cannot send.');
             setFormState('unavailable');
             return;
         }
@@ -121,7 +122,9 @@ const ContactSection: React.FC = () => {
     };
 
     return (
-        <>
+        // The one place motion animates: its transforms resolve without movement
+        // when the visitor asks for less motion.
+        <MotionConfig reducedMotion="user">
             <SectionIntro
                 title="Let's talk."
                 description="Available for new projects. I reply within 24 hours."
@@ -339,7 +342,7 @@ const ContactSection: React.FC = () => {
                             <span className="text-label text-ink-secondary">Networks</span>
                             <div className="flex flex-col gap-2">
                                 <a
-                                    href="https://www.linkedin.com/in/mertbildik/"
+                                    href={LINKEDIN_URL}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex min-h-11 items-center gap-2 text-ink transition-colors duration-150 group w-fit"
@@ -368,7 +371,7 @@ const ContactSection: React.FC = () => {
                     </div>
                 </div>
             </div>
-        </>
+        </MotionConfig>
     );
 };
 

@@ -4,6 +4,7 @@ import mckinsey from './mckinsey/cover.webp';
 import ofk from './ofk/cover.webp';
 import sinerjik from './sinerjik/cover.webp';
 
+import type { StaticImageData } from 'next/image';
 import type { ProjectId } from '../content/projects';
 
 /**
@@ -16,7 +17,7 @@ import type { ProjectId } from '../content/projects';
  * Keyed to ProjectId, so a project without a cover is a compile error rather
  * than a blank hole on the homepage.
  */
-export const COVERS: Record<ProjectId, string> = {
+export const COVERS: Record<ProjectId, StaticImageData> = {
     ofk,
     sinerjik,
     'dog-and-ride': dogAndRide,

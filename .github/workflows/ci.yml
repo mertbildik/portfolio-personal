@@ -32,7 +32,7 @@ jobs:
       - name: Build
         run: npm run build
 
-      # The suite launches its own production build and preview server, so the
+      # The suite launches its own production build and server, so the
       # build above is a separate signal: it fails on its own if the bundle
       # breaks, rather than being reported as a webServer timeout.
       - name: Install Playwright browser

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import Image, { type StaticImageData } from 'next/image';
 import BackLink from './BackLink';
 
 interface CaseStudyHeaderProps {
@@ -162,7 +163,7 @@ export const CaseStudyDecision: React.FC<{
 );
 
 interface CaseStudyImageProps {
-    src: string;
+    src: StaticImageData;
     alt: string;
     caption: string;
     className?: string;
@@ -171,7 +172,8 @@ interface CaseStudyImageProps {
 /**
  * A figure that states what it is. Its number is counted by CSS in document
  * order (`.case-study` resets it, `.figure` increments it), and its size is the
- * image's own, read once it loads — so neither can be typed wrong. The corner
+ * image's own, read from the file when the site is built — so neither can be
+ * typed wrong. The corner
  * marks frame the evidence; they carry no meaning beyond "this is a figure".
  */
 export const CaseStudyImage: React.FC<CaseStudyImageProps> = ({
@@ -179,34 +181,18 @@ export const CaseStudyImage: React.FC<CaseStudyImageProps> = ({
     alt,
     caption,
     className = '',
-}) => {
-    const [size, setSize] = useState<{ width: number; height: number } | null>(null);
-
-    return (
-        <figure className={`figure w-full ${className}`}>
-            <div className="figure-marks relative overflow-hidden rounded-md border border-edge bg-canvas">
-                <span className="figure-marks-bottom" aria-hidden="true" />
-                <img
-                    src={src}
-                    alt={alt}
-                    className="block h-auto w-full"
-                    loading="lazy"
-                    decoding="async"
-                    onLoad={(event) =>
-                        setSize({
-                            width: event.currentTarget.naturalWidth,
-                            height: event.currentTarget.naturalHeight,
-                        })
-                    }
-                />
-            </div>
-            <figcaption className="mt-3 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                <span className="max-w-measure text-small text-ink">{caption}</span>
-                <span className="font-mono text-data whitespace-nowrap text-ink-secondary">
-                    <span className="figure-number" />
-                    {size && ` · ${size.width}×${size.height}`}
-                </span>
-            </figcaption>
-        </figure>
-    );
-};
+}) => (
+    <figure className={`figure w-full ${className}`}>
+        <div className="figure-marks relative overflow-hidden rounded-md border border-edge bg-canvas">
+            <span className="figure-marks-bottom" aria-hidden="true" />
+            <Image src={src} alt={alt} sizes="100vw" className="block h-auto w-full" />
+        </div>
+        <figcaption className="mt-3 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+            <span className="max-w-measure text-small text-ink">{caption}</span>
+            <span className="font-mono text-data whitespace-nowrap text-ink-secondary">
+                <span className="figure-number" />
+                {` · ${src.width}×${src.height}`}
+            </span>
+        </figcaption>
+    </figure>
+);

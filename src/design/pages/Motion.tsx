@@ -142,7 +142,7 @@ const Motion: React.FC = () => {
             <Chapter
                 id="reduced"
                 title="Reduced motion"
-                lede='MotionConfig reducedMotion="user" in App.tsx covers what motion drives; CSS loops and transforms carry their own media query in index.css.'
+                lede='MotionConfig reducedMotion="user" in ContactSection covers what motion drives; CSS loops and transforms carry their own media query in index.css.'
             >
                 <Frame>
                     <div className="flex items-center gap-3">
