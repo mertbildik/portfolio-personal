@@ -24,7 +24,7 @@ Mert's portfolio. Next.js 16 App Router, React 19, Tailwind 4. Every page is pre
 
 ## Each fact has one home
 
-- Project metadata: `src/portfolio/content/projects.ts`. A case study's prose: its own
+- Project facts and card copy: `src/portfolio/content/projects.ts`. A case study's body: its own
   component in `src/portfolio/case-studies/studies/`. Images: `src/portfolio/assets/<id>/`,
   `.webp` only.
 - `projects.ts` and `src/app/meta.ts` are imported by the tests in plain Node, so they must

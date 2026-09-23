@@ -2,7 +2,7 @@
 
 Writing is part of the interface. Help the reader understand the work, decide what matters, and know where to look next. Prefer clear thinking in a small space over more detail.
 
-These rules govern the words on the site. The words themselves live in one place only: the case-study component in `src/portfolio/case-studies/studies/`, or the homepage section that renders them. There is no second copy to keep in step.
+These rules govern the words on the site. Each piece of copy lives in one place: a project's card lines (`relationship` and `summary`) in `src/portfolio/content/projects.ts`, a case study's body in its component in `src/portfolio/case-studies/studies/`, page descriptions in `src/app/meta.ts`, and everything else in the homepage section that renders it. There is no second copy to keep in step.
 
 ## Voice And Clarity
 
@@ -96,7 +96,7 @@ Answer quickly: who are you, what do you make, and how do you think.
 Give each project one sentence focused on its clearest outcome or tension:
 
 > **OFK Construction**
-> A bilingual website and design system that helps B2B clients verify the work in one visit.
+> A bilingual brand and website that makes an established construction record verifiable in one visit.
 
 Avoid stacked titles and adjectives: `Multidisciplinary creative strategist and visionary product designer.`
 

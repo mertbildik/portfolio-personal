@@ -1,5 +1,6 @@
 /**
- * The project index: metadata only, no prose.
+ * The project index: each project's facts and its card copy. A case study's
+ * body lives in its own component.
  *
  * The Playwright suite imports this file in plain Node, which cannot resolve
  * images, so it must stay free of asset imports. Covers are bound in

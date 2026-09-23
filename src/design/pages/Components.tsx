@@ -156,7 +156,7 @@ const Components: React.FC = () => (
         <Chapter
             id="case-study"
             title="Case-study parts"
-            lede="The shared frame every hand-written study fills. Paragraph styling lives in CaseStudyParagraph alone, and a figure numbers and measures itself."
+            lede="The shared frame every hand-written study fills. A figure numbers and measures itself."
         >
             <Home path="src/portfolio/case-studies/CaseStudyElements.tsx" />
             <Frame className="case-study">

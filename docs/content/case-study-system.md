@@ -4,7 +4,7 @@ This document defines the shared case-study frame. Use [`writing.md`](./writing.
 
 ## Header
 
-Every case study opens with:
+Every project case study opens with:
 
 - project title
 - a one- or two-sentence summary
@@ -17,7 +17,7 @@ The summary carries the project’s central story. Do not add separate Central S
 
 ## Sections
 
-Every case study follows the same order:
+Every project case study follows the same order:
 
 1. **Problem** — What needed to change, why it mattered, and what constrained the work.
 2. **Approach** — What was examined, what it revealed, and how it changed the direction.
@@ -26,6 +26,10 @@ Every case study follows the same order:
 5. **Impact** — What changed after delivery, supported by evidence and honest limits.
 
 The frame stays consistent. The narrative and decisions must come from the project itself.
+
+## Ongoing Roles
+
+A study about an ongoing role rather than a shipped project does not use this frame. It keeps the voice and the evidence rules, but chooses sections that fit the role. When the work is confidential, it reports a status instead of a timeline.
 
 ## Evidence And Visuals
 
