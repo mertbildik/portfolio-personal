@@ -22,5 +22,9 @@ export default defineConfig({
         url: `http://localhost:${PORT}`,
         reuseExistingServer: false,
         timeout: 120_000,
+        // The contact form only posts when it has a Formspree id, and the suite
+        // stubs every request to formspree.io. A placeholder id lets the form
+        // tests run where .env does not exist, as on CI; nothing is ever sent.
+        env: { NEXT_PUBLIC_FORMSPREE_ID: 'playwright' },
     },
 });
